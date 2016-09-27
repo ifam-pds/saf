@@ -24,9 +24,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:paddingTop="8dp"
-                app:paddingEnd="8dp"
-                app:paddingStart="8dp">
+                android:paddingEnd="8dp"
+                android:paddingStart="8dp"
+                android:paddingTop="8dp">
 
                 <TextView
                     android:layout_width="wrap_content"
