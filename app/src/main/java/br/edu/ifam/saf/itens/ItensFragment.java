@@ -1,0 +1,87 @@
+package br.edu.ifam.saf.itens;
+
+
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import br.edu.ifam.saf.R;
+import br.edu.ifam.saf.data.Item;
+import br.edu.ifam.saf.reserva.ReservaActivity;
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
+public class ItensFragment extends Fragment implements ItensContract.View, ItensAdapter.ItemAluguelClickListener {
+
+    ItensAdapter adapter;
+
+    @BindView(R.id.lista_itens)
+    RecyclerView lista_itens;
+
+    ItensContract.Presenter presenter;
+
+    public static ItensFragment newInstance() {
+        return new ItensFragment();
+    }
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        adapter = new ItensAdapter(new ArrayList<Item>(), this);
+
+        lista_itens.setHasFixedSize(true);
+
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+        lista_itens.setAdapter(adapter);
+        lista_itens.setLayoutManager(layoutManager);
+        presenter = new ItensPresenter(this);
+        presenter.start();
+
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_itens, container, false);
+        ButterKnife.bind(this, view);
+        return view;
+
+    }
+
+    @Override
+    public void showItens(List<Item> itens) {
+        adapter.replaceData(itens);
+    }
+
+    @Override
+    public void showItem(Item item) {
+        Intent intent = new Intent(getContext(), ReservaActivity.class);
+        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()
+        ).toBundle();
+//
+        startActivity(intent, options);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
+    }
+
+    @Override
+    public void onClick(ItensAdapter.ViewHolder view, Item item) {
+//        tmpLastView = view;
+        presenter.onItemClick(item);
+    }
+
+}
