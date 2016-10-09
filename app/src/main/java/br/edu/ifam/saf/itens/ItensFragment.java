@@ -16,8 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifam.saf.R;
-import br.edu.ifam.saf.data.Item;
+import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.reserva.ReservaActivity;
+import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -37,14 +38,14 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        adapter = new ItensAdapter(new ArrayList<Item>(), this);
+        adapter = new ItensAdapter(new ArrayList<ItemDTO>(), this);
 
         lista_itens.setHasFixedSize(true);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         lista_itens.setAdapter(adapter);
         lista_itens.setLayoutManager(layoutManager);
-        presenter = new ItensPresenter(this);
+        presenter = new ItensPresenter(this, ApiManager.getService());
         presenter.start();
 
     }
@@ -59,15 +60,14 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     }
 
     @Override
-    public void showItens(List<Item> itens) {
+    public void showItens(List<ItemDTO> itens) {
         adapter.replaceData(itens);
     }
 
     @Override
-    public void showItem(Item item) {
+    public void showItem(ItemDTO item) {
         Intent intent = new Intent(getContext(), ReservaActivity.class);
-        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()
-        ).toBundle();
+        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle();
 //
         startActivity(intent, options);
     }
@@ -79,7 +79,7 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     }
 
     @Override
-    public void onClick(ItensAdapter.ViewHolder view, Item item) {
+    public void onClick(ItensAdapter.ViewHolder view, ItemDTO item) {
 //        tmpLastView = view;
         presenter.onItemClick(item);
     }

@@ -3,13 +3,13 @@ package br.edu.ifam.saf.itens;
 
 import java.util.List;
 
-import br.edu.ifam.saf.data.Item;
+import br.edu.ifam.saf.api.dto.ItemDTO;
 
 public interface ItensContract {
     interface View {
-        void showItens(List<Item> itens);
+        void showItens(List<ItemDTO> itens);
 
-        void showItem(Item item);
+        void showItem(ItemDTO item);
     }
 
     interface Presenter {
@@ -17,7 +17,7 @@ public interface ItensContract {
 
         void destroy();
 
-        void onItemClick(Item item);
+        void onItemClick(ItemDTO item);
     }
 
     interface Interactor {

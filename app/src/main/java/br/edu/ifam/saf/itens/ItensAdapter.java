@@ -12,22 +12,22 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.edu.ifam.saf.R;
-import br.edu.ifam.saf.data.Item;
+import br.edu.ifam.saf.api.dto.ItemDTO;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> {
 
-    private List<Item> dataset;
+    private List<ItemDTO> dataset;
     private ItemAluguelClickListener listener;
 
 
-    public ItensAdapter(List<Item> dataset, ItemAluguelClickListener listener) {
+    public ItensAdapter(List<ItemDTO> dataset, ItemAluguelClickListener listener) {
         this.dataset = dataset;
         this.listener = listener;
     }
 
-    public void replaceData(List<Item> newItens) {
+    public void replaceData(List<ItemDTO> newItens) {
         this.dataset = newItens;
         notifyDataSetChanged();
     }
@@ -40,7 +40,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        Item item = dataset.get(position);
+        ItemDTO item = dataset.get(position);
         holder.setItem(item);
 
     }
@@ -51,7 +51,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
     }
 
     interface ItemAluguelClickListener {
-        void onClick(ViewHolder view, Item item);
+        void onClick(ViewHolder view, ItemDTO item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -59,7 +59,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
 
         final ItemAluguelClickListener listener;
 
-        Item item;
+        ItemDTO item;
 
         @BindView(R.id.nome_item)
         TextView nomeItem;
@@ -80,7 +80,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
         }
 
         @SuppressLint("DefaultLocale")
-        public void setItem(Item item) {
+        public void setItem(ItemDTO item) {
             this.item = item;
             nomeItem.setText(item.getNome());
             precoItem.setText(String.format("R$ %.2f/hora", item.getPrecoPorHora()));

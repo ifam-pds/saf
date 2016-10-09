@@ -1,28 +1,39 @@
 package br.edu.ifam.saf.itens;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import br.edu.ifam.saf.SAFService;
+import br.edu.ifam.saf.api.data.ItensResponse;
+import br.edu.ifam.saf.api.dto.ItemDTO;
+import retrofit2.adapter.rxjava.Result;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
-import br.edu.ifam.saf.data.Item;
 
 public class ItensPresenter implements ItensContract.Presenter {
     private ItensContract.View view;
+    private SAFService api;
 
-    public ItensPresenter(ItensContract.View view) {
+    public ItensPresenter(ItensContract.View view, SAFService api) {
         this.view = view;
+        this.api = api;
     }
 
     @Override
     public void start() {
-        Random random = new Random();
-        List<Item> itens = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            itens.add(new Item("Jet Ski " + i, random.nextDouble() * 100));
-        }
-        if (view != null) {
-            view.showItens(itens);
-        }
+        api.listarItems()
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<Result<ItensResponse>>() {
+                    @Override
+                    public void call(Result<ItensResponse> response) {
+                        if (!response.isError()) {
+                            if (view != null) {
+                                view.showItens(response.response().body().getItems());
+                            }
+                        }
+
+                    }
+                });
 
     }
 
@@ -33,7 +44,7 @@ public class ItensPresenter implements ItensContract.Presenter {
     }
 
     @Override
-    public void onItemClick(Item item) {
+    public void onItemClick(ItemDTO item) {
         view.showItem(item);
     }
 }
