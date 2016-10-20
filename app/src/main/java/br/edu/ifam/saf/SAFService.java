@@ -2,6 +2,7 @@ package br.edu.ifam.saf;
 
 
 import br.edu.ifam.saf.api.data.ItensResponse;
+import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.Body;
@@ -15,6 +16,9 @@ public interface SAFService {
 
     @POST("usuario/cadastrar")
     Observable<Result<Void>> registrarUsuario(@Body UsuarioDTO usuario);
+
+    @POST("usuario/login")
+    Observable<Result<UsuarioDTO>> login(@Body LoginData loginData);
 
 
 }

@@ -25,12 +25,19 @@
             android:name=".reserva.ReservaActivity"
             android:label="@string/title_activity_reserva"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".criarconta.CriarContaActivity"
-            android:label="SAF - Criar conta"
-            >
-
+        <activity
+            android:name=".criarconta.CriarContaActivity"
+            android:label="SAF - Criar conta">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
