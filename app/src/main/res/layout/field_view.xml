@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <ImageView
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:padding="8dp"
+        android:src="@drawable/ic_person_black_24dp"
+        tools:ignore="ContentDescription" />
+
+    <EditText
+        android:textSize="14sp"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="6dp"
+        android:layout_weight="1"
+        android:background="@android:color/transparent"
+        android:hint="Hint"
+        android:maxLines="1"
+        tools:ignore="HardcodedText" />
+</merge>

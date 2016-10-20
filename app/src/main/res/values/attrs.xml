@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="FieldView">
+        <attr name="hint" format="string" localization="suggested" />
+        <attr name="icon" format="reference" />
+        <attr name="border" format="boolean" />
+        <attr name="inputType" format="integer">
+            <flag name="text" value="0x00000001" />
+            <!--TYPE_TEXT_VARIATION_PASSWORD-->
+            <flag name="password" value="0x00000080" />
+            <!--TYPE_DATETIME_VARIATION_DATE-->
+            <flag name="date" value="0x00000010" />
+            <!--TYPE_CLASS_NUMBER -->
+            <flag name="number" value="0x00000002" />
+            <!--TYPE_TEXT_VARIATION_EMAIL_ADDRESS-->
+            <flag name="email" value="0x00000020" />
+        </attr>
+    </declare-styleable>
+</resources>
