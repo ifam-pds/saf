@@ -4,6 +4,7 @@ package br.edu.ifam.saf.login;
 import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.data.LocalRepository;
 import br.edu.ifam.saf.util.ApiManager;
 import retrofit2.adapter.rxjava.Result;
 import rx.android.schedulers.AndroidSchedulers;
@@ -14,9 +15,11 @@ public class LoginPresenter implements LoginContract.Presenter {
 
 
     private LoginContract.View view;
+    private LocalRepository repository;
 
-    public LoginPresenter(LoginContract.View view) {
+    public LoginPresenter(LoginContract.View view, LocalRepository repository) {
         this.view = view;
+        this.repository = repository;
     }
 
     @Override
@@ -28,7 +31,10 @@ public class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public void call(Result<UsuarioDTO> result) {
                         if (result.response().isSuccessful()) {
-                            view.mostrarMensagem(String.format("Bem vindo %s", result.response().body().getNome()));
+                            UsuarioDTO usuario = result.response().body();
+                            repository.saveUserInfo(usuario);
+                            view.mostrarMensagem(String.format("Bem vindo %s", usuario.getNome()));
+
                         } else {
                             MensagemErroResponse mensagem = ApiManager.parseErro(result.response());
                             view.mostrarMensagem(mensagem.getMensagens().get(0));
