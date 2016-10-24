@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -29,6 +30,9 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     @BindView(R.id.lista_itens)
     RecyclerView lista_itens;
 
+    @BindView(R.id.swipe_refresh_layout)
+    SwipeRefreshLayout swipeRefreshLayout;
+
     ItensContract.Presenter presenter;
 
     public static ItensFragment newInstance() {
@@ -45,8 +49,17 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         lista_itens.setAdapter(adapter);
         lista_itens.setLayoutManager(layoutManager);
+
         presenter = new ItensPresenter(this, ApiManager.getService());
         presenter.start();
+
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                presenter.refresh();
+            }
+        });
+
 
     }
 
@@ -70,6 +83,16 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
         Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle();
 //
         startActivity(intent, options);
+    }
+
+    @Override
+    public void showLoadingIndicator() {
+        swipeRefreshLayout.setRefreshing(true);
+    }
+
+    @Override
+    public void hideLoadingIndicator() {
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
