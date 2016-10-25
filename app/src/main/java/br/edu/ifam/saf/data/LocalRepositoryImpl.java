@@ -62,4 +62,11 @@ public class LocalRepositoryImpl implements LocalRepository {
         reloadData();
 
     }
+
+    @Override
+    public String getApiHost() {
+        String host = sharedPreferences.getString("api_host", "http://127.0.0.1/");
+        String port = sharedPreferences.getString("api_port", "80");
+        return String.format("http://%s:%s/api/", host, port);
+    }
 }

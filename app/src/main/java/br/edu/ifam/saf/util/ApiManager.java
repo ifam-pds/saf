@@ -22,10 +22,6 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public final class ApiManager {
 
 
-    private static final String HOST = "192.168.0.11";
-    private static final Integer PORT = 8080;
-    private static final String BASE_URL = String.format("http://%s:%d/api/", HOST, PORT);
-
     private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
 
     private static SAFService safService;
@@ -58,7 +54,7 @@ public final class ApiManager {
         Retrofit retrofit = new Retrofit.Builder()
 
                 .client(client)
-                .baseUrl(BASE_URL)
+                .baseUrl(repository.getApiHost())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create(GSON))
                 .build();
