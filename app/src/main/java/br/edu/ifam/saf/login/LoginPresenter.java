@@ -34,7 +34,6 @@ public class LoginPresenter implements LoginContract.Presenter {
                             UsuarioDTO usuario = result.response().body();
                             repository.saveUserInfo(usuario);
                             view.mostrarMensagem(String.format("Bem vindo %s", usuario.getNome()));
-
                         } else {
                             MensagemErroResponse mensagem = ApiManager.parseErro(result.response());
                             view.mostrarMensagem(mensagem.getMensagens().get(0));

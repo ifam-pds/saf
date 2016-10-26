@@ -19,6 +19,4 @@ public interface SAFService {
 
     @POST("usuario/login")
     Observable<Result<UsuarioDTO>> login(@Body LoginData loginData);
-
-
 }

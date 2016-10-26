@@ -59,8 +59,6 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
                 presenter.refresh();
             }
         });
-
-
     }
 
     @Override
@@ -69,7 +67,6 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
         View view = inflater.inflate(R.layout.fragment_itens, container, false);
         ButterKnife.bind(this, view);
         return view;
-
     }
 
     @Override
@@ -98,6 +95,7 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     @Override
     public void onDestroy() {
         super.onDestroy();
+        hideLoadingIndicator();
         presenter.destroy();
     }
 
