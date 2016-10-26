@@ -1,0 +1,69 @@
+group 'ifam'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'war'
+
+apply plugin: 'com.bmuschko.cargo'
+
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "http://repo1.maven.org/maven2/"
+        }
+    }
+    dependencies {
+        classpath 'com.bmuschko:gradle-cargo-plugin:2.2.2'
+    }
+}
+
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+}
+
+
+cargo {
+    containerId = 'wildfly10x'
+    port = 9090
+
+    deployable {
+        context = '/'
+    }
+
+    remote {
+        hostname = '127.0.0.1'
+        username = 'admin'
+        password = 'admin'
+    }
+}
+
+cargoRedeployRemote.dependsOn assemble
+cargoDeployRemote.dependsOn assemble
+
+dependencies {
+
+    compileOnly 'org.jboss.resteasy:resteasy-jaxrs:3.0.17.Final'
+    compileOnly 'javax:javaee-api:7.0'
+    compile 'org.mindrot:jbcrypt:0.3m'
+    compile 'org.jboss.resteasy:resteasy-jackson-provider:3.0.19.Final'
+    compileOnly 'org.hibernate:hibernate-core:5.0.10.Final'
+    compileOnly 'dom4j:dom4j:1.6.1'
+    compile 'org.apache.commons:commons-lang3:3.4'
+    compile 'commons-validator:commons-validator:1.5.1'
+    compile 'com.google.guava:guava:19.0'
+    compile 'org.slf4j:slf4j-log4j12:1.7.6'
+    compile 'org.slf4j:slf4j-api:1.7.6'
+
+    compile project(':common')
+
+
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+
+    cargo "org.codehaus.cargo:cargo-core-uberjar:1.5.0", "org.codehaus.cargo:cargo-ant:1.5.0"
+
+    cargo 'org.wildfly:wildfly-controller-client:8.2.0.Final'
+}

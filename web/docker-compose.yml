@@ -1,0 +1,25 @@
+version: '2'
+services:
+  db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - "./.data/:/var/lib/mysql"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: dev
+      MYSQL_PASSWORD: dev123
+      MYSQL_DATABASE: saf
+  webapp:
+    build:
+      context: "./docker-wildfly"
+    depends_on:
+      - db
+    environment:
+        - MYSQL_URI=db:3306
+    ports:
+      - "9990:9990"
+      - "8080:8080"
+    links:
+      - db

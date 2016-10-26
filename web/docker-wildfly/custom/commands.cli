@@ -1,0 +1,8 @@
+# adaptado de https://github.com/goldmann/wildfly-docker-configuration/tree/master/cli
+
+batch
+
+# Add the datasource
+data-source add --name=safDS --driver-name=mysql-connector-java-6.0.4.jar --enabled=true --jta=true --connection-url="jdbc:mysql://${env.MYSQL_URI:mysql}/saf?useSSL=false" --jndi-name=java:jboss/datasources/safDS --user-name=dev --password=dev123  --max-pool-size=25
+# Execute the batch
+run-batch

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jboss-web>
+    <context-root>/</context-root>
+    <session-config>
+        <cookie-config>
+            <path>/</path>
+        </cookie-config>
+    </session-config>
+
+    <resource-ref>
+        <res-ref-name>jdbc/safDS</res-ref-name>
+        <jndi-name>java:jboss/datasources/safDS</jndi-name>
+    </resource-ref>
+</jboss-web>
