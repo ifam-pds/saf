@@ -35,90 +35,24 @@
                     android:textSize="18sp" />
             </RelativeLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="56dp"
-                android:layout_marginTop="16dp"
-                android:background="#eeeeee" />
 
-
-            <LinearLayout
+            <br.edu.ifam.saf.view.FieldView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="8dp">
+                app:hint="Quantidade"
+                app:icon="@drawable/ic_shopping_cart_black_24dp" />
 
-                <ImageView
-                    android:layout_width="40dp"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="icon"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_shopping_cart_black_24dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
-                    android:text="Quantidade" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="56dp"
-                android:layout_marginTop="4dp"
-                android:background="#eeeeee" />
-
-            <LinearLayout
+            <br.edu.ifam.saf.view.FieldView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="8dp">
+                app:hint="Tempo"
+                app:icon="@drawable/ic_timer_black_24dp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="icon"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_timer_black_24dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:text="Tempo" />
-
-            </LinearLayout>
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="1dp"
-                android:layout_marginStart="56dp"
-                android:layout_marginTop="4dp"
-                android:background="#eeeeee" />
-
-            <LinearLayout
+            <br.edu.ifam.saf.view.FieldView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:padding="8dp">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="icon"
-                    android:padding="8dp"
-                    android:src="@drawable/ic_attach_money_black_24dp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="4dp"
-                    android:text="Total" />
-
-            </LinearLayout>
+                app:hint="Total"
+                app:icon="@drawable/ic_attach_money_black_24dp" />
 
         </LinearLayout>
 

@@ -10,6 +10,10 @@ public interface ItensContract {
         void showItens(List<ItemDTO> itens);
 
         void showItem(ItemDTO item);
+
+        void showLoadingIndicator();
+
+        void hideLoadingIndicator();
     }
 
     interface Presenter {
@@ -18,6 +22,8 @@ public interface ItensContract {
         void destroy();
 
         void onItemClick(ItemDTO item);
+
+        void refresh();
     }
 
     interface Interactor {

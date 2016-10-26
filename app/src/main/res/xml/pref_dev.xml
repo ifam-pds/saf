@@ -1,0 +1,17 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <EditTextPreference
+        android:defaultValue="192.168.0.11"
+        android:inputType="text"
+        android:key="api_host"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:title="IP" />
+    <EditTextPreference
+        android:defaultValue="8080"
+        android:inputType="numberSigned"
+        android:key="api_port"
+        android:maxLines="1"
+        android:selectAllOnFocus="true"
+        android:title="Porta" />
+</PreferenceScreen>

@@ -1,5 +1,6 @@
 package br.edu.ifam.saf;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -12,7 +13,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import br.edu.ifam.saf.configuracoes.SettingsActivity;
 import br.edu.ifam.saf.itens.ItensFragment;
+import br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -68,6 +71,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+            startActivity(new Intent(this, SettingsActivity.class));
             return true;
         }
 
@@ -84,6 +88,9 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_itens:
                 fragment = ItensFragment.newInstance();
+                break;
+            case R.id.nav_usuarios:
+                fragment = new ListarUsuariosFragment();
                 break;
             default:
                 fragment = ItensFragment.newInstance();

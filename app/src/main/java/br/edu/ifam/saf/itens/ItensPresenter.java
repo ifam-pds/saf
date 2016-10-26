@@ -18,8 +18,8 @@ public class ItensPresenter implements ItensContract.Presenter {
         this.api = api;
     }
 
-    @Override
-    public void start() {
+    private void loadData() {
+        view.showLoadingIndicator();
         api.listarItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -29,12 +29,18 @@ public class ItensPresenter implements ItensContract.Presenter {
                         if (!response.isError()) {
                             if (view != null) {
                                 view.showItens(response.response().body().getItems());
+                                view.hideLoadingIndicator();
                             }
                         }
 
                     }
                 });
 
+    }
+
+    @Override
+    public void start() {
+        loadData();
     }
 
     @Override
@@ -46,5 +52,10 @@ public class ItensPresenter implements ItensContract.Presenter {
     @Override
     public void onItemClick(ItemDTO item) {
         view.showItem(item);
+    }
+
+    @Override
+    public void refresh() {
+        loadData();
     }
 }

@@ -6,5 +6,9 @@
             android:id="@+id/nav_itens"
             android:icon="@drawable/ic_view_day_black_24dp"
             android:title="Itens" />
+        <item
+            android:id="@+id/nav_usuarios"
+            android:icon="@drawable/ic_view_day_black_24dp"
+            android:title="Usuários" />
     </group>
 </menu>
