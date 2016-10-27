@@ -1,11 +1,16 @@
 package br.edu.ifam.saf.login;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.data.LoginData;
+import br.edu.ifam.saf.criarconta.CriarContaActivity;
 import br.edu.ifam.saf.data.LocalRepositoryImpl;
 import br.edu.ifam.saf.view.FieldView;
 import butterknife.BindView;
@@ -16,8 +21,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
     @BindView(R.id.email)
     FieldView email;
+
     @BindView(R.id.senha)
     FieldView senha;
+    @BindView(R.id.activity_login)
+    View parentLayout;
     private LoginContract.Presenter presenter;
 
     @Override
@@ -27,6 +35,26 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         ButterKnife.bind(this);
         presenter = new LoginPresenter(this, LocalRepositoryImpl.getInstance());
 
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @OnClick(R.id.criar_conta)
+    void onCriarContaClick() {
+        startActivity(new Intent(this, CriarContaActivity.class));
     }
 
 
@@ -41,5 +69,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void mostrarMensagem(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+
+        Snackbar.make(parentLayout, message, Snackbar.LENGTH_SHORT);
     }
 }

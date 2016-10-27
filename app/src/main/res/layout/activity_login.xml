@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
@@ -15,15 +16,22 @@
         android:orientation="vertical">
 
 
-        <ImageView
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:src="@drawable/jet_ski" />
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Sistema de Aluguel \npara flutuantes"
+            android:textAllCaps="true"
+            android:textAppearance="@android:style/TextAppearance.Material.Medium"
+
+            />
+
 
         <br.edu.ifam.saf.view.FieldView
             android:id="@+id/email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             app:border="false"
             app:hint="Email"
             app:icon="@drawable/ic_mail_outline_black_24dp"
@@ -42,6 +50,21 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Entrar" />
+
+        <TextView
+            android:id="@+id/criar_conta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_marginStart="4dp"
+            android:layout_marginTop="8dp"
+            android:text="Criar conta"
+
+            android:textAllCaps="true"
+            android:textColor="@android:color/holo_blue_dark"
+            android:textSize="16sp"
+
+            />
     </LinearLayout>
 
 

@@ -2,6 +2,7 @@ package br.edu.ifam.saf.criarconta;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import java.util.Date;
@@ -47,6 +48,10 @@ public class CriarContaActivity extends AppCompatActivity implements CriarContaC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_conta);
         ButterKnife.bind(this);
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
         presenter = new CriarContaPresenter(this);
     }
 
@@ -77,8 +82,18 @@ public class CriarContaActivity extends AppCompatActivity implements CriarContaC
 
     @Override
     public void mostrarMensagemContaCriada() {
-        Toast.makeText(this, "Conta criada", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "Conta criada, você já pode fazer login", Toast.LENGTH_SHORT).show();
         finish();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
 }

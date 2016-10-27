@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import br.edu.ifam.saf.configuracoes.SettingsActivity;
 import br.edu.ifam.saf.itens.ItensFragment;
 import br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment;
+import br.edu.ifam.saf.login.LoginActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -70,9 +71,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        if (id == R.id.action_settings) {
-            startActivity(new Intent(this, SettingsActivity.class));
-            return true;
+        switch (id) {
+            case R.id.action_settings: {
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            }
+            case R.id.action_login:
+                startActivity(new Intent(this, LoginActivity.class));
+                return true;
         }
 
         return super.onOptionsItemSelected(item);
