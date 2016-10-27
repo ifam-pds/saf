@@ -26,11 +26,12 @@ public class ItensPresenter implements ItensContract.Presenter {
                 .subscribe(new Action1<Result<ItensResponse>>() {
                     @Override
                     public void call(Result<ItensResponse> response) {
-                        if (!response.isError()) {
-                            if (view != null) {
+                        if (view != null) {
+                            view.hideLoadingIndicator();
+                            if (!response.isError()) {
                                 view.showItens(response.response().body().getItems());
-                                view.hideLoadingIndicator();
                             }
+
                         }
 
                     }
