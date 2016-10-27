@@ -45,7 +45,7 @@ public final class ApiManager {
                             Request request = chain.request().newBuilder().header("Authorization", "Bearer " + repository.getUserInfo().getToken()).build();
                             return chain.proceed(request);
                         }
-                        return chain.proceed(null);
+                        return chain.proceed(chain.request());
                     }
                 })
                 .build();

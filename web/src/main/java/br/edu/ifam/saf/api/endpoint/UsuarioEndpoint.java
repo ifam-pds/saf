@@ -3,9 +3,12 @@ package br.edu.ifam.saf.api.endpoint;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
@@ -13,6 +16,7 @@ import javax.ws.rs.core.Response;
 
 import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
+import br.edu.ifam.saf.api.data.UsuariosResponse;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.api.dto.UsuarioTransformer;
 import br.edu.ifam.saf.api.util.MediaType;
@@ -24,18 +28,18 @@ import br.edu.ifam.saf.exception.ValidacaoError;
 import br.edu.ifam.saf.modelo.Usuario;
 import br.edu.ifam.saf.util.SegurancaUtil;
 
-@Path("/usuario")
+@Path("/usuarios")
 @Stateless
 public class UsuarioEndpoint {
 
     @Inject
-    private UsuarioDAO usuarioDAO;
+    UsuarioDAO usuarioDAO;
 
     @Inject
-    private UsuarioTransformer usuarioTransformer;
+    UsuarioTransformer usuarioTransformer;
 
     @Inject
-    private Logger log;
+    Logger log;
 
 
     @POST
@@ -67,7 +71,7 @@ public class UsuarioEndpoint {
     @POST
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @Consumes(MediaType.APPLICATION_JSON_UTF8)
-    @Path("/cadastrar")
+    @Path("/")
     public Response cadastrar(UsuarioDTO usuarioDTO) {
         try {
             Validation.validaRegistroUsuario(usuarioDTO);
@@ -90,6 +94,25 @@ public class UsuarioEndpoint {
             log.info(">>>" + usuarioACadastrar);
 
             return Respostas.criado();
+
+        } catch (ValidacaoError ex) {
+            return Respostas.badRequest(ex.getMensagemErroResponse());
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            return Respostas.ERRO_INTERNO;
+        }
+
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON_UTF8)
+    @Path("/")
+    public Response listar() {
+        try {
+
+            List<Usuario> usuarios = usuarioDAO.listarTodos();
+
+            return Respostas.ok(new UsuariosResponse(usuarioTransformer.toDTOList(usuarios)));
 
         } catch (ValidacaoError ex) {
             return Respostas.badRequest(ex.getMensagemErroResponse());

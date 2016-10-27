@@ -1,5 +1,8 @@
 package br.edu.ifam.saf.api.dto;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
@@ -48,5 +51,23 @@ public class UsuarioTransformer implements DTOTransformer<Usuario, UsuarioDTO> {
                 .endereco(entity.getEndereco())
                 .bairro(bairroTransformer.toDTO(entity.getBairro()))
                 .build();
+    }
+
+    public List<Usuario> toEntityList(List<UsuarioDTO> dtos) {
+        List<Usuario> itens = new ArrayList<>();
+        for (UsuarioDTO dto : dtos) {
+            itens.add(toEntity(dto));
+        }
+        return itens;
+    }
+
+    public List<UsuarioDTO> toDTOList(List<Usuario> itens) {
+        List<UsuarioDTO> dtos = new ArrayList<>();
+
+        for (Usuario usuario : itens) {
+            dtos.add(toDTO(usuario));
+        }
+
+        return dtos;
     }
 }

@@ -10,12 +10,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -46,7 +48,7 @@ public class ListarUsuariosFragment extends Fragment implements ListarUsuariosCo
         rvUsuarios.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new UsuarioAdapter(new ArrayList<UsuarioDTO>());
         rvUsuarios.setAdapter(adapter);
-        presenter = new ListarUsuariosPresenter(this);
+        presenter = new ListarUsuariosPresenter(this, ApiManager.getService());
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -76,5 +78,10 @@ public class ListarUsuariosFragment extends Fragment implements ListarUsuariosCo
     @Override
     public void esconderLoading() {
         refreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void mostrarMensagem(String mensagem) {
+        Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
     }
 }

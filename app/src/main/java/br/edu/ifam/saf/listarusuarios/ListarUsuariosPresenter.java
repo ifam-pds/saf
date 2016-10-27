@@ -1,18 +1,24 @@
 package br.edu.ifam.saf.listarusuarios;
 
-import java.util.Arrays;
-import java.util.List;
+import android.util.Log;
 
-import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.SAFService;
+import br.edu.ifam.saf.api.data.MensagemErroResponse;
+import br.edu.ifam.saf.api.data.UsuariosResponse;
 import br.edu.ifam.saf.util.ApiManager;
-import br.edu.ifam.saf.view.FieldView;
+import retrofit2.adapter.rxjava.Result;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.schedulers.Schedulers;
 
-public class ListarUsuariosPresenter implements ListarUsuariosContract.Presenter{
+public class ListarUsuariosPresenter implements ListarUsuariosContract.Presenter {
 
     ListarUsuariosContract.View view;
+    private SAFService service;
 
-    public ListarUsuariosPresenter(ListarUsuariosContract.View view) {
+    public ListarUsuariosPresenter(ListarUsuariosContract.View view, SAFService service) {
         this.view = view;
+        this.service = service;
     }
 
     @Override
@@ -22,14 +28,24 @@ public class ListarUsuariosPresenter implements ListarUsuariosContract.Presenter
 
     @Override
     public void carregarUsuarios() {
-        UsuarioDTO usuario = new UsuarioDTO.Builder().nome("Fulano de tal").cpf("111.111.111-11").build();
-        UsuarioDTO usuario1 = new UsuarioDTO.Builder().nome("Siclano de tal").cpf("222.222.222-22").build();
-        UsuarioDTO usuario2 = new UsuarioDTO.Builder().nome("Beltrano de tal").cpf("333.333.333-33").build();
-
-        if (view != null) {
-            view.esconderLoading();
-            view.mostrarUsuarios(Arrays.asList(usuario,usuario1,usuario2));
-        }
+        service.listarUsuarios().subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribe(new Action1<Result<UsuariosResponse>>() {
+            @Override
+            public void call(Result<UsuariosResponse> result) {
+                if (view != null) {
+                    view.esconderLoading();
+                    if (result.isError()) {
+                        Log.e(ListarUsuariosPresenter.class.getSimpleName(), "Erro de conexão", result.error());
+                        view.mostrarMensagem("Erro de conexão");
+                    } else if (result.response().isSuccessful()) {
+                        view.mostrarUsuarios(result.response().body().getUsuarios());
+                    } else {
+                        MensagemErroResponse erroResponse = ApiManager.parseErro(result.response());
+                        view.mostrarMensagem(erroResponse.getMensagens().get(0));
+                    }
+                }
+            }
+        });
     }
 
 }

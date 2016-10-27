@@ -12,6 +12,8 @@ public interface ListarUsuariosContract {
         void mostrarLoading();
 
         void esconderLoading();
+
+        void mostrarMensagem(String mensagem);
     }
 
     interface Presenter{
