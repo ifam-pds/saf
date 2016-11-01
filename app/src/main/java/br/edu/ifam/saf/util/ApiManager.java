@@ -69,11 +69,12 @@ public final class ApiManager {
         return safService;
     }
 
-    public static MensagemErroResponse parseErro(Response<?> response) {
+    public static MensagemErroResponse parseErro(Response response) {
         TypeAdapter<MensagemErroResponse> adapter = GSON.getAdapter(MensagemErroResponse.class);
         try {
             return adapter.fromJson(response.errorBody().charStream());
-        } catch (IOException e) {
+        } catch (Exception e) {
+            e.printStackTrace();
             return new MensagemErroResponse("Erro ao recuperar o erro");
         }
     }
