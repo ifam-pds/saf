@@ -74,6 +74,18 @@ public class Aluguel extends EntidadeBase {
         }
     }
 
+    public Double getValorTotal() {
+        double total = 0.0;
+        long duracaoEmMinutos = (dataHoraDevolucao.getTime() - dataHoraInicio.getTime()) / 1000 / 60;
+
+        for (ItemAluguel itemAluguel : itens) {
+            total += itemAluguel.getItem().getPrecoPorHora() / 60 * duracaoEmMinutos;
+        }
+        return total;
+
+
+    }
+
     public Date getDataHoraInicio() {
         return dataHoraInicio;
     }
