@@ -9,6 +9,7 @@ import java.util.Date;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.util.ApiManager;
 import br.edu.ifam.saf.view.FieldView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -52,7 +53,7 @@ public class CriarContaActivity extends AppCompatActivity implements CriarContaC
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
-        presenter = new CriarContaPresenter(this);
+        presenter = new CriarContaPresenter(this, ApiManager.getService());
     }
 
     @OnClick(R.id.salvar_button)

@@ -14,14 +14,16 @@ class CriarContaPresenter implements CriarContaContract.Presenter {
 
     private CriarContaContract.View view;
 
-    public CriarContaPresenter(CriarContaContract.View view) {
+    private SAFService service;
+
+    public CriarContaPresenter(CriarContaContract.View view, SAFService service) {
+        this.service = service;
         this.view = view;
     }
 
     @Override
     public void registrar(UsuarioDTO usuarioDTO) {
-        SAFService apiService = ApiManager.getService();
-        apiService.registrarUsuario(usuarioDTO)
+        service.registrarUsuario(usuarioDTO)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Result<Void>>() {
@@ -34,10 +36,7 @@ class CriarContaPresenter implements CriarContaContract.Presenter {
                             view.mostrarMensagemContaCriada();
                         }
                     }
-                })
-
-
-        ;
+                });
 
     }
 
