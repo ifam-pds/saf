@@ -1,12 +1,21 @@
 package br.edu.ifam.saf.api.dto;
 
 public class ItemDTO {
+    private Integer id;
     private String nome;
     private Double precoPorHora;
     private String descricao;
     private String marca;
     private String modelo;
     private CategoriaDTO categoria;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public CategoriaDTO getCategoria() {
         return categoria;
