@@ -41,4 +41,10 @@ public class AluguelDAO {
     public void remover(Aluguel entidade) {
         dao.remover(entidade);
     }
+
+    public List<Aluguel> listarTodosAlugados(String status) {
+        return em.createQuery("SELECT i FROM Aluguel i WHERE i.status = :status", Aluguel.class)
+                .setParameter("status", status)
+                .getResultList();
+    }
 }

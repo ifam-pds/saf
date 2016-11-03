@@ -32,7 +32,7 @@ public class Aluguel extends EntidadeBase {
     private Usuario funcionario;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "aluguel", orphanRemoval = true)
-    private List<ItemAluguel> itens = new ArrayList<>();
+    private List<Item_Aluguel> itens = new ArrayList<>();
 
 
     @Column(nullable = false)
@@ -62,17 +62,14 @@ public class Aluguel extends EntidadeBase {
         this.funcionario = funcionario;
     }
 
-    public List<ItemAluguel> getItens() {
+    public List<Item_Aluguel> getItens() {
         return Collections.unmodifiableList(itens);
     }
 
-    /*
-    esse método é a mesma coisa do metodo "adicionarItem"??
-     */
-    public void setItens(List<ItemAluguel> itens) {
+    public void setItens(List<Item_Aluguel> itens) {
         Preconditions.checkNotNull(itens, "lista de itens não deve ser nula");
         this.itens = itens;
-        for (ItemAluguel item : itens) {
+        for (Item_Aluguel item : itens) {
             item.setAluguel(this);
         }
     }
@@ -81,7 +78,7 @@ public class Aluguel extends EntidadeBase {
         double total = 0.0;
         long duracaoEmMinutos = (dataHoraDevolucao.getTime() - dataHoraInicio.getTime()) / 1000 / 60;
 
-        for (ItemAluguel itemAluguel : itens) {
+        for (Item_Aluguel itemAluguel : itens) {
             total += itemAluguel.getItem().getPrecoPorHora() / 60 * duracaoEmMinutos;
         }
         return total;
@@ -105,7 +102,7 @@ public class Aluguel extends EntidadeBase {
         this.dataHoraDevolucao = dataHoraDevolucao;
     }
 
-    public void adicionarItem(ItemAluguel itemAluguel) {
+    public void adicionarItem(Item_Aluguel itemAluguel) {
         Preconditions.checkNotNull(itemAluguel, "itemAluguel não deve ser nulo");
         Preconditions.checkNotNull(itemAluguel.getItem(), "itemAluguel.item não deve ser nulo");
 

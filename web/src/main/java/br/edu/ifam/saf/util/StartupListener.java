@@ -1,5 +1,7 @@
 package br.edu.ifam.saf.util;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
@@ -13,12 +15,14 @@ import javax.servlet.ServletContextListener;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import br.edu.ifam.saf.enums.StatusAluguel;
 import br.edu.ifam.saf.modelo.Aluguel;
 import br.edu.ifam.saf.modelo.Bairro;
 import br.edu.ifam.saf.modelo.Categoria;
 import br.edu.ifam.saf.modelo.Cidade;
 import br.edu.ifam.saf.modelo.Item;
-import br.edu.ifam.saf.modelo.ItemAluguel;
+import br.edu.ifam.saf.modelo.Item_Aluguel;
+import br.edu.ifam.saf.modelo.Usuario;
 
 public class StartupListener implements ServletContextListener {
 
@@ -30,6 +34,7 @@ public class StartupListener implements ServletContextListener {
         popularLocais();
         popularCategorias();
         popularItens();
+        popularAluguel();
         popularItemAluguel();
 
     }
@@ -149,17 +154,17 @@ public class StartupListener implements ServletContextListener {
     }
 
     private void popularItemAluguel() {
-        TypedQuery<ItemAluguel> query = em.createQuery("select i from ItemAluguel i", ItemAluguel.class);
+        TypedQuery<Item_Aluguel> query = em.createQuery("select i from Item_Aluguel i", Item_Aluguel.class);
 
         query.setMaxResults(1);
-        List<ItemAluguel> itemAluguelLista = query.getResultList();
+        List<Item_Aluguel> itemAluguelLista = query.getResultList();
 
         if(itemAluguelLista.isEmpty()) {
             UserTransaction transaction = getTransaction();
             try{
                 transaction.begin();
                 Item item = em.find(Item.class, 1);
-                ItemAluguel itemAluguel = new ItemAluguel();
+                Item_Aluguel itemAluguel = new Item_Aluguel();
                 itemAluguel.setItem(item);
                 itemAluguel.setQuantidade(1);
 
@@ -168,6 +173,47 @@ public class StartupListener implements ServletContextListener {
                 itemAluguel.setAluguel(aluguel);
 
                 em.merge(itemAluguel);
+                transaction.commit();
+            }catch (Throwable e) {
+                try {
+                    transaction.rollback();
+                } catch (SystemException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void popularAluguel(){
+        TypedQuery<Aluguel> query = em.createQuery("select i from Aluguel i", Aluguel.class);
+
+        query.setMaxResults(1);
+        List<Aluguel> aluguelLista = query.getResultList();
+
+        if(aluguelLista .isEmpty()) {
+            UserTransaction transaction = getTransaction();
+            try{
+                transaction.begin();
+                Aluguel aluguel = new Aluguel();
+                aluguel.setStatus(StatusAluguel.APROVADO);
+
+                Usuario usuario = new Usuario();
+                usuario.setId(3);
+                aluguel.setCliente(usuario);
+
+                Usuario funcionario = new Usuario();
+                funcionario.setId(5);
+                aluguel.setFuncionario(funcionario);
+
+                aluguel.setDataHoraInicio(new java.util.Date());
+                Calendar cal = Calendar.getInstance();
+                cal.add(Calendar.HOUR_OF_DAY, 2);
+                Date dataDevolucao = cal.getTime();
+
+                aluguel.setDataHoraDevolucao(dataDevolucao);
+
+                em.merge(aluguel);
                 transaction.commit();
             }catch (Throwable e) {
                 try {

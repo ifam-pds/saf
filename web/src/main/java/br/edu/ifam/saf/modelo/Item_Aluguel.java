@@ -7,8 +7,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "ItemAluguel")
-public class ItemAluguel extends EntidadeBase {
+@Table(name = "item_aluguel")
+public class Item_Aluguel extends EntidadeBase {
 
     @Column(nullable = false)
     private Integer quantidade;
@@ -63,7 +63,7 @@ public class ItemAluguel extends EntidadeBase {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        ItemAluguel that = (ItemAluguel) o;
+        Item_Aluguel that = (Item_Aluguel) o;
 
         if (quantidade != null ? !quantidade.equals(that.quantidade) : that.quantidade != null)
             return false;

@@ -7,41 +7,38 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import br.edu.ifam.saf.modelo.ItemAluguel;
+import br.edu.ifam.saf.modelo.Item_Aluguel;
 
 @Stateless
 public class ItemAluguelDAO {
 
     @PersistenceContext
     private EntityManager em;
-    private GenericDAO<ItemAluguel> dao;
+    private GenericDAO<Item_Aluguel> dao;
 
     @PostConstruct
     private void init(){
-        dao = new GenericDAO<>(em, ItemAluguel.class);
+        dao = new GenericDAO<>(em, Item_Aluguel.class);
     }
 
-    public void inserir(ItemAluguel entidade) {
+    public void inserir(Item_Aluguel entidade) {
         dao.inserir(entidade);
     }
 
-    public ItemAluguel atualizar(ItemAluguel entidade) {
+    public Item_Aluguel atualizar(Item_Aluguel entidade) {
         return dao.atualizar(entidade);
     }
 
-    public List<ItemAluguel> listarTodos() {
+    public List<Item_Aluguel> listarTodos() {
         return dao.listarTodos();
     }
 
-    public ItemAluguel consultar(Integer id) {
+    public Item_Aluguel consultar(Integer id) {
         return dao.consultar(id);
     }
 
-    public void remover(ItemAluguel entidade) {
+    public void remover(Item_Aluguel entidade) {
         dao.remover(entidade);
     }
 
-    public List<ItemAluguel> listarTodosAlugados() {
-        return em.createQuery("select o from ItemAluguel o where o.status='APROVADO'", ItemAluguel.class).getResultList();
-    }
 }

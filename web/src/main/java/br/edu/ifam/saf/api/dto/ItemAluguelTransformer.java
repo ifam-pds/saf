@@ -7,10 +7,10 @@ import java.util.List;
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 
-import br.edu.ifam.saf.modelo.ItemAluguel;
+import br.edu.ifam.saf.modelo.Item_Aluguel;
 
 @ApplicationScoped
-public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemAluguelDTO>{
+public class ItemAluguelTransformer implements DTOTransformer<Item_Aluguel, ItemAluguelDTO>{
 
     @Inject
     ItemTransformer itemTransformer;
@@ -19,8 +19,8 @@ public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemA
     AluguelTransformer aluguelTransformer;
 
     @Override
-    public ItemAluguel toEntity(ItemAluguelDTO dto) {
-        ItemAluguel itemAluguel = new ItemAluguel();
+    public Item_Aluguel toEntity(ItemAluguelDTO dto) {
+        Item_Aluguel itemAluguel = new Item_Aluguel();
 
         itemAluguel.setId(dto.getId());
         itemAluguel.setItem(itemTransformer.toEntity(dto.getItem()));
@@ -30,7 +30,7 @@ public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemA
     }
 
     @Override
-    public ItemAluguelDTO toDTO(ItemAluguel entity) {
+    public ItemAluguelDTO toDTO(Item_Aluguel entity) {
         ItemAluguelDTO itemAluguelDTO = new ItemAluguelDTO();
 
         itemAluguelDTO.setId(entity.getId());
@@ -41,18 +41,18 @@ public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemA
         return itemAluguelDTO;
     }
 
-    public List<ItemAluguel> toEntityList(List<ItemAluguelDTO> dtos) {
-        List<ItemAluguel> itens = new ArrayList<>();
+    public List<Item_Aluguel> toEntityList(List<ItemAluguelDTO> dtos) {
+        List<Item_Aluguel> itens = new ArrayList<>();
         for (ItemAluguelDTO dto : dtos) {
             itens.add(toEntity(dto));
         }
         return itens;
     }
 
-    public List<ItemAluguelDTO> toDTOList(List<ItemAluguel> itens) {
+    public List<ItemAluguelDTO> toDTOList(List<Item_Aluguel> itens) {
         List<ItemAluguelDTO> dtos = new ArrayList<>();
 
-        for (ItemAluguel itemAluguel : itens) {
+        for (Item_Aluguel itemAluguel : itens) {
             dtos.add(toDTO(itemAluguel));
         }
 
