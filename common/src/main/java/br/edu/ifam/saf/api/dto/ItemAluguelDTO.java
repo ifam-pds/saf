@@ -1,25 +1,20 @@
-package br.edu.ifam.saf.modelo;
+package br.edu.ifam.saf.api.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
-@Entity
-@Table(name = "ItemAluguel")
-public class ItemAluguel extends EntidadeBase {
+public class ItemAluguelDTO {
 
-    @Column(nullable = false)
+    private Integer id;
     private Integer quantidade;
+    private AluguelDTO aluguel;
+    private ItemDTO item;
 
-    @JoinColumn(name = "aluguel_id")
-    @ManyToOne(optional = false)
-    private Aluguel aluguel;
+    public Integer getId() {
+        return id;
+    }
 
-    @ManyToOne(optional = false)
-    private Item item;
-
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public Integer getQuantidade() {
         return quantidade;
@@ -29,11 +24,11 @@ public class ItemAluguel extends EntidadeBase {
         this.quantidade = quantidade;
     }
 
-    public Aluguel getAluguel() {
+    public AluguelDTO getAluguel() {
         return aluguel;
     }
 
-    public void setAluguel(Aluguel aluguel) {
+    public void setAluguel(AluguelDTO aluguel) {
         this.aluguel = aluguel;
 
         if (aluguel == null) {
@@ -49,11 +44,11 @@ public class ItemAluguel extends EntidadeBase {
 
     }
 
-    public Item getItem() {
+    public ItemDTO getItem() {
         return item;
     }
 
-    public void setItem(Item item) {
+    public void setItem(ItemDTO item) {
         this.item = item;
     }
 
@@ -63,7 +58,7 @@ public class ItemAluguel extends EntidadeBase {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        ItemAluguel that = (ItemAluguel) o;
+        ItemAluguelDTO that = (ItemAluguelDTO) o;
 
         if (quantidade != null ? !quantidade.equals(that.quantidade) : that.quantidade != null)
             return false;

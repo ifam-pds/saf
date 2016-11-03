@@ -1,78 +1,60 @@
-package br.edu.ifam.saf.modelo;
+package br.edu.ifam.saf.api.dto;
 
-import com.google.common.base.Preconditions;
-
+//import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
 import br.edu.ifam.saf.enums.StatusAluguel;
 
-@Entity
-@Table(name = "aluguel")
-public class Aluguel extends EntidadeBase {
 
-    @ManyToOne(optional = false)
-    private Usuario cliente;
+public class AluguelDTO {
+    private Integer id;
+    private UsuarioDTO cliente;
+    private UsuarioDTO funcionario;
+    private List<ItemAluguelDTO> itens = new ArrayList<>();
 
-    @ManyToOne
-    private Usuario funcionario;
-
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "aluguel", orphanRemoval = true)
-    private List<ItemAluguel> itens = new ArrayList<>();
-
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
     private Date dataHoraInicio;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
     private Date dataHoraDevolucao;
 
-    @Enumerated(EnumType.STRING)
     private StatusAluguel status;
 
-    public Usuario getCliente() {
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public UsuarioDTO getCliente() {
         return cliente;
     }
 
-    public void setCliente(Usuario cliente) {
+    public void setCliente(UsuarioDTO cliente) {
         this.cliente = cliente;
     }
 
-    public Usuario getFuncionario() {
+    public UsuarioDTO getFuncionario() {
         return funcionario;
     }
 
-    public void setFuncionario(Usuario funcionario) {
+    public void setFuncionario(UsuarioDTO funcionario) {
         this.funcionario = funcionario;
     }
 
-    public List<ItemAluguel> getItens() {
+    public List<ItemAluguelDTO> getItens() {
         return Collections.unmodifiableList(itens);
     }
 
     /*
-    esse método é a mesma coisa do metodo "adicionarItem"??
+        esse método é a mesma coisa do metodo "adicionarItem"??
      */
-    public void setItens(List<ItemAluguel> itens) {
-        Preconditions.checkNotNull(itens, "lista de itens não deve ser nula");
+    public void setItens(List<ItemAluguelDTO> itens) {
+        //Preconditions.checkNotNull(itens, "lista de itens não deve ser nula");
         this.itens = itens;
-        for (ItemAluguel item : itens) {
+        for (ItemAluguelDTO item : itens) {
             item.setAluguel(this);
         }
     }
@@ -81,7 +63,7 @@ public class Aluguel extends EntidadeBase {
         double total = 0.0;
         long duracaoEmMinutos = (dataHoraDevolucao.getTime() - dataHoraInicio.getTime()) / 1000 / 60;
 
-        for (ItemAluguel itemAluguel : itens) {
+        for (ItemAluguelDTO itemAluguel : itens) {
             total += itemAluguel.getItem().getPrecoPorHora() / 60 * duracaoEmMinutos;
         }
         return total;
@@ -105,9 +87,9 @@ public class Aluguel extends EntidadeBase {
         this.dataHoraDevolucao = dataHoraDevolucao;
     }
 
-    public void adicionarItem(ItemAluguel itemAluguel) {
-        Preconditions.checkNotNull(itemAluguel, "itemAluguel não deve ser nulo");
-        Preconditions.checkNotNull(itemAluguel.getItem(), "itemAluguel.item não deve ser nulo");
+    public void adicionarItem(ItemAluguelDTO itemAluguel) {
+        //Preconditions.checkNotNull(itemAluguel, "itemAluguel não deve ser nulo");
+        //Preconditions.checkNotNull(itemAluguel.getItem(), "itemAluguel.item não deve ser nulo");
 
         if (!itens.contains(itemAluguel)) {
             itens.add(itemAluguel);
@@ -133,7 +115,7 @@ public class Aluguel extends EntidadeBase {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        Aluguel aluguel = (Aluguel) o;
+        AluguelDTO aluguel = (AluguelDTO) o;
 
         if (cliente != null ? !cliente.equals(aluguel.cliente) : aluguel.cliente != null)
             return false;
@@ -158,4 +140,3 @@ public class Aluguel extends EntidadeBase {
         return result;
     }
 }
-

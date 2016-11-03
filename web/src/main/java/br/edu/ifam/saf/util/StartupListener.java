@@ -13,10 +13,12 @@ import javax.servlet.ServletContextListener;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import br.edu.ifam.saf.modelo.Aluguel;
 import br.edu.ifam.saf.modelo.Bairro;
 import br.edu.ifam.saf.modelo.Categoria;
 import br.edu.ifam.saf.modelo.Cidade;
 import br.edu.ifam.saf.modelo.Item;
+import br.edu.ifam.saf.modelo.ItemAluguel;
 
 public class StartupListener implements ServletContextListener {
 
@@ -28,6 +30,7 @@ public class StartupListener implements ServletContextListener {
         popularLocais();
         popularCategorias();
         popularItens();
+        popularItemAluguel();
 
     }
 
@@ -65,7 +68,7 @@ public class StartupListener implements ServletContextListener {
         }
     }
 
-    public void popularCategorias() {
+    private void popularCategorias() {
         TypedQuery<Categoria> query = em.createQuery("select c from Categoria c", Categoria.class);
 
         query.setMaxResults(1);
@@ -135,6 +138,38 @@ public class StartupListener implements ServletContextListener {
 
                 transaction.commit();
             } catch (Throwable e) {
+                try {
+                    transaction.rollback();
+                } catch (SystemException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void popularItemAluguel() {
+        TypedQuery<ItemAluguel> query = em.createQuery("select i from ItemAluguel i", ItemAluguel.class);
+
+        query.setMaxResults(1);
+        List<ItemAluguel> itemAluguelLista = query.getResultList();
+
+        if(itemAluguelLista.isEmpty()) {
+            UserTransaction transaction = getTransaction();
+            try{
+                transaction.begin();
+                Item item = em.find(Item.class, 1);
+                ItemAluguel itemAluguel = new ItemAluguel();
+                itemAluguel.setItem(item);
+                itemAluguel.setQuantidade(1);
+
+                Aluguel aluguel = new Aluguel();
+                aluguel.setId(1);
+                itemAluguel.setAluguel(aluguel);
+
+                em.merge(itemAluguel);
+                transaction.commit();
+            }catch (Throwable e) {
                 try {
                     transaction.rollback();
                 } catch (SystemException e1) {
