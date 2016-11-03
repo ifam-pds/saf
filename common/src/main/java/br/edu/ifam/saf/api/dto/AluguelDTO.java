@@ -1,6 +1,5 @@
 package br.edu.ifam.saf.api.dto;
 
-//import com.google.common.base.Preconditions;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -48,15 +47,8 @@ public class AluguelDTO {
         return Collections.unmodifiableList(itens);
     }
 
-    /*
-        esse método é a mesma coisa do metodo "adicionarItem"??
-     */
     public void setItens(List<ItemAluguelDTO> itens) {
-        //Preconditions.checkNotNull(itens, "lista de itens não deve ser nula");
         this.itens = itens;
-        for (ItemAluguelDTO item : itens) {
-            item.setAluguel(this);
-        }
     }
 
     public Double getValorTotal() {
@@ -88,15 +80,9 @@ public class AluguelDTO {
     }
 
     public void adicionarItem(ItemAluguelDTO itemAluguel) {
-        //Preconditions.checkNotNull(itemAluguel, "itemAluguel não deve ser nulo");
-        //Preconditions.checkNotNull(itemAluguel.getItem(), "itemAluguel.item não deve ser nulo");
 
         if (!itens.contains(itemAluguel)) {
             itens.add(itemAluguel);
-        }
-
-        if (!this.equals(itemAluguel.getAluguel())) {
-            itemAluguel.setAluguel(this);
         }
     }
 

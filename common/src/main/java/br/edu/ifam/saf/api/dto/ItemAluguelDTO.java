@@ -5,7 +5,6 @@ public class ItemAluguelDTO {
 
     private Integer id;
     private Integer quantidade;
-    private AluguelDTO aluguel;
     private ItemDTO item;
 
     public Integer getId() {
@@ -22,26 +21,6 @@ public class ItemAluguelDTO {
 
     public void setQuantidade(Integer quantidade) {
         this.quantidade = quantidade;
-    }
-
-    public AluguelDTO getAluguel() {
-        return aluguel;
-    }
-
-    public void setAluguel(AluguelDTO aluguel) {
-        this.aluguel = aluguel;
-
-        if (aluguel == null) {
-            return;
-        }
-
-        if (aluguel.getItens().contains(this)) {
-            return;
-        }
-
-        aluguel.adicionarItem(this);
-
-
     }
 
     public ItemDTO getItem() {
@@ -62,7 +41,6 @@ public class ItemAluguelDTO {
 
         if (quantidade != null ? !quantidade.equals(that.quantidade) : that.quantidade != null)
             return false;
-        if (aluguel != null ? !aluguel.equals(that.aluguel) : that.aluguel != null) return false;
         return item != null ? item.equals(that.item) : that.item == null;
 
     }
@@ -71,7 +49,6 @@ public class ItemAluguelDTO {
     public int hashCode() {
         int result = super.hashCode();
         result = 31 * result + (quantidade != null ? quantidade.hashCode() : 0);
-        result = 31 * result + (aluguel != null ? aluguel.hashCode() : 0);
         result = 31 * result + (item != null ? item.hashCode() : 0);
         return result;
     }

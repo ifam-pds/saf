@@ -6,7 +6,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.edu.ifam.saf.modelo.Aluguel;
-import br.edu.ifam.saf.modelo.Item_Aluguel;
+import br.edu.ifam.saf.modelo.ItemAluguel;
+import br.edu.ifam.saf.modelo.Usuario;
 
 
 public class AluguelTransformer implements DTOTransformer<Aluguel, AluguelDTO> {
@@ -21,7 +22,7 @@ public class AluguelTransformer implements DTOTransformer<Aluguel, AluguelDTO> {
     public Aluguel toEntity(AluguelDTO dto) {
         Aluguel aluguel = new Aluguel();
 
-        for(ItemAluguelDTO itemAluguelDTO : dto.getItens()){
+        for (ItemAluguelDTO itemAluguelDTO : dto.getItens()) {
             aluguel.adicionarItem(itemAluguelTransformer.toEntity(itemAluguelDTO));
         }
         aluguel.setId(dto.getId());
@@ -39,7 +40,7 @@ public class AluguelTransformer implements DTOTransformer<Aluguel, AluguelDTO> {
     public AluguelDTO toDTO(Aluguel entity) {
         final AluguelDTO aluguelDTO = new AluguelDTO();
 
-        for(Item_Aluguel itemAluguelEntity : entity.getItens()){
+        for (ItemAluguel itemAluguelEntity : entity.getItens()) {
             aluguelDTO.adicionarItem(itemAluguelTransformer.toDTO(itemAluguelEntity));
         }
 
