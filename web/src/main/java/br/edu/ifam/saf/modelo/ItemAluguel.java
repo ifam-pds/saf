@@ -8,7 +8,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "item_aluguel")
-public class Item_Aluguel extends EntidadeBase {
+public class ItemAluguel extends EntidadeBase {
 
     @Column(nullable = false)
     private Integer quantidade;
@@ -63,7 +63,7 @@ public class Item_Aluguel extends EntidadeBase {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        Item_Aluguel that = (Item_Aluguel) o;
+        ItemAluguel that = (ItemAluguel) o;
 
         if (quantidade != null ? !quantidade.equals(that.quantidade) : that.quantidade != null)
             return false;
