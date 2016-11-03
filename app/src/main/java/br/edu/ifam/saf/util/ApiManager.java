@@ -22,7 +22,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public final class ApiManager {
 
 
-    private static final Gson GSON = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ").create();
+    private static final Gson GSON = new GsonBuilder()
+//            .setDateFormat("yyyy-MM-dd'T'HH:mm:ssZ")
+            .create();
 
     private static SAFService safService;
 

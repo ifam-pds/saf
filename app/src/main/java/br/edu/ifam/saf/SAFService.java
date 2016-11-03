@@ -1,9 +1,12 @@
 package br.edu.ifam.saf;
 
 
+import br.edu.ifam.saf.api.data.AlugueisResponse;
+import br.edu.ifam.saf.api.data.AluguelResponse;
 import br.edu.ifam.saf.api.data.ItensResponse;
 import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.data.UsuariosResponse;
+import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.Body;
@@ -23,4 +26,8 @@ public interface SAFService {
 
     @POST("usuarios/login")
     Observable<Result<UsuarioDTO>> login(@Body LoginData loginData);
+
+    @GET("alugueis")
+    Observable<Result<AlugueisResponse>> alugueis();
+
 }

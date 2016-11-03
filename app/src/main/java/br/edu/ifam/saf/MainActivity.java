@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import br.edu.ifam.saf.configuracoes.SettingsActivity;
 import br.edu.ifam.saf.itens.ItensFragment;
+import br.edu.ifam.saf.listarrequisicoes.ListarRequisicoesFragment;
 import br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment;
 import br.edu.ifam.saf.login.LoginActivity;
 import butterknife.BindView;
@@ -97,6 +98,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_usuarios:
                 fragment = new ListarUsuariosFragment();
+                break;
+            case R.id.nav_listar_requisicoes:
+                fragment = new ListarRequisicoesFragment();
                 break;
             default:
                 fragment = ItensFragment.newInstance();

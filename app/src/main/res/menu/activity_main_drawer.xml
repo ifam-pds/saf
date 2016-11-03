@@ -10,5 +10,9 @@
             android:id="@+id/nav_usuarios"
             android:icon="@drawable/ic_view_day_black_24dp"
             android:title="Usuários" />
+        <item
+            android:id="@+id/nav_listar_requisicoes"
+            android:icon="@drawable/ic_view_day_black_24dp"
+            android:title="Requisições" />
     </group>
 </menu>
