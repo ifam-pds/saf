@@ -15,6 +15,7 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import br.edu.ifam.saf.enums.Perfil;
+import br.edu.ifam.saf.enums.StatusAluguel;
 import br.edu.ifam.saf.modelo.Aluguel;
 import br.edu.ifam.saf.modelo.Bairro;
 import br.edu.ifam.saf.modelo.Categoria;
@@ -163,6 +164,7 @@ public class StartupListener implements ServletContextListener {
                 transaction.begin();
 
                 Aluguel aluguel = new Aluguel();
+                aluguel.setStatus(StatusAluguel.RESERVA_PENDENTE);
                 aluguel.setDataHoraInicio(new Date());
                 aluguel.setDataHoraDevolucao(new Date());
 
