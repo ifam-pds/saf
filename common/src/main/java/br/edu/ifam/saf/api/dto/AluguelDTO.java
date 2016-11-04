@@ -51,7 +51,7 @@ public class AluguelDTO {
         this.itens = itens;
     }
 
-    public Double getValorTotal() {
+    public Double calcularValorTotal() {
         double total = 0.0;
         long duracaoEmMinutos = (dataHoraDevolucao.getTime() - dataHoraInicio.getTime()) / 1000 / 60;
 

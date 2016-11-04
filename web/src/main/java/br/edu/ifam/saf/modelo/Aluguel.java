@@ -25,7 +25,8 @@ import br.edu.ifam.saf.enums.StatusAluguel;
 @Table(name = "aluguel")
 public class Aluguel extends EntidadeBase {
 
-    @ManyToOne(optional = false)
+    @ManyToOne(optional = false
+    )
     private Usuario cliente;
 
     @ManyToOne
