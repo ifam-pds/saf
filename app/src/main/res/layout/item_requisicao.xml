@@ -9,42 +9,113 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:layout_height="34dp">
+
+            <TextView
+                android:id="@+id/nome_usuario"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:gravity="end"
+                android:textSize="16sp"
+                android:text="Nome do usuário" />
+
+            <TextView
+                android:id="@+id/aluguel_status"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Pendente"
+                android:layout_weight="1"
+                android:gravity="end"/>
+
+        </LinearLayout>
+
+
+        <View
+            android:layout_marginTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eee"/>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
             <TextView
                 android:id="@+id/numero_itens"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="8"
-                android:textAppearance="@android:style/TextAppearance.Material.Title"
-                android:textSize="24sp" />
+                android:text="10"
+                android:textSize="24sp"
+                android:layout_alignParentTop="true" />
 
             <TextView
+                android:id="@+id/itens"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
-                android:text="itens" />
-
-            <TextView
-                android:id="@+id/nome_usuario"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="end"
-                android:text="Nome do usuário" />
-
+                android:text="itens"
+                android:layout_marginLeft="6dp"
+                android:layout_alignBaseline="@+id/numero_itens"
+                android:layout_alignBottom="@+id/numero_itens"
+                android:layout_toEndOf="@+id/numero_itens" />
 
         </LinearLayout>
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
         <TextView
-            android:id="@+id/aluguel_status"
+            android:id="@+id/valor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Status" />
+            android:text="R$ 245,00" />
+
+        <TextView
+            android:id="@+id/data_requisicao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="23/09 12:00:00"
+            android:layout_weight="1"
+            android:gravity="end"/>
+
+    </LinearLayout>
+
+        <View
+            android:layout_marginTop="7dp"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#eee"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="right">
+
+            <Button
+                android:id="@+id/aprovar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/Widget.Material.Button.Borderless.Small"
+                android:text="Aprovar"/>
+
+            <Button
+                android:id="@+id/reprovar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@android:style/Widget.Material.Button.Borderless.Small"
+                android:text="Reprovar"/>
+
+        </LinearLayout>
+
 
     </LinearLayout>
 

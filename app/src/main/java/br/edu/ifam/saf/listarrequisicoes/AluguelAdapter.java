@@ -6,17 +6,18 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
+import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHolder> {
 
     private List<AluguelDTO> dataset;
-
 
     public AluguelAdapter(List<AluguelDTO> dataset) {
         this.dataset = dataset;
@@ -57,6 +58,10 @@ public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHold
         TextView nomeUsuario;
         @BindView(R.id.numero_itens)
         TextView numeroItens;
+        @BindView(R.id.data_requisicao)
+        TextView dataRequisicao;
+        @BindView(R.id.valor)
+        TextView valorTotal;
 
         public ViewHolder(CardView view) {
             super(view);
@@ -69,6 +74,8 @@ public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHold
             statusAluguel.setText(String.valueOf(aluguel.getStatus()));
             nomeUsuario.setText(aluguel.getCliente().getNome());
             numeroItens.setText(String.valueOf(aluguel.getItens().size()));
+            dataRequisicao.setText(ApiManager.getFormatter().format(aluguel.getDataHoraInicio()));
+            valorTotal.setText(aluguel.calcularValorTotal().toString());
         }
 
     }

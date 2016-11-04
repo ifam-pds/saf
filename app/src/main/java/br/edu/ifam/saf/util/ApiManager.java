@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.TypeAdapter;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
@@ -27,6 +28,8 @@ public final class ApiManager {
             .create();
 
     private static SAFService safService;
+
+    private static SimpleDateFormat formatter;
 
     private ApiManager() {
 
@@ -62,6 +65,15 @@ public final class ApiManager {
                 .build();
         safService = retrofit.create(SAFService.class);
 
+    }
+
+    public static SimpleDateFormat getFormatter(){
+
+        if (formatter == null) {
+            formatter = new SimpleDateFormat("dd/MM HH:mm");
+        }
+
+        return formatter;
     }
 
     public static SAFService getService() {
