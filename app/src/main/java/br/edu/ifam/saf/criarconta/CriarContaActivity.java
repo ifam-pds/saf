@@ -77,6 +77,16 @@ public class CriarContaActivity extends AppCompatActivity implements CriarContaC
 
 
     @Override
+    public void mostrarLoading() {
+
+    }
+
+    @Override
+    public void esconderLoading() {
+
+    }
+
+    @Override
     public void mostrarMensagemDeErro(String mensagem) {
         Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
     }
@@ -97,4 +107,9 @@ public class CriarContaActivity extends AppCompatActivity implements CriarContaC
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        presenter.destroy();
+    }
 }

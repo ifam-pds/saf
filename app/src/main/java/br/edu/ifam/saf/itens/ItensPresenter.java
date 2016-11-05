@@ -18,8 +18,8 @@ public class ItensPresenter implements ItensContract.Presenter {
         this.api = api;
     }
 
-    private void loadData() {
-        view.showLoadingIndicator();
+    private void carregarDados() {
+        view.mostrarLoading();
         api.listarItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -27,9 +27,9 @@ public class ItensPresenter implements ItensContract.Presenter {
                     @Override
                     public void call(Result<ItensResponse> response) {
                         if (view != null) {
-                            view.hideLoadingIndicator();
+                            view.esconderLoading();
                             if (!response.isError()) {
-                                view.showItens(response.response().body().getItems());
+                                view.mostrarItens(response.response().body().getItems());
                             }
 
                         }
@@ -40,8 +40,8 @@ public class ItensPresenter implements ItensContract.Presenter {
     }
 
     @Override
-    public void start() {
-        loadData();
+    public void carregarListaDeItens() {
+        carregarDados();
     }
 
     @Override
@@ -52,11 +52,11 @@ public class ItensPresenter implements ItensContract.Presenter {
 
     @Override
     public void onItemClick(ItemDTO item) {
-        view.showItem(item);
+        view.mostrarItem(item);
     }
 
     @Override
-    public void refresh() {
-        loadData();
+    public void atualizar() {
+        carregarDados();
     }
 }

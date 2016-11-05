@@ -81,6 +81,11 @@ public class ListarUsuariosFragment extends Fragment implements ListarUsuariosCo
     }
 
     @Override
+    public void mostrarMensagemDeErro(String mensagem) {
+        Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
     public void mostrarMensagem(String mensagem) {
         Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
     }
