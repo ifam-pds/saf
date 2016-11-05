@@ -1,70 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
+    android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
     android:clickable="true"
     android:focusable="true"
     android:foreground="?attr/selectableItemBackground"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    app:contentPaddingBottom="8dp"
+    app:contentPaddingTop="8dp">
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            android:paddingEnd="12dp"
+            android:paddingStart="12dp">
+
+            <TextView
+                android:id="@+id/nome_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Jet ski 1"
+                android:textAppearance="@android:style/TextAppearance.Material.Headline"
+                android:textSize="16sp" />
+
+
+            <TextView
+                android:id="@+id/preco_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:text="R$ 60,00/h"
+
+                android:textSize="12sp" />
+
+
+        </LinearLayout>
 
         <ImageView
             android:id="@+id/item_image"
             android:layout_width="match_parent"
             android:layout_height="120dp"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
             android:layout_marginBottom="4dp"
             android:contentDescription="@string/action_settings"
             android:scaleType="centerCrop"
             android:src="@drawable/jet_ski"
             android:transitionName="imagem" />
 
-        <TextView
-            android:id="@+id/nome_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/item_image"
-            android:layout_marginStart="12dp"
-            android:shadowColor="#000"
-            android:shadowDx="2"
-            android:shadowDy="2"
-            android:text="Jet ski 1" />
 
         <TextView
             android:id="@+id/itens_disponiveis"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignStart="@+id/nome_item"
-            android:layout_below="@+id/nome_item"
-            android:text="2 disponíveis"
-            android:textSize="12sp" />
-
-        <Button
-            android:id="@+id/button"
-            style="@android:style/Widget.Material.Button.Borderless.Small"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_below="@+id/itens_disponiveis"
-            android:minWidth="0dp"
-            android:text="Reservar" />
-
-        <TextView
-            android:id="@+id/preco_item"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_below="@+id/item_image"
-            android:layout_marginEnd="8dp"
-            android:text="R$ 60,00/h" />
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:text="2 disponíveis" />
 
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>
