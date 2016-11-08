@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 
 public class ListarRequisicoesFragment extends Fragment implements ListarRequisicoesContract.View {
 
-    @BindView(R.id.lista_requisicoes_aluguel)
+    @BindView(R.id.listarRequisicao)
     RecyclerView rvRequisicoes;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout refreshLayout;
