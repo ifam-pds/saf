@@ -72,4 +72,19 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
 
         Snackbar.make(parentLayout, message, Snackbar.LENGTH_SHORT);
     }
+
+    @Override
+    public void mostrarLoading() {
+
+    }
+
+    @Override
+    public void esconderLoading() {
+
+    }
+
+    @Override
+    public void mostrarMensagemDeErro(String mensagem) {
+        Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
+    }
 }

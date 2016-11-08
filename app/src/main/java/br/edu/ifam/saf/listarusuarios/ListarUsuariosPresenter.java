@@ -36,12 +36,12 @@ public class ListarUsuariosPresenter implements ListarUsuariosContract.Presenter
                     view.esconderLoading();
                     if (result.isError()) {
                         Log.e(ListarUsuariosPresenter.class.getSimpleName(), "Erro de conexão", result.error());
-                        view.mostrarMensagem("Erro de conexão");
+                        view.mostrarMensagemDeErro("Erro de conexão");
                     } else if (result.response().isSuccessful()) {
                         view.mostrarUsuarios(result.response().body().getUsuarios());
                     } else {
                         MensagemErroResponse erroResponse = ApiManager.parseErro(result.response());
-                        view.mostrarMensagem(erroResponse.getMensagens().get(0));
+                        view.mostrarMensagemDeErro(erroResponse.getMensagens().get(0));
                     }
                 }
             }

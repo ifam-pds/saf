@@ -16,6 +16,7 @@ import javax.transaction.UserTransaction;
 
 import br.edu.ifam.saf.enums.Perfil;
 import br.edu.ifam.saf.enums.StatusAluguel;
+import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.modelo.Aluguel;
 import br.edu.ifam.saf.modelo.Bairro;
 import br.edu.ifam.saf.modelo.Categoria;
@@ -130,6 +131,7 @@ public class StartupListener implements ServletContextListener {
                     item.setNome(tipo + " " + marca + " " + modelo);
                     String d1 = desc2[Math.abs(random.nextInt() % desc2.length)];
                     String d2 = desc4[Math.abs(random.nextInt() % desc4.length)];
+                    item.setStatus(StatusItem.ATIVO);
                     item.setDescricao(d1 + " " + d2);
                     item.setMarca(marca);
                     item.setModelo(modelo);

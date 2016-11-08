@@ -2,8 +2,12 @@ package br.edu.ifam.saf.modelo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import br.edu.ifam.saf.enums.StatusItem;
 
 @Entity
 @Table(name = "item")
@@ -17,6 +21,9 @@ public class Item extends EntidadeBase {
 
     @Column(nullable = false)
     private Double precoPorHora;
+
+    @Enumerated(EnumType.STRING)
+    private StatusItem status;
 
     @ManyToOne
     private Categoria categoria;
@@ -77,6 +84,14 @@ public class Item extends EntidadeBase {
         this.categoria = categoria;
     }
 
+    public StatusItem getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusItem status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -92,6 +107,7 @@ public class Item extends EntidadeBase {
         if (modelo != null ? !modelo.equals(item.modelo) : item.modelo != null) return false;
         if (precoPorHora != null ? !precoPorHora.equals(item.precoPorHora) : item.precoPorHora != null)
             return false;
+        if (status != item.status) return false;
         return categoria != null ? categoria.equals(item.categoria) : item.categoria == null;
 
     }
@@ -104,6 +120,7 @@ public class Item extends EntidadeBase {
         result = 31 * result + (marca != null ? marca.hashCode() : 0);
         result = 31 * result + (modelo != null ? modelo.hashCode() : 0);
         result = 31 * result + (precoPorHora != null ? precoPorHora.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         result = 31 * result + (categoria != null ? categoria.hashCode() : 0);
         return result;
     }

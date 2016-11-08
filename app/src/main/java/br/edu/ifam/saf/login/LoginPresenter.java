@@ -33,14 +33,14 @@ public class LoginPresenter implements LoginContract.Presenter {
                         if (view != null) {
                             if (result.isError()) {
                                 // IOException
-                                view.mostrarMensagem("Erro de conexão");
+                                view.mostrarMensagemDeErro("Erro de conexão");
                             } else if (result.response().isSuccessful()) {
                                 UsuarioDTO usuario = result.response().body();
                                 repository.saveUserInfo(usuario);
                                 view.mostrarMensagem(String.format("Bem vindo %s", usuario.getNome()));
                             } else {
                                 MensagemErroResponse mensagem = ApiManager.parseErro(result.response());
-                                view.mostrarMensagem(mensagem.getMensagens().get(0));
+                                view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
                             }
                         }
                     }

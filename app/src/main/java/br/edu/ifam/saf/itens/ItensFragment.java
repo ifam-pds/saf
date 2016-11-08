@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,12 +52,12 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
         lista_itens.setLayoutManager(layoutManager);
 
         presenter = new ItensPresenter(this, ApiManager.getService());
-        presenter.start();
+        presenter.carregarListaDeItens();
 
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.refresh();
+                presenter.atualizar();
             }
         });
     }
@@ -70,12 +71,12 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     }
 
     @Override
-    public void showItens(List<ItemDTO> itens) {
+    public void mostrarItens(List<ItemDTO> itens) {
         adapter.replaceData(itens);
     }
 
     @Override
-    public void showItem(ItemDTO item) {
+    public void mostrarItem(ItemDTO item) {
         Intent intent = new Intent(getContext(), ReservaActivity.class);
         Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle();
 //
@@ -83,25 +84,29 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     }
 
     @Override
-    public void showLoadingIndicator() {
+    public void mostrarLoading() {
         swipeRefreshLayout.setRefreshing(true);
     }
 
     @Override
-    public void hideLoadingIndicator() {
+    public void esconderLoading() {
         swipeRefreshLayout.setRefreshing(false);
+    }
+
+    @Override
+    public void mostrarMensagemDeErro(String mensagem) {
+        Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        hideLoadingIndicator();
+        esconderLoading();
         presenter.destroy();
     }
 
     @Override
     public void onClick(ItensAdapter.ViewHolder view, ItemDTO item) {
-//        tmpLastView = view;
         presenter.onItemClick(item);
     }
 
