@@ -47,7 +47,6 @@ public class UsuarioEndpoint {
     @Consumes(MediaType.APPLICATION_JSON_UTF8)
     @Path("/login")
     public Response login(LoginData loginData) {
-        try {
             Validation.validaLogin(loginData);
 
             Usuario usuario = usuarioDAO.consultarPorEmail(loginData.getEmail());
@@ -61,11 +60,6 @@ public class UsuarioEndpoint {
             }
 
             return Respostas.ok(usuarioTransformer.toDTO(usuario));
-
-        } catch (ValidacaoError ex) {
-            return Respostas.badRequest(new MensagemErroResponse(ex.getMessage()));
-        }
-
     }
 
     @POST

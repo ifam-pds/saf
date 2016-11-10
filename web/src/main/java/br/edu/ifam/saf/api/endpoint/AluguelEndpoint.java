@@ -85,13 +85,12 @@ public class AluguelEndpoint {
     @POST
     @RequerLogin({Perfil.ADMINISTRADOR, Perfil.FUNCIONARIO, Perfil.CLIENTE})
     @Produces(MediaType.APPLICATION_JSON_UTF8)
-    @Path("/cadastrar")
+    @Path("/")
     public Response cadastrarAluguel(AluguelDTO aluguelDTO){
         final Aluguel aluguel = aluguelTransformer.toEntity(aluguelDTO);
         aluguel.setStatus(StatusAluguel.RESERVA_PENDENTE);
-
+        aluguelDAO.inserir(aluguel);
         return Respostas.criado();
     }
-
 
 }
