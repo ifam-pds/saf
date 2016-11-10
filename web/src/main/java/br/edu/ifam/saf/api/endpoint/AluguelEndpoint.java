@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
+import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
@@ -15,13 +16,18 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import br.edu.ifam.saf.api.data.AlugueisResponse;
+import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.data.StatusData;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.AluguelTransformer;
+import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
+import br.edu.ifam.saf.api.dto.ItemTransformer;
 import br.edu.ifam.saf.api.interceptor.RequerLogin;
 import br.edu.ifam.saf.api.interceptor.UsuarioAutenticado;
 import br.edu.ifam.saf.api.util.MediaType;
+import br.edu.ifam.saf.api.util.Respostas;
 import br.edu.ifam.saf.dao.AluguelDAO;
+import br.edu.ifam.saf.dao.ItemAluguelDAO;
 import br.edu.ifam.saf.enums.Perfil;
 import br.edu.ifam.saf.enums.StatusAluguel;
 import br.edu.ifam.saf.modelo.Aluguel;
@@ -35,7 +41,13 @@ public class AluguelEndpoint {
     private AluguelTransformer aluguelTransformer;
 
     @Inject
+    private ItemTransformer itemTransformer;
+
+    @Inject
     private AluguelDAO aluguelDAO;
+
+    @Inject
+    private ItemAluguelDAO itemAluguelDAO;
 
     @Inject
     @UsuarioAutenticado
@@ -45,7 +57,7 @@ public class AluguelEndpoint {
     @RequerLogin({Perfil.FUNCIONARIO, Perfil.ADMINISTRADOR})
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @Path("/")
-    public Response alugueis(@QueryParam("status") StatusAluguel statusAluguel) {
+    public Response listarAlugueis(@QueryParam("status") StatusAluguel statusAluguel) {
         List<AluguelDTO> lista;
         if (statusAluguel != null) {
             lista = aluguelTransformer.toDTOList(aluguelDAO.filtrarPorStatus(statusAluguel));
@@ -70,6 +82,16 @@ public class AluguelEndpoint {
         return Response.accepted(aluguelDAO.atualizar(aluguel)).build();
     }
 
+    @POST
+    @RequerLogin({Perfil.ADMINISTRADOR, Perfil.FUNCIONARIO, Perfil.CLIENTE})
+    @Produces(MediaType.APPLICATION_JSON_UTF8)
+    @Path("/cadastrar")
+    public Response cadastrarAluguel(AluguelDTO aluguelDTO){
+        final Aluguel aluguel = aluguelTransformer.toEntity(aluguelDTO);
+        aluguel.setStatus(StatusAluguel.RESERVA_PENDENTE);
+
+        return Respostas.criado();
+    }
 
 
 }

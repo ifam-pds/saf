@@ -53,13 +53,6 @@ public class ItensEndpoint {
     @Path("/")
     public Response cadastrar(ItemDTO itemDTO) {
         try {
-//            Item itemExistente = ItemDAO.consultarPorModelo(usuarioDTO.getEmail());
-//
-//
-//            if (usuarioExistente != null) {
-//                return Respostas.USUARIO_JA_EXISTE;
-//            }
-
             Item itemACadastrar = itemTransformer.toEntity(itemDTO);
             dao.atualizar(itemACadastrar);
 
@@ -73,7 +66,5 @@ public class ItensEndpoint {
             ex.printStackTrace();
             return Respostas.badRequest(new MensagemErroResponse(ex.getMessage()));
         }
-
     }
-
 }

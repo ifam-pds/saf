@@ -41,7 +41,7 @@ public class Aluguel extends EntidadeBase {
     private Date dataHoraInicio;
 
     @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = false)
+    @Column(nullable = true)
     private Date dataHoraDevolucao;
 
     @Enumerated(EnumType.STRING)

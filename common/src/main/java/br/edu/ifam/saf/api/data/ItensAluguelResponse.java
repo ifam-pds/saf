@@ -16,7 +16,6 @@ public class ItensAluguelResponse {
 
     public ItensAluguelResponse(ItemAluguelDTO... itensAluguel) {
         this.itensAluguel = Arrays.asList(itensAluguel);
-
     }
 
     public List<ItemAluguelDTO> getItensAluguel() {

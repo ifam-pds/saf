@@ -16,7 +16,6 @@ import javax.transaction.UserTransaction;
 
 import br.edu.ifam.saf.enums.Perfil;
 import br.edu.ifam.saf.enums.StatusAluguel;
-import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.modelo.Aluguel;
 import br.edu.ifam.saf.modelo.Bairro;
 import br.edu.ifam.saf.modelo.Categoria;
@@ -131,7 +130,6 @@ public class StartupListener implements ServletContextListener {
                     item.setNome(tipo + " " + marca + " " + modelo);
                     String d1 = desc2[Math.abs(random.nextInt() % desc2.length)];
                     String d2 = desc4[Math.abs(random.nextInt() % desc4.length)];
-                    item.setStatus(StatusItem.ATIVO);
                     item.setDescricao(d1 + " " + d2);
                     item.setMarca(marca);
                     item.setModelo(modelo);
@@ -155,12 +153,12 @@ public class StartupListener implements ServletContextListener {
     }
 
     private void popularItemAluguel() {
-        TypedQuery<ItemAluguel> query = em.createQuery("select i from ItemAluguel i", ItemAluguel.class);
+//        TypedQuery<ItemAluguel> query = em.createQuery("select i from ItemAluguel i", ItemAluguel.class);
+//
+//        query.setMaxResults(1);
+//        List<ItemAluguel> itemAluguelLista = query.getResultList();
 
-        query.setMaxResults(1);
-        List<ItemAluguel> itemAluguelLista = query.getResultList();
-
-        if (itemAluguelLista.isEmpty()) {
+        //if (itemAluguelLista.isEmpty()) {
             UserTransaction transaction = getTransaction();
             try {
                 transaction.begin();
@@ -170,13 +168,13 @@ public class StartupListener implements ServletContextListener {
                 aluguel.setDataHoraInicio(new Date());
                 aluguel.setDataHoraDevolucao(new Date());
 
-                aluguel.setId(1);
+//                aluguel.setId(1);
 
                 Usuario usuario = new Usuario.Builder()
-                        .id(1)
-                        .nome("Exemplo")
+                        .id(3)
+                        .nome("Não Sou Robô")
                         .dataNascimento(new Date())
-                        .senha(SegurancaUtil.hashSenha("123456"))
+                        .senha(SegurancaUtil.hashSenha(""))
                         .cpf("012.123.123-22")
                         .perfil(Perfil.ADMINISTRADOR)
                         .email("usuario@email.com")
@@ -195,9 +193,15 @@ public class StartupListener implements ServletContextListener {
                 itemAluguel.setItem(item);
                 itemAluguel.setQuantidade(1);
 
+                ItemAluguel itemAluguel2 = new ItemAluguel();
+                itemAluguel2.setItem(item);
+                itemAluguel2.setQuantidade(4);
+
 
                 itemAluguel.setAluguel(aluguel);
+                itemAluguel2.setAluguel(aluguel);
                 em.merge(itemAluguel);
+                em.merge(itemAluguel2);
 
                 transaction.commit();
             } catch (Throwable e) {
@@ -208,7 +212,7 @@ public class StartupListener implements ServletContextListener {
                 }
                 e.printStackTrace();
             }
-        }
+        //}
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
