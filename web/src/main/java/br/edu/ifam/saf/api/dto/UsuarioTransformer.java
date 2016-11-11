@@ -17,6 +17,9 @@ public class UsuarioTransformer implements DTOTransformer<Usuario, UsuarioDTO> {
 
     @Override
     public Usuario toEntity(UsuarioDTO dto) {
+        if (dto == null) {
+            return null;
+        }
         return new Usuario.Builder()
                 .id(dto.getId())
                 .email(dto.getEmail())
@@ -36,6 +39,9 @@ public class UsuarioTransformer implements DTOTransformer<Usuario, UsuarioDTO> {
 
     @Override
     public UsuarioDTO toDTO(Usuario entity) {
+        if (entity == null) {
+            return null;
+        }
 
         return new UsuarioDTO.Builder()
                 .id(entity.getId())

@@ -34,7 +34,7 @@ public class StartupListener implements ServletContextListener {
         popularLocais();
         popularCategorias();
         popularItens();
-        popularItemAluguel();
+       // popularItemAluguel();
 
     }
 
@@ -153,12 +153,13 @@ public class StartupListener implements ServletContextListener {
     }
 
     private void popularItemAluguel() {
-//        TypedQuery<ItemAluguel> query = em.createQuery("select i from ItemAluguel i", ItemAluguel.class);
-//
-//        query.setMaxResults(1);
-//        List<ItemAluguel> itemAluguelLista = query.getResultList();
+        TypedQuery<ItemAluguel> query = em.createQuery("select i from ItemAluguel i", ItemAluguel.class);
 
-        //if (itemAluguelLista.isEmpty()) {
+        query.setMaxResults(1);
+        List<ItemAluguel> itemAluguelLista = query.getResultList();
+        System.out.println("LISTA: " + itemAluguelLista.size());
+
+        if (itemAluguelLista.isEmpty()) {
             UserTransaction transaction = getTransaction();
             try {
                 transaction.begin();
@@ -212,7 +213,7 @@ public class StartupListener implements ServletContextListener {
                 }
                 e.printStackTrace();
             }
-        //}
+        }
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {

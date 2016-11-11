@@ -28,8 +28,10 @@ import br.edu.ifam.saf.api.util.MediaType;
 import br.edu.ifam.saf.api.util.Respostas;
 import br.edu.ifam.saf.dao.AluguelDAO;
 import br.edu.ifam.saf.dao.ItemAluguelDAO;
+import br.edu.ifam.saf.dao.UsuarioDAO;
 import br.edu.ifam.saf.enums.Perfil;
 import br.edu.ifam.saf.enums.StatusAluguel;
+import br.edu.ifam.saf.exception.ValidacaoError;
 import br.edu.ifam.saf.modelo.Aluguel;
 import br.edu.ifam.saf.modelo.Usuario;
 
@@ -48,6 +50,9 @@ public class AluguelEndpoint {
 
     @Inject
     private ItemAluguelDAO itemAluguelDAO;
+
+    @Inject
+    private UsuarioDAO usuarioDAO;
 
     @Inject
     @UsuarioAutenticado
@@ -87,8 +92,13 @@ public class AluguelEndpoint {
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @Path("/")
     public Response cadastrarAluguel(AluguelDTO aluguelDTO){
+        if(aluguelDTO.getItens() == null || aluguelDTO.getItens().isEmpty()){
+            throw new ValidacaoError("Não há itens no carrinho! ERRO!");
+        }
         final Aluguel aluguel = aluguelTransformer.toEntity(aluguelDTO);
         aluguel.setStatus(StatusAluguel.RESERVA_PENDENTE);
+        aluguel.setId(null);
+        aluguel.setCliente(usuarioDAO.consultar(usuarioLogado.getId()));
         aluguelDAO.inserir(aluguel);
         return Respostas.criado();
     }
