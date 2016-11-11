@@ -31,17 +31,19 @@ public class ItemTransformer implements DTOTransformer<Item, ItemDTO> {
 
     @Override
     public ItemDTO toDTO(Item entity) {
-        final ItemDTO itemDTO = new ItemDTO();
+        if (entity == null) {
+            return null;
+        }
 
-        itemDTO.setId(entity.getId());
-        itemDTO.setNome(entity.getNome());
-        itemDTO.setDescricao(entity.getDescricao());
-        itemDTO.setPrecoPorHora(entity.getPrecoPorHora());
-        itemDTO.setMarca(entity.getMarca());
-        itemDTO.setModelo(entity.getModelo());
-        itemDTO.setCategoria(categoriaTransformer.toDTO(entity.getCategoria()));
-
-        return itemDTO;
+        return new ItemDTO.Builder()
+                .id(entity.getId())
+                .nome(entity.getNome())
+                .descricao(entity.getDescricao())
+                .precoPorHora(entity.getPrecoPorHora())
+                .marca(entity.getMarca())
+                .modelo(entity.getModelo())
+                .categoria(categoriaTransformer.toDTO(entity.getCategoria()))
+                .build();
     }
 
     public List<Item> toEntityList(List<ItemDTO> dtos) {

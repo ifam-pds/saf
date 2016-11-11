@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/tagView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cardUseCompatPadding="true">
+
+        <LinearLayout
+            android:id="@+id/form"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="4dp">
+
+            <br.edu.ifam.saf.view.FieldView
+                android:id="@+id/nome_item"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:border="false"
+                app:hint="Nome do Item"
+                app:icon="@drawable/ic_directions_boat_black_24dp" />
+
+            <br.edu.ifam.saf.view.FieldView
+                android:id="@+id/categoria"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hint="Categoria"
+                app:icon="@drawable/ic_local_offer_black_24dp"
+                app:inputType="number" />
+
+            <br.edu.ifam.saf.view.FieldView
+                android:id="@+id/marca"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hint="Marca"
+                app:icon="@drawable/ic_more_black_24dp"
+                app:inputType="text" />
+
+            <br.edu.ifam.saf.view.FieldView
+                android:id="@+id/modelo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hint="Modelo"
+                app:icon="@drawable/ic_filter_frames_black_24dp" />
+
+            <br.edu.ifam.saf.view.FieldView
+                android:id="@+id/preco_hore"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hint="Preço por Hora"
+                app:icon="@drawable/ic_attach_money_black_24dp"
+                app:inputType="number" />
+
+            <br.edu.ifam.saf.view.FieldView
+                android:id="@+id/descricao"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:hint="Descrição"
+                app:icon="@drawable/ic_description_black_24dp" />
+
+            <Button
+                android:id="@+id/salvar_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="Salvar" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</android.support.v4.widget.NestedScrollView>
