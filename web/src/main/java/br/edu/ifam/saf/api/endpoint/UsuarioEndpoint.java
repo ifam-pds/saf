@@ -15,7 +15,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import br.edu.ifam.saf.api.data.LoginData;
-import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.data.UsuariosResponse;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.api.dto.UsuarioTransformer;
@@ -24,7 +23,6 @@ import br.edu.ifam.saf.api.util.Respostas;
 import br.edu.ifam.saf.api.util.Validation;
 import br.edu.ifam.saf.dao.UsuarioDAO;
 import br.edu.ifam.saf.enums.Perfil;
-import br.edu.ifam.saf.exception.ValidacaoError;
 import br.edu.ifam.saf.modelo.Usuario;
 import br.edu.ifam.saf.util.SegurancaUtil;
 
@@ -47,19 +45,21 @@ public class UsuarioEndpoint {
     @Consumes(MediaType.APPLICATION_JSON_UTF8)
     @Path("/login")
     public Response login(LoginData loginData) {
-            Validation.validaLogin(loginData);
+        Validation.validaLogin(loginData);
 
-            Usuario usuario = usuarioDAO.consultarPorEmail(loginData.getEmail());
+        Usuario usuario = usuarioDAO.consultarPorEmail(loginData.getEmail());
 
 
-            if (usuario == null || !SegurancaUtil.verificaSenha(loginData.getSenha(), usuario.getSenha())) {
-                return Respostas.EMAIL_OU_SENHA_INCORRETOS;
-            }
-            if (StringUtils.isBlank(usuario.getToken())) {
-                usuario.setToken(SegurancaUtil.gerarToken());
-            }
+        if (usuario == null || !SegurancaUtil.verificaSenha(loginData.getSenha(), usuario.getSenha())) {
+            return Respostas.EMAIL_OU_SENHA_INCORRETOS;
+        }
+        if (StringUtils.isBlank(usuario.getToken())) {
+            usuario.setToken(SegurancaUtil.gerarToken());
+        }
 
-            return Respostas.ok(usuarioTransformer.toDTO(usuario));
+        return Respostas.ok(usuarioTransformer.toDTO(usuario));
+
+
     }
 
     @POST
@@ -67,34 +67,27 @@ public class UsuarioEndpoint {
     @Consumes(MediaType.APPLICATION_JSON_UTF8)
     @Path("/")
     public Response cadastrar(UsuarioDTO usuarioDTO) {
-        try {
-            Validation.validaRegistroUsuario(usuarioDTO);
+        Validation.validaRegistroUsuario(usuarioDTO);
 
-            Usuario usuarioExistente = usuarioDAO.consultarPorEmail(usuarioDTO.getEmail());
+        Usuario usuarioExistente = usuarioDAO.consultarPorEmail(usuarioDTO.getEmail());
 
 
-            if (usuarioExistente != null) {
-                return Respostas.USUARIO_JA_EXISTE;
-            }
-
-            Usuario usuarioACadastrar = usuarioTransformer.toEntity(usuarioDTO);
-            usuarioACadastrar.setId(null);
-            usuarioACadastrar.setToken(null);
-            usuarioACadastrar.setPerfil(Perfil.CLIENTE);
-            usuarioACadastrar.setSenha(SegurancaUtil.hashSenha(usuarioACadastrar.getSenha()));
-
-            usuarioDAO.atualizar(usuarioACadastrar);
-
-            log.info(">>>" + usuarioACadastrar);
-
-            return Respostas.criado();
-
-        } catch (ValidacaoError ex) {
-            return Respostas.badRequest(ex.getMensagemErroResponse());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return Respostas.ERRO_INTERNO;
+        if (usuarioExistente != null) {
+            return Respostas.USUARIO_JA_EXISTE;
         }
+
+        Usuario usuarioACadastrar = usuarioTransformer.toEntity(usuarioDTO);
+        usuarioACadastrar.setId(null);
+        usuarioACadastrar.setToken(null);
+        usuarioACadastrar.setPerfil(Perfil.CLIENTE);
+        usuarioACadastrar.setSenha(SegurancaUtil.hashSenha(usuarioACadastrar.getSenha()));
+
+        usuarioDAO.atualizar(usuarioACadastrar);
+
+        log.info(">>>" + usuarioACadastrar);
+
+        return Respostas.criado();
+
 
     }
 
@@ -102,18 +95,11 @@ public class UsuarioEndpoint {
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @Path("/")
     public Response listar() {
-        try {
 
-            List<Usuario> usuarios = usuarioDAO.listarTodos();
+        List<Usuario> usuarios = usuarioDAO.listarTodos();
 
-            return Respostas.ok(new UsuariosResponse(usuarioTransformer.toDTOList(usuarios)));
+        return Respostas.ok(new UsuariosResponse(usuarioTransformer.toDTOList(usuarios)));
 
-        } catch (ValidacaoError ex) {
-            return Respostas.badRequest(ex.getMensagemErroResponse());
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            return Respostas.ERRO_INTERNO;
-        }
 
     }
 }
