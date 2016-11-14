@@ -6,24 +6,26 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import br.edu.ifam.saf.MainApplication;
+import br.edu.ifam.saf.api.dto.AluguelDTO;
+import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.util.ApiManager;
 
-public class LocalRepositoryImpl implements LocalRepository {
+public final class LocalRepositoryImpl implements LocalRepository {
 
     private static LocalRepository instance;
 
     SharedPreferences sharedPreferences;
 
     private UsuarioDTO usuarioDTO;
+    private AluguelDTO carrinho;
 
-    private LocalRepositoryImpl() {
-
-    }
 
     private LocalRepositoryImpl(Context context) {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         reloadData();
+
+        carrinho = new AluguelDTO();
     }
 
     public static LocalRepository getInstance() {
@@ -44,7 +46,23 @@ public class LocalRepositoryImpl implements LocalRepository {
     }
 
     @Override
-    public UsuarioDTO getUserInfo() {
+    public void adicionarAluguelItem(ItemAluguelDTO itemAluguelDTO) {
+        carrinho.adicionarItem(itemAluguelDTO);
+    }
+
+    @Override
+    public void limpaCarrinho() {
+        carrinho = new AluguelDTO();
+    }
+
+    @Override
+    public AluguelDTO getCarrinho() {
+        return carrinho;
+
+    }
+
+    @Override
+    public UsuarioDTO getInfoUsuario() {
         if (usuarioDTO == null) {
             reloadData();
         }
@@ -52,7 +70,7 @@ public class LocalRepositoryImpl implements LocalRepository {
     }
 
     @Override
-    public void saveUserInfo(UsuarioDTO usuario) {
+    public void salvarInfoUsuario(UsuarioDTO usuario) {
 
         String serializedUser = ApiManager.getGson().toJson(usuario);
         SharedPreferences.Editor editor = sharedPreferences.edit();

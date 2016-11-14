@@ -1,13 +1,22 @@
 package br.edu.ifam.saf.data;
 
 
+import br.edu.ifam.saf.api.dto.AluguelDTO;
+import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 
 public interface LocalRepository {
 
-    UsuarioDTO getUserInfo();
+    void adicionarAluguelItem(ItemAluguelDTO itemAluguelDTO);
 
-    void saveUserInfo(UsuarioDTO usuario);
+    AluguelDTO getCarrinho();
+
+    void limpaCarrinho();
+
+
+    UsuarioDTO getInfoUsuario();
+
+    void salvarInfoUsuario(UsuarioDTO usuario);
 
     String getApiHost();
 }
