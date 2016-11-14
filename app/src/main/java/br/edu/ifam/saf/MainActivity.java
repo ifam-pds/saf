@@ -15,6 +15,7 @@ import android.view.MenuItem;
 
 import br.edu.ifam.saf.configuracoes.SettingsActivity;
 import br.edu.ifam.saf.itens.ItensFragment;
+import br.edu.ifam.saf.listarcarrinho.ListarCarrinhoFragment;
 import br.edu.ifam.saf.listarrequisicoes.ListarRequisicoesFragment;
 import br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment;
 import br.edu.ifam.saf.login.LoginActivity;
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
-        onNavigationItemSelected(navigationView.getMenu().getItem(0));
+        onNavigationItemSelected(navigationView.getMenu().getItem(1));
 
     }
 
@@ -101,6 +102,9 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_listar_requisicoes:
                 fragment = new ListarRequisicoesFragment();
+                break;
+            case R.id.nav_carrinho:
+                fragment = new ListarCarrinhoFragment();
                 break;
             default:
                 fragment = ItensFragment.newInstance();

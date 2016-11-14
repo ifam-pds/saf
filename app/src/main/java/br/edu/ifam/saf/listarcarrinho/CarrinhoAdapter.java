@@ -9,15 +9,15 @@ import android.widget.TextView;
 import java.util.List;
 
 import br.edu.ifam.saf.R;
-import br.edu.ifam.saf.api.dto.AluguelDTO;
+import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHolder>{
+public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHolder> {
 
-    List<AluguelDTO> itensCarrinho;
+    List<ItemAluguelDTO> itensCarrinho;
 
-    public CarrinhoAdapter(List<AluguelDTO> itensCarrinho){
+    public CarrinhoAdapter(List<ItemAluguelDTO> itensCarrinho) {
 
         this.itensCarrinho = itensCarrinho;
 
@@ -31,7 +31,7 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        AluguelDTO itemCarrinho = itensCarrinho.get(position);
+        ItemAluguelDTO itemCarrinho = itensCarrinho.get(position);
         viewHolder.bindCarrinho(itemCarrinho);
     }
 
@@ -40,7 +40,7 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
         return itensCarrinho.size();
     }
 
-    public void replaceUsuarios(List<AluguelDTO> itensCarrinho) {
+    public void replaceItens(List<ItemAluguelDTO> itensCarrinho) {
 
         this.itensCarrinho = itensCarrinho;
         notifyDataSetChanged();
@@ -50,16 +50,24 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        @BindView(R.id.nome_usuario)
-        TextView nome;
+        @BindView(R.id.nome_item)
+        TextView nomeItem;
+
+        @BindView(R.id.quantidade_item)
+        TextView quantidadeItem;
+
+        @BindView(R.id.valor_item_x_quantidade)
+        TextView valorItemXQuantidade;
 
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
         }
 
-        public void bindCarrinho(AluguelDTO itemCarrinho) {
-            nome.setText(itemCarrinho.getCliente().getNome());
+        public void bindCarrinho(ItemAluguelDTO itemCarrinho) {
+            nomeItem.setText(itemCarrinho.getItem().getNome());
+            quantidadeItem.setText(String.valueOf(itemCarrinho.getQuantidade()));
+            valorItemXQuantidade.setText(String.valueOf(itemCarrinho.getValorXQuantidade()));
         }
 
     }

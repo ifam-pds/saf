@@ -9,18 +9,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         android:paddingLeft="8dp"
-        android:paddingRight="8dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/nome_usuario"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="end"
-            android:textSize="16sp"
-            android:text="Nome do usuário"
-            android:layout_marginBottom="10dp" />
+        android:paddingRight="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -32,16 +23,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:gravity="end"
-                android:textSize="16sp"
-                android:text="Jet Ski Yamaha" />
+                android:text="Jet Ski Yamaha"
+                android:textSize="16sp" />
 
         </LinearLayout>
 
 
         <View
-            android:layout_marginTop="7dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="7dp"
             android:background="#eee"/>
 
         <LinearLayout
@@ -52,19 +43,19 @@
                 android:id="@+id/quantidade_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
                 android:text="1"
-                android:textSize="24sp"
-                android:layout_alignParentTop="true" />
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/itens"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="itens"
-                android:layout_marginLeft="6dp"
                 android:layout_alignBaseline="@+id/numero_itens"
                 android:layout_alignBottom="@+id/numero_itens"
-                android:layout_toEndOf="@+id/numero_itens" />
+                android:layout_marginLeft="6dp"
+                android:layout_toEndOf="@+id/numero_itens"
+                android:text="itens" />
 
         </LinearLayout>
 
@@ -74,17 +65,17 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:id="@+id/valor"
+                android:id="@+id/valor_item_x_quantidade"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="R$ 50,00 /hr" />
+                android:text="R$ 50,00" />
 
         </LinearLayout>
 
         <View
-            android:layout_marginTop="7dp"
             android:layout_width="match_parent"
             android:layout_height="1dp"
+            android:layout_marginTop="7dp"
             android:background="#eee"/>
 
         <LinearLayout
@@ -94,9 +85,9 @@
 
             <Button
                 android:id="@+id/remover"
+                style="@android:style/Widget.Material.Button.Borderless.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@android:style/Widget.Material.Button.Borderless.Small"
                 android:text="Remover"/>
 
         </LinearLayout>

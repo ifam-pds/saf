@@ -15,6 +15,10 @@ public class ItemAluguelDTO {
         this.id = id;
     }
 
+    public double getValorXQuantidade() {
+        return quantidade * item.getPrecoPorHora();
+    }
+
     public Integer getQuantidade() {
         return quantidade;
     }

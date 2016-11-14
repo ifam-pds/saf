@@ -16,6 +16,9 @@ public class ItemTransformer implements DTOTransformer<Item, ItemDTO> {
 
     @Override
     public Item toEntity(ItemDTO dto) {
+        if (dto == null) {
+            return null;
+        }
         final Item item = new Item();
 
         item.setId(dto.getId());
