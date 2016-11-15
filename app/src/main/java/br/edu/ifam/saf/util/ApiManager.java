@@ -15,10 +15,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.data.LocalRepository;
-import br.edu.ifam.saf.data.LocalRepositoryImpl;
 import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -48,7 +48,7 @@ public final class ApiManager {
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
 
-        final LocalRepository repository = LocalRepositoryImpl.getInstance();
+        final LocalRepository repository = MainApplication.getRepository();
 
         OkHttpClient client = new OkHttpClient.Builder().addInterceptor(interceptor)
                 .addInterceptor(new Interceptor() {
@@ -97,7 +97,7 @@ public final class ApiManager {
             return adapter.fromJson(response.errorBody().charStream());
         } catch (Exception e) {
             e.printStackTrace();
-            return new MensagemErroResponse("Erro ao recuperar o erro");
+            return new MensagemErroResponse("Erro: " + e.getMessage());
         }
     }
 

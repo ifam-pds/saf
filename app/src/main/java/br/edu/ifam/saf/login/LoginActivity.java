@@ -8,10 +8,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.criarconta.CriarContaActivity;
-import br.edu.ifam.saf.data.LocalRepositoryImpl;
 import br.edu.ifam.saf.view.FieldView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -33,7 +33,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        presenter = new LoginPresenter(this, LocalRepositoryImpl.getInstance());
+        presenter = new LoginPresenter(this, MainApplication.getRepository());
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -69,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     @Override
     public void mostrarMensagem(String message) {
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+        finish();
 
         Snackbar.make(parentLayout, message, Snackbar.LENGTH_SHORT);
     }
