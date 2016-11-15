@@ -9,6 +9,7 @@ import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -44,6 +45,14 @@ public class ItensEndpoint {
         return Response.ok().entity(new ItensResponse(
                 itemTransformer.toDTOList(dao.listarTodos()))
         ).build();
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON_UTF8)
+    @Path("/{item_id}")
+    public Response consultarItem(@PathParam("item_id") Integer itemId) {
+
+        return Response.ok().entity(itemTransformer.toDTO(dao.consultar(itemId))).build();
     }
 
     @POST
