@@ -5,13 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="br.edu.ifam.saf.reserva.ReservaActivity"
+    tools:context="br.edu.ifam.saf.requisitarreserva.ReservaActivity"
     tools:showIn="@layout/activity_reserva">
 
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardUseCompatPadding="true">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="match_parent"
+            android:layout_height="60dp" />
 
         <LinearLayout
             android:id="@+id/form"
@@ -20,37 +25,46 @@
             android:orientation="vertical"
             android:padding="4dp">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/nome_item"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:paddingEnd="8dp"
-                android:paddingStart="8dp"
-                android:paddingTop="8dp">
+                android:layout_marginTop="8dp"
+                android:text="Nome jet ski"
+                android:textSize="18sp" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Nome jet ski"
-                    android:textSize="18sp" />
-            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/marca_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Nome jet ski"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/descricao_item"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Descricao descricao descricao descricaodescricao descricao descricaodescricao descricao descricaodescricao descricao descricaodescricao descricao descricaodescricao descricao descricaodescricao descricao descricao"
+                android:textSize="14sp" />
 
 
             <br.edu.ifam.saf.view.FieldView
+                android:id="@+id/quantidade_item"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 app:hint="Quantidade"
                 app:icon="@drawable/ic_shopping_cart_black_24dp" />
 
-            <br.edu.ifam.saf.view.FieldView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:hint="Tempo"
-                app:icon="@drawable/ic_timer_black_24dp" />
 
             <br.edu.ifam.saf.view.FieldView
+                android:id="@+id/valor_total"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:enabled="false"
                 app:hint="Total"
                 app:icon="@drawable/ic_attach_money_black_24dp" />
 
