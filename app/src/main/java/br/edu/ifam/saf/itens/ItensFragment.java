@@ -19,12 +19,12 @@ import java.util.List;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemDTO;
-import br.edu.ifam.saf.reserva.ReservaActivity;
+import br.edu.ifam.saf.requisitarreserva.ReservaActivity;
 import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ItensFragment extends Fragment implements ItensContract.View, ItensAdapter.ItemAluguelClickListener {
+public class ItensFragment extends Fragment implements ItensContract.View, ItensAdapter.ItemClickListener {
 
     ItensAdapter adapter;
 
@@ -78,6 +78,8 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     @Override
     public void mostrarItem(ItemDTO item) {
         Intent intent = new Intent(getContext(), ReservaActivity.class);
+        intent.putExtra(ReservaActivity.EXTRA_ITEM_ID, item.getId());
+
         Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle();
 //
         startActivity(intent, options);

@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.edu.ifam.saf.R;
@@ -60,7 +59,7 @@ public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHold
         TextView numeroItens;
         @BindView(R.id.data_requisicao)
         TextView dataRequisicao;
-        @BindView(R.id.valor)
+        @BindView(R.id.valor_item_x_quantidade)
         TextView valorTotal;
 
         public ViewHolder(CardView view) {
@@ -75,7 +74,7 @@ public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHold
             nomeUsuario.setText(aluguel.getCliente().getNome());
             numeroItens.setText(String.valueOf(aluguel.getItens().size()));
             dataRequisicao.setText(ApiManager.getFormatter().format(aluguel.getDataHoraInicio()));
-            valorTotal.setText(aluguel.calcularValorTotal().toString());
+            valorTotal.setText(String.valueOf(aluguel.calcularValorTotal()));
         }
 
     }

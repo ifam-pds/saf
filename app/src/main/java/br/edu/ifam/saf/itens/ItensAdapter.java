@@ -19,10 +19,10 @@ import butterknife.ButterKnife;
 public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> {
 
     private List<ItemDTO> dataset;
-    private ItemAluguelClickListener listener;
+    private ItemClickListener listener;
 
 
-    public ItensAdapter(List<ItemDTO> dataset, ItemAluguelClickListener listener) {
+    public ItensAdapter(List<ItemDTO> dataset, ItemClickListener listener) {
         this.dataset = dataset;
         this.listener = listener;
     }
@@ -50,14 +50,14 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
         return dataset.size();
     }
 
-    interface ItemAluguelClickListener {
+    interface ItemClickListener {
         void onClick(ViewHolder view, ItemDTO item);
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final CardView cardView;
 
-        final ItemAluguelClickListener listener;
+        final ItemClickListener listener;
 
         ItemDTO item;
 
@@ -70,7 +70,7 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
         @BindView(R.id.item_image)
         ImageView imagem;
 
-        public ViewHolder(CardView view, ItemAluguelClickListener listener) {
+        public ViewHolder(CardView view, ItemClickListener listener) {
             super(view);
             ButterKnife.bind(this, view);
             this.cardView = view;
