@@ -17,6 +17,7 @@ import java.util.List;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
+import br.edu.ifam.saf.enums.StatusAluguel;
 import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -53,10 +54,10 @@ public class ListarRequisicoesFragment extends Fragment implements ListarRequisi
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.carregarReservas();
+                presenter.carregarReservas(StatusAluguel.RESERVA_PENDENTE);
             }
         });
-        presenter.carregarReservas();
+        presenter.carregarReservas(StatusAluguel.RESERVA_PENDENTE);
 
     }
 

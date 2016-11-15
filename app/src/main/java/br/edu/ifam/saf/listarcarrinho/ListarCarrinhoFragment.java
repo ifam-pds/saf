@@ -3,30 +3,31 @@ package br.edu.ifam.saf.listarcarrinho;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
-import br.edu.ifam.saf.data.LocalRepositoryImpl;
 import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoContract.View {
+public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoContract.View, CarrinhoAdapter.ItemAluguelClickListener {
 
     @BindView(R.id.listarCarrinho)
     RecyclerView rvCarrinho;
-    @BindView(R.id.swipe_refresh_layout)
-    SwipeRefreshLayout refreshLayout;
+
+    @BindView(R.id.broken_cart)
+    ImageView brokenCart;
+
     CarrinhoAdapter adapter;
     ListarCarrinhoContract.Presenter presenter;
 
@@ -44,15 +45,9 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
 
         ButterKnife.bind(this, view);
         rvCarrinho.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new CarrinhoAdapter(new ArrayList<ItemAluguelDTO>());
+        adapter = new CarrinhoAdapter(this);
         rvCarrinho.setAdapter(adapter);
-        presenter = new ListarCarrinhoPresenter(this, ApiManager.getService(), LocalRepositoryImpl.getInstance());
-        refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                presenter.carregarCarrinho();
-            }
-        });
+        presenter = new ListarCarrinhoPresenter(this, ApiManager.getService(), MainApplication.getRepository());
         presenter.carregarCarrinho();
     }
 
@@ -65,25 +60,39 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
     @Override
     public void mostrarCarrinho(List<ItemAluguelDTO> itensCarrinho) {
         adapter.replaceItens(itensCarrinho);
+        checkCarrinho(itensCarrinho.size());
+
+
     }
 
-    @Override
-    public void mostrarLoading() {
-        refreshLayout.setRefreshing(true);
-    }
+    private void checkCarrinho(int itemCount) {
+        if (itemCount > 0) {
+            brokenCart.setVisibility(View.GONE);
+            rvCarrinho.setVisibility(View.VISIBLE);
 
-    @Override
-    public void esconderLoading() {
-        refreshLayout.setRefreshing(false);
-    }
-
-    @Override
-    public void mostrarMensagemDeErro(String mensagem) {
-        mostrarMensagem(mensagem);
+        } else {
+            brokenCart.setVisibility(View.VISIBLE);
+            rvCarrinho.setVisibility(View.GONE);
+        }
     }
 
     @Override
     public void mostrarMensagem(String mensagem) {
         Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onItemClick(View view, ItemAluguelDTO itemAluguelDTO) {
+        //pass
+
+    }
+
+    @Override
+    public void onItemRemove(int position, ItemAluguelDTO itemAluguelDTO) {
+        presenter.removerItem(itemAluguelDTO);
+        adapter.notifyItemRemoved(position);
+        checkCarrinho(adapter.getItemCount());
+
+
     }
 }

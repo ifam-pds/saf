@@ -3,6 +3,7 @@ package br.edu.ifam.saf.listarrequisicoes;
 import java.util.List;
 
 import br.edu.ifam.saf.api.dto.AluguelDTO;
+import br.edu.ifam.saf.enums.StatusAluguel;
 import br.edu.ifam.saf.mvp.BasePresenter;
 import br.edu.ifam.saf.mvp.LoadingView;
 
@@ -15,7 +16,7 @@ public interface ListarRequisicoesContract {
     }
 
     interface Presenter extends BasePresenter {
-        void carregarReservas();
+        void carregarReservas(StatusAluguel statusAluguel);
 
     }
 

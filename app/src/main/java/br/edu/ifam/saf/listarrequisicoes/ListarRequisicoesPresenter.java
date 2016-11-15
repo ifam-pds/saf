@@ -4,6 +4,7 @@ package br.edu.ifam.saf.listarrequisicoes;
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.AlugueisResponse;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
+import br.edu.ifam.saf.enums.StatusAluguel;
 import br.edu.ifam.saf.util.ApiManager;
 import retrofit2.adapter.rxjava.Result;
 import rx.android.schedulers.AndroidSchedulers;
@@ -22,8 +23,8 @@ public class ListarRequisicoesPresenter implements ListarRequisicoesContract.Pre
     }
 
     @Override
-    public void carregarReservas() {
-        service.alugueis().subscribeOn(Schedulers.io())
+    public void carregarReservas(StatusAluguel statusAluguel) {
+        service.alugueis(statusAluguel).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Action1<Result<AlugueisResponse>>() {
                     @Override

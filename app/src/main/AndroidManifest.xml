@@ -22,7 +22,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".reserva.ReservaActivity"
+            android:name=".requisitarreserva.ReservaActivity"
             android:label="@string/title_activity_reserva"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity

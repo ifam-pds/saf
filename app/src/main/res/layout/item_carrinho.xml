@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
     android:orientation="vertical"
     app:contentPadding="8dp">
 
@@ -13,27 +14,22 @@
         android:paddingLeft="8dp"
         android:paddingRight="8dp">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="34dp">
 
-            <TextView
-                android:id="@+id/nome_item"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:gravity="end"
-                android:text="Jet Ski Yamaha"
-                android:textSize="16sp" />
-
-        </LinearLayout>
+        <TextView
+            android:id="@+id/nome_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="end"
+            android:text="Jet Ski Yamaha"
+            android:textSize="16sp" />
 
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="7dp"
-            android:background="#eee"/>
+            android:background="#eee" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -43,7 +39,6 @@
                 android:id="@+id/quantidade_item"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
                 android:text="1"
                 android:textSize="24sp" />
 
@@ -51,46 +46,33 @@
                 android:id="@+id/itens"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignBaseline="@+id/numero_itens"
-                android:layout_alignBottom="@+id/numero_itens"
-                android:layout_marginLeft="6dp"
-                android:layout_toEndOf="@+id/numero_itens"
+                android:layout_marginStart="6dp"
                 android:text="itens" />
 
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/valor_item_x_quantidade"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="R$ 50,00" />
 
-            <TextView
-                android:id="@+id/valor_item_x_quantidade"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="R$ 50,00" />
-
-        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="7dp"
-            android:background="#eee"/>
+            android:background="#eee" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
+
+        <Button
+            android:id="@+id/botao_remover"
+            style="@android:style/Widget.Material.Button.Borderless.Small"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:gravity="right">
-
-            <Button
-                android:id="@+id/remover"
-                style="@android:style/Widget.Material.Button.Borderless.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Remover"/>
-
-        </LinearLayout>
+            android:layout_gravity="end"
+            android:text="Remover" />
 
 
     </LinearLayout>

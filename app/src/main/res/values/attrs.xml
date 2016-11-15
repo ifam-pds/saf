@@ -4,6 +4,7 @@
         <attr name="hint" format="string" localization="suggested" />
         <attr name="icon" format="reference" />
         <attr name="border" format="boolean" />
+        <attr name="enabled" format="boolean" />
         <attr name="inputType" format="integer">
             <flag name="text" value="0x00000001" />
             <!--TYPE_TEXT_VARIATION_PASSWORD-->

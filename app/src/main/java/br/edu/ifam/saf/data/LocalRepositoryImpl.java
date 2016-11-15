@@ -51,6 +51,11 @@ public final class LocalRepositoryImpl implements LocalRepository {
     }
 
     @Override
+    public void removerAluguelItem(ItemAluguelDTO itemAluguelDTO) {
+        carrinho.removerItem(itemAluguelDTO);
+    }
+
+    @Override
     public void limpaCarrinho() {
         carrinho = new AluguelDTO();
     }

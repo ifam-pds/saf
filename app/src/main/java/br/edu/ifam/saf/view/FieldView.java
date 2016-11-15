@@ -3,6 +3,8 @@ package br.edu.ifam.saf.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,6 +29,8 @@ public class FieldView extends LinearLayout {
         int inputType = a.getInteger(R.styleable.FieldView_inputType, EditorInfo.TYPE_TEXT_VARIATION_NORMAL);
         Drawable iconDrawable = a.getDrawable(R.styleable.FieldView_icon);
         Boolean border = a.getBoolean(R.styleable.FieldView_border, true);
+
+        boolean enabled = a.getBoolean(R.styleable.FieldView_enabled, true);
 
         a.recycle();
 
@@ -66,6 +70,7 @@ public class FieldView extends LinearLayout {
 
         editText.setHint(hintText);
 
+        editText.setEnabled(enabled);
 
     }
 
@@ -73,12 +78,35 @@ public class FieldView extends LinearLayout {
         this(context, null);
     }
 
-    public void setText(String text) {
-        editText.setText(text);
+    public void addTextChangeListener(TextWatcherAdapter textWatcherAdapter) {
+        editText.addTextChangedListener(textWatcherAdapter);
     }
 
     public String getText() {
         return editText.getText().toString();
+    }
+
+    public void setText(String text) {
+        editText.setText(text);
+    }
+
+    public static class TextWatcherAdapter implements TextWatcher {
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+
+        }
     }
 
 }

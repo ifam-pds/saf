@@ -9,6 +9,8 @@ public interface LocalRepository {
 
     void adicionarAluguelItem(ItemAluguelDTO itemAluguelDTO);
 
+    void removerAluguelItem(ItemAluguelDTO itemAluguelDTO);
+
     AluguelDTO getCarrinho();
 
     void limpaCarrinho();
