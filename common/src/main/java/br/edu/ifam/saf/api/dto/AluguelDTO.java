@@ -79,11 +79,15 @@ public class AluguelDTO {
         this.dataHoraDevolucao = dataHoraDevolucao;
     }
 
-    public void adicionarItem(ItemAluguelDTO itemAluguel) {
+    public void adicionarItem(ItemAluguelDTO itemAluguelDTO) {
 
-        if (!itens.contains(itemAluguel)) {
-            itens.add(itemAluguel);
+        if (!itens.contains(itemAluguelDTO)) {
+            itens.add(itemAluguelDTO);
         }
+    }
+
+    public void removerItem(ItemAluguelDTO itemAluguelDTO) {
+        itens.remove(itemAluguelDTO);
     }
 
 
