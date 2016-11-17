@@ -1,6 +1,7 @@
 package br.edu.ifam.saf.api.endpoint;
 
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.Stateless;
@@ -16,11 +17,9 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import br.edu.ifam.saf.api.data.AlugueisResponse;
-import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.data.StatusData;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.AluguelTransformer;
-import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.api.dto.ItemTransformer;
 import br.edu.ifam.saf.api.interceptor.RequerLogin;
 import br.edu.ifam.saf.api.interceptor.UsuarioAutenticado;
@@ -66,12 +65,12 @@ public class AluguelEndpoint {
         List<AluguelDTO> lista;
         if (statusAluguel != null) {
             lista = aluguelTransformer.toDTOList(aluguelDAO.filtrarPorStatus(statusAluguel));
-        }else{
+        } else {
             lista = aluguelTransformer.toDTOList(aluguelDAO.listarTodos());
         }
-            return Response.ok().entity(
-                    AlugueisResponse.from(lista)
-            ).build();
+        return Response.ok().entity(
+                AlugueisResponse.from(lista)
+        ).build();
 
     }
 
@@ -91,11 +90,14 @@ public class AluguelEndpoint {
     @RequerLogin({Perfil.ADMINISTRADOR, Perfil.FUNCIONARIO, Perfil.CLIENTE})
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @Path("/")
-    public Response cadastrarAluguel(AluguelDTO aluguelDTO){
-        if(aluguelDTO.getItens() == null || aluguelDTO.getItens().isEmpty()){
+    public Response cadastrarAluguel(AluguelDTO aluguelDTO) {
+        if (aluguelDTO.getItens() == null || aluguelDTO.getItens().isEmpty()) {
             throw new ValidacaoError("Não há itens no carrinho! ERRO!");
         }
+
         final Aluguel aluguel = aluguelTransformer.toEntity(aluguelDTO);
+        aluguel.setDataHoraInicio(new Date());
+        aluguel.setDataHoraDevolucao(new Date());
         aluguel.setStatus(StatusAluguel.RESERVA_PENDENTE);
         aluguel.setId(null);
         aluguel.setCliente(usuarioDAO.consultar(usuarioLogado.getId()));
