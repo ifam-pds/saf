@@ -23,8 +23,7 @@
         </activity>
         <activity
             android:name=".criaritem.CriarItemActivity"
-            android:label="Criar Item"
-            android:theme="@style/AppTheme.NoActionBar" />
+            android:label="Criar Item" />
         <activity
             android:name=".requisitarreserva.ReservaActivity"
             android:label="@string/title_activity_reserva"
