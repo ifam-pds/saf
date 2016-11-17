@@ -10,7 +10,7 @@ import java.util.List;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
-import br.edu.ifam.saf.util.ApiManager;
+import br.edu.ifam.saf.util.DateTimeFormatter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -73,7 +73,7 @@ public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHold
             statusAluguel.setText(String.valueOf(aluguel.getStatus()));
             nomeUsuario.setText(aluguel.getCliente().getNome());
             numeroItens.setText(String.valueOf(aluguel.getItens().size()));
-            dataRequisicao.setText(ApiManager.getFormatter().format(aluguel.getDataHoraInicio()));
+            dataRequisicao.setText(DateTimeFormatter.format(aluguel.getDataHoraInicio()));
             valorTotal.setText(String.valueOf(aluguel.calcularValorTotal()));
         }
 

@@ -5,10 +5,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.text.ParseException;
 import java.util.Date;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.util.DateFormatter;
 import br.edu.ifam.saf.util.ApiManager;
 import br.edu.ifam.saf.view.FieldView;
 import butterknife.BindView;
@@ -63,12 +65,21 @@ public class CriarContaActivity extends AppCompatActivity implements CriarContaC
 
 
     private UsuarioDTO getUsuario() {
+
+        Date nascimento;
+        try {
+            nascimento = DateFormatter.parse(dataNascimento.getText());
+        } catch (ParseException e) {
+            nascimento = null;
+        }
+
+
         return new UsuarioDTO.Builder()
                 .nome(nome.getText())
                 .cpf(cpf.getText())
                 .endereco(endereco.getText())
                 .telefone(telefone.getText())
-                .dataNascimento(new Date())
+                .dataNascimento(nascimento)
                 .numeroHabilitacao(habilitacao.getText())
                 .email(email.getText())
                 .senha(senha.getText())

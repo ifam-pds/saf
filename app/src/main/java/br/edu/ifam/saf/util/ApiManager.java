@@ -32,12 +32,11 @@ public final class ApiManager {
 
 
     private static final Gson GSON = new GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
             .registerTypeAdapter(Date.class, new DateTypeDeserializer())
             .create();
 
     private static SAFService safService;
-
-    private static SimpleDateFormat formatter;
 
     private ApiManager() {
 
@@ -75,14 +74,6 @@ public final class ApiManager {
 
     }
 
-    public static SimpleDateFormat getFormatter() {
-
-        if (formatter == null) {
-            formatter = new SimpleDateFormat("dd/MM HH:mm");
-        }
-
-        return formatter;
-    }
 
     public static SAFService getService() {
         if (safService == null) {
@@ -125,7 +116,7 @@ public final class ApiManager {
             for (String format : DATE_FORMATS) {
                 try {
                     return new SimpleDateFormat(format, Locale.US).parse(jsonElement.getAsString());
-                } catch (ParseException e) {
+                } catch (ParseException ignored) {
                 }
             }
             throw new JsonParseException("Unparseable date: \"" + jsonElement.getAsString() + '"');

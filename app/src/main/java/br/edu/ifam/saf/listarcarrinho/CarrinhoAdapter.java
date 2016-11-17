@@ -12,6 +12,7 @@ import java.util.List;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
+import br.edu.ifam.saf.util.DinheiroFormatter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -83,7 +84,8 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
 
             nomeItem.setText(itemAluguelDTO.getItem().getNome());
             quantidadeItem.setText(String.valueOf(itemAluguelDTO.getQuantidade()));
-            valorItemXQuantidade.setText(String.valueOf(itemAluguelDTO.getValorXQuantidade()));
+            valorItemXQuantidade.setText(DinheiroFormatter.format(itemAluguelDTO.getValorXQuantidade()));
+
         }
 
         @Override
