@@ -33,6 +33,7 @@ public class ListarCarrinhoPresenter implements ListarCarrinhoContract.Presenter
                         view.esconderLoading();
                         view.mostrarMensagem("Pedido enviado com sucesso");
                         repository.limpaCarrinho();
+                        view.mostrarCarrinho(repository.getCarrinho().getItens());
                     }
 
                     @Override
