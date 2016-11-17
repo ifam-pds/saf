@@ -2,7 +2,6 @@ package br.edu.ifam.saf.requisitarreserva;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
-import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.util.ApiManager;
 import br.edu.ifam.saf.view.FieldView;
 import butterknife.BindView;
@@ -71,12 +69,7 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ItemAluguelDTO itemAluguelDTO = new ItemAluguelDTO();
-                itemAluguelDTO.setQuantidade(Integer.valueOf(quantidadeItem.getText()));
-                presenter.adicionarItem(itemAluguelDTO);
-
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                presenter.salvarReserva(Integer.valueOf(quantidadeItem.getText()));
             }
         });
 
@@ -107,8 +100,6 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
 
             }
         });
-        quantidadeItem.setText("1");
-
     }
 
 
@@ -124,15 +115,19 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
     }
 
     @Override
-    public void mostrarDetalhesItem(ItemDTO item) {
+    public void mostrarDetalhesItem(ItemAluguelDTO itemAluguelDTO) {
         esconderLoading();
 
         fab.setEnabled(true);
         formContainer.setVisibility(View.VISIBLE);
 
-        nomeItem.setText(item.getNome());
-        marcaItem.setText(item.getMarca() + "(" + item.getModelo() + ")");
-        descricaoItem.setText(item.getDescricao());
+        nomeItem.setText(itemAluguelDTO.getItem().getNome());
+        marcaItem.setText(itemAluguelDTO.getItem().getMarca() + "(" + itemAluguelDTO.getItem().getModelo() + ")");
+        descricaoItem.setText(itemAluguelDTO.getItem().getDescricao());
+        quantidadeItem.setText(String.valueOf(itemAluguelDTO.getQuantidade()));
+
+        atualizarTotal(itemAluguelDTO.getValorXQuantidade());
+
 
     }
 

@@ -47,7 +47,9 @@ public final class LocalRepositoryImpl implements LocalRepository {
 
     @Override
     public void adicionarAluguelItem(ItemAluguelDTO itemAluguelDTO) {
-        carrinho.adicionarItem(itemAluguelDTO);
+        if (!carrinho.getItens().contains(itemAluguelDTO)) {
+            carrinho.adicionarItem(itemAluguelDTO);
+        }
     }
 
     @Override

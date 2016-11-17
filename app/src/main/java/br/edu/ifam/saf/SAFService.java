@@ -24,7 +24,7 @@ public interface SAFService {
     Observable<Result<Void>> registrarItem(@Body ItemDTO item);
 
     @GET("itens/{item_id}")
-    Observable<Result<ItemDTO>> consultarItem(@Path("item_id") Long itemId);
+    Observable<Result<ItemDTO>> consultarItem(@Path("item_id") Integer itemId);
 
 
     @POST("usuarios")

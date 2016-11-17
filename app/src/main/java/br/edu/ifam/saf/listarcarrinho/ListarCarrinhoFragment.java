@@ -1,5 +1,6 @@
 package br.edu.ifam.saf.listarcarrinho;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,6 +17,7 @@ import java.util.List;
 import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
+import br.edu.ifam.saf.requisitarreserva.ReservaActivity;
 import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,8 +63,6 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
     public void mostrarCarrinho(List<ItemAluguelDTO> itensCarrinho) {
         adapter.replaceItens(itensCarrinho);
         checkCarrinho(itensCarrinho.size());
-
-
     }
 
     private void checkCarrinho(int itemCount) {
@@ -83,8 +83,9 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
 
     @Override
     public void onItemClick(View view, ItemAluguelDTO itemAluguelDTO) {
-        //pass
-
+        Intent intent = new Intent(getContext(), ReservaActivity.class);
+        intent.putExtra(ReservaActivity.EXTRA_ITEM_ID, itemAluguelDTO.getItem().getId());
+        startActivity(intent);
     }
 
     @Override
@@ -93,6 +94,11 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
         adapter.notifyItemRemoved(position);
         checkCarrinho(adapter.getItemCount());
 
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        presenter.carregarCarrinho();
     }
 }

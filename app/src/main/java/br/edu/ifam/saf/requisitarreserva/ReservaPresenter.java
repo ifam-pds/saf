@@ -18,7 +18,7 @@ public class ReservaPresenter implements ReservaContract.Presenter {
     private SAFService service;
     private LocalRepository repository;
 
-    private ItemDTO item = null;
+    private ItemAluguelDTO itemAluguel;
 
     public ReservaPresenter(ReservaContract.View view, SAFService service, LocalRepository repository) {
         this.view = view;
@@ -26,8 +26,20 @@ public class ReservaPresenter implements ReservaContract.Presenter {
         this.repository = repository;
     }
 
+
     @Override
-    public void carregarItem(long itemId) {
+    public void carregarItem(int itemId) {
+
+        // verifica se o item já existe no carrinho
+        for (ItemAluguelDTO itemAluguelDTO : repository.getCarrinho().getItens()) {
+            if (itemAluguelDTO.getItem().getId().equals(itemId)) {
+                itemAluguel = itemAluguelDTO;
+                view.mostrarDetalhesItem(itemAluguel);
+                return;
+            }
+        }
+
+
         service.consultarItem(itemId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -40,9 +52,13 @@ public class ReservaPresenter implements ReservaContract.Presenter {
                                 result.error().printStackTrace();
                                 view.mostrarMensagemDeErro("Erro de conexão");
                             } else if (result.response().isSuccessful()) {
-                                item = result.response().body();
-                                view.mostrarDetalhesItem(item);
-                                onQuantidadeChanged(1);
+
+                                ItemDTO item = result.response().body();
+                                itemAluguel = new ItemAluguelDTO();
+                                itemAluguel.setQuantidade(1);
+                                itemAluguel.setItem(item);
+
+                                view.mostrarDetalhesItem(itemAluguel);
                             } else {
                                 MensagemErroResponse mensagem = ApiManager.parseErro(result.response());
                                 view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
@@ -56,16 +72,18 @@ public class ReservaPresenter implements ReservaContract.Presenter {
 
     @Override
     public void onQuantidadeChanged(int quantidade) {
-        if (item != null) {
-            view.atualizarTotal(item.getPrecoPorHora() * quantidade);
+        if (itemAluguel != null) {
+            view.atualizarTotal(itemAluguel.getItem().getPrecoPorHora() * quantidade);
         }
 
     }
 
     @Override
-    public void adicionarItem(ItemAluguelDTO itemAluguel) {
-        itemAluguel.setItem(item);
+    public void salvarReserva(int quantidade) {
+
+        itemAluguel.setQuantidade(quantidade);
         repository.adicionarAluguelItem(itemAluguel);
+
         if (view != null) {
             view.fechar();
         }

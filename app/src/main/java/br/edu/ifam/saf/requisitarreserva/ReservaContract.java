@@ -1,14 +1,13 @@
 package br.edu.ifam.saf.requisitarreserva;
 
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
-import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.mvp.BasePresenter;
 import br.edu.ifam.saf.mvp.LoadingView;
 
 public class ReservaContract {
 
     interface View extends LoadingView {
-        void mostrarDetalhesItem(ItemDTO item);
+        void mostrarDetalhesItem(ItemAluguelDTO item);
 
         void fechar();
 
@@ -16,11 +15,12 @@ public class ReservaContract {
     }
 
     interface Presenter extends BasePresenter {
-        void carregarItem(long itemId);
+
+        void carregarItem(int itemId);
 
         void onQuantidadeChanged(int quantidade);
 
-        void adicionarItem(ItemAluguelDTO itemAluguel);
+        void salvarReserva(int quantidade);
 
     }
 
