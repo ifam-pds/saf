@@ -59,7 +59,7 @@ public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHold
         TextView numeroItens;
         @BindView(R.id.data_requisicao)
         TextView dataRequisicao;
-        @BindView(R.id.valor_item_x_quantidade)
+        @BindView(R.id.valor_total)
         TextView valorTotal;
 
         public ViewHolder(CardView view) {
@@ -70,7 +70,7 @@ public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHold
 
         public void bind(AluguelDTO aluguel) {
             this.aluguel = aluguel;
-            statusAluguel.setText(String.valueOf(aluguel.getStatus()));
+            statusAluguel.setText(aluguel.getStatus().getDescricao());
             nomeUsuario.setText(aluguel.getCliente().getNome());
             numeroItens.setText(String.valueOf(aluguel.getItens().size()));
             dataRequisicao.setText(DateTimeFormatter.format(aluguel.getDataHoraInicio()));
