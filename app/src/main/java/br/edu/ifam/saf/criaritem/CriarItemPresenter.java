@@ -3,10 +3,8 @@ package br.edu.ifam.saf.criaritem;
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.dto.ItemDTO;
-import br.edu.ifam.saf.util.ApiManager;
-import retrofit2.adapter.rxjava.Result;
+import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class CriarItemPresenter implements CriarItemContract.Presenter {
@@ -15,7 +13,7 @@ public class CriarItemPresenter implements CriarItemContract.Presenter {
 
     private SAFService service;
 
-    public CriarItemPresenter(CriarItemContract.View view, SAFService service){
+    public CriarItemPresenter(CriarItemContract.View view, SAFService service) {
 
         this.service = service;
         this.view = view;
@@ -27,15 +25,20 @@ public class CriarItemPresenter implements CriarItemContract.Presenter {
         service.registrarItem(itemDTO)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Result<Void>>() {
+                .subscribe(new ApiCallback<Void>() {
                     @Override
-                    public void call(Result<Void> result) {
-                        if (!result.response().isSuccessful()){
-                            MensagemErroResponse mensagem = ApiManager.parseErro(result.response());
-                            view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
-                        } else {
-                            view.mostrarMensagemItemCriado();
-                        }
+                    public void onSuccess(Void entity) {
+                        view.mostrarMensagemItemCriado();
+                    }
+
+                    @Override
+                    public void onError(MensagemErroResponse mensagem) {
+                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                    }
+
+                    @Override
+                    public boolean canExecute() {
+                        return view != null;
                     }
                 });
     }

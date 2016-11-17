@@ -3,10 +3,8 @@ package br.edu.ifam.saf.criarconta;
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
-import br.edu.ifam.saf.util.ApiManager;
-import retrofit2.adapter.rxjava.Result;
+import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 class CriarContaPresenter implements CriarContaContract.Presenter {
@@ -31,19 +29,25 @@ class CriarContaPresenter implements CriarContaContract.Presenter {
         service.registrarUsuario(usuarioDTO)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Result<Void>>() {
+                .subscribe(new ApiCallback<Void>() {
+
                     @Override
-                    public void call(Result<Void> result) {
-                        if (!result.response().isSuccessful()) {
-                            MensagemErroResponse mensagem = ApiManager.parseErro(result.response());
-                            view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
-                        } else {
-                            view.mostrarMensagemContaCriada();
-                        }
+                    public void onSuccess(Void entity) {
+                        view.mostrarMensagemContaCriada();
+                    }
+
+                    @Override
+                    public void onError(MensagemErroResponse mensagem) {
+                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                    }
+
+                    @Override
+                    public boolean canExecute() {
+                        return view != null;
                     }
                 });
-
     }
+
 
     @Override
     public void destroy() {

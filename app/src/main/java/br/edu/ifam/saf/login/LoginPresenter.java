@@ -5,10 +5,9 @@ import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.data.LocalRepository;
+import br.edu.ifam.saf.util.ApiCallback;
 import br.edu.ifam.saf.util.ApiManager;
-import retrofit2.adapter.rxjava.Result;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class LoginPresenter implements LoginContract.Presenter {
@@ -27,22 +26,23 @@ public class LoginPresenter implements LoginContract.Presenter {
         ApiManager.getService().login(loginData)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Result<UsuarioDTO>>() {
+                .subscribe(new ApiCallback<UsuarioDTO>() {
                     @Override
-                    public void call(Result<UsuarioDTO> result) {
-                        if (view != null) {
-                            if (result.isError()) {
-                                // IOException
-                                view.mostrarMensagemDeErro("Erro de conexão");
-                            } else if (result.response().isSuccessful()) {
-                                UsuarioDTO usuario = result.response().body();
-                                repository.salvarInfoUsuario(usuario);
-                                view.mostrarMensagem(String.format("Bem vindo %s", usuario.getNome()));
-                            } else {
-                                MensagemErroResponse mensagem = ApiManager.parseErro(result.response());
-                                view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
-                            }
-                        }
+                    public void onSuccess(UsuarioDTO usuario) {
+                        view.esconderLoading();
+                        repository.salvarInfoUsuario(usuario);
+                        view.mostrarMensagem(String.format("Bem vindo %s", usuario.getNome()));
+                    }
+
+                    @Override
+                    public void onError(MensagemErroResponse mensagem) {
+                        view.esconderLoading();
+                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                    }
+
+                    @Override
+                    public boolean canExecute() {
+                        return view != null;
                     }
                 })
         ;

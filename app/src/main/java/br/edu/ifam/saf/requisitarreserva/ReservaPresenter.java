@@ -6,10 +6,8 @@ import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.data.LocalRepository;
-import br.edu.ifam.saf.util.ApiManager;
-import retrofit2.adapter.rxjava.Result;
+import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 public class ReservaPresenter implements ReservaContract.Presenter {
@@ -43,28 +41,27 @@ public class ReservaPresenter implements ReservaContract.Presenter {
         service.consultarItem(itemId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Result<ItemDTO>>() {
+                .subscribe(new ApiCallback<ItemDTO>() {
                     @Override
-                    public void call(Result<ItemDTO> result) {
-                        if (view != null) {
-                            view.esconderLoading();
-                            if (result.isError()) {
-                                result.error().printStackTrace();
-                                view.mostrarMensagemDeErro("Erro de conexão");
-                            } else if (result.response().isSuccessful()) {
+                    public void onSuccess(ItemDTO item) {
+                        view.esconderLoading();
+                        itemAluguel = new ItemAluguelDTO();
+                        itemAluguel.setQuantidade(1);
+                        itemAluguel.setItem(item);
 
-                                ItemDTO item = result.response().body();
-                                itemAluguel = new ItemAluguelDTO();
-                                itemAluguel.setQuantidade(1);
-                                itemAluguel.setItem(item);
+                        view.mostrarDetalhesItem(itemAluguel);
 
-                                view.mostrarDetalhesItem(itemAluguel);
-                            } else {
-                                MensagemErroResponse mensagem = ApiManager.parseErro(result.response());
-                                view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
-                            }
-                        }
+                    }
 
+                    @Override
+                    public void onError(MensagemErroResponse mensagem) {
+                        view.esconderLoading();
+                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                    }
+
+                    @Override
+                    public boolean canExecute() {
+                        return view != null;
                     }
                 });
 

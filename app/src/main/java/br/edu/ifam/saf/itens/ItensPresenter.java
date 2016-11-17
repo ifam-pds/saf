@@ -2,10 +2,10 @@ package br.edu.ifam.saf.itens;
 
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.ItensResponse;
+import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.dto.ItemDTO;
-import retrofit2.adapter.rxjava.Result;
+import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 
@@ -23,17 +23,22 @@ public class ItensPresenter implements ItensContract.Presenter {
         api.listarItems()
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Action1<Result<ItensResponse>>() {
+                .subscribe(new ApiCallback<ItensResponse>() {
                     @Override
-                    public void call(Result<ItensResponse> response) {
-                        if (view != null) {
-                            view.esconderLoading();
-                            if (!response.isError()) {
-                                view.mostrarItens(response.response().body().getItems());
-                            }
+                    public void onSuccess(ItensResponse response) {
+                        view.esconderLoading();
+                        view.mostrarItens(response.getItems());
+                    }
 
-                        }
+                    @Override
+                    public void onError(MensagemErroResponse mensagem) {
+                        view.esconderLoading();
+                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                    }
 
+                    @Override
+                    public boolean canExecute() {
+                        return view != null;
                     }
                 });
 
