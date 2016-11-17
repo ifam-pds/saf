@@ -12,7 +12,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
 
+import java.util.Iterator;
+
+import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.configuracoes.SettingsActivity;
 import br.edu.ifam.saf.criaritem.CriarItemActivity;
 import br.edu.ifam.saf.itens.ItensFragment;
@@ -20,6 +25,7 @@ import br.edu.ifam.saf.listarcarrinho.ListarCarrinhoFragment;
 import br.edu.ifam.saf.listarrequisicoes.ListarRequisicoesFragment;
 import br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment;
 import br.edu.ifam.saf.login.LoginActivity;
+import br.edu.ifam.saf.util.PermissaoUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -32,10 +38,11 @@ public class MainActivity extends AppCompatActivity
 
     @BindView(R.id.toolbar)
     Toolbar toolbar;
-
     @BindView(R.id.nav_view)
     NavigationView navigationView;
-
+    //drawer header
+    TextView headerTitulo;
+    TextView headerEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +58,52 @@ public class MainActivity extends AppCompatActivity
 
         navigationView.setNavigationItemSelectedListener(this);
 
+        refreshPermissoes();
         onNavigationItemSelected(navigationView.getMenu().getItem(1));
 
+        View header = navigationView.getHeaderView(0);
+        headerEmail = (TextView) header.findViewById(R.id.header_email);
+        headerTitulo = (TextView) header.findViewById(R.id.header_titulo);
+
+    }
+
+    private void refreshPermissoes() {
+        UsuarioDTO usuarioAtual = MainApplication.getRepository().getInfoUsuario();
+
+        for (MenuItem item : inMenu(navigationView.getMenu())) {
+            if (!PermissaoUtil.temPermissaoMenu(item, usuarioAtual)) {
+                item.setVisible(false);
+            } else if (item.hasSubMenu()) {
+                for (MenuItem subItem : inMenu(item.getSubMenu())) {
+                    if (!PermissaoUtil.temPermissaoMenu(subItem, usuarioAtual)) {
+                        subItem.setVisible(false);
+                    }
+                }
+            }
+        }
+
+    }
+
+    private static Iterable<MenuItem> inMenu(final Menu menu) {
+
+        return new Iterable<MenuItem>() {
+            private int currIndex = 0;
+
+            @Override
+            public Iterator<MenuItem> iterator() {
+                return new Iterator<MenuItem>() {
+                    @Override
+                    public boolean hasNext() {
+                        return currIndex < menu.size();
+                    }
+
+                    @Override
+                    public MenuItem next() {
+                        return menu.getItem(currIndex++);
+                    }
+                };
+            }
+        };
     }
 
     @Override
@@ -61,6 +112,16 @@ public class MainActivity extends AppCompatActivity
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UsuarioDTO infoUsuario = MainApplication.getRepository().getInfoUsuario();
+        if (infoUsuario != null) {
+            headerTitulo.setText(infoUsuario.getNome());
+            headerEmail.setText(infoUsuario.getEmail());
         }
     }
 
