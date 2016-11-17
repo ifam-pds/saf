@@ -83,7 +83,8 @@ public class AluguelEndpoint {
         final Aluguel aluguel = aluguelDAO.consultar(id);
         aluguel.setStatus(statusData.getStatus());
 
-        return Response.accepted(aluguelDAO.atualizar(aluguel)).build();
+        aluguelDAO.atualizar(aluguel);
+        return Response.accepted().build();
     }
 
     @POST
