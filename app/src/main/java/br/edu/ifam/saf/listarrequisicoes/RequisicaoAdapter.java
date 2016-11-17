@@ -11,14 +11,15 @@ import java.util.List;
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.util.DateTimeFormatter;
+import br.edu.ifam.saf.util.DinheiroFormatter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHolder> {
+public class RequisicaoAdapter extends RecyclerView.Adapter<RequisicaoAdapter.ViewHolder> {
 
     private List<AluguelDTO> dataset;
 
-    public AluguelAdapter(List<AluguelDTO> dataset) {
+    public RequisicaoAdapter(List<AluguelDTO> dataset) {
         this.dataset = dataset;
     }
 
@@ -72,9 +73,10 @@ public class AluguelAdapter extends RecyclerView.Adapter<AluguelAdapter.ViewHold
             this.aluguel = aluguel;
             statusAluguel.setText(aluguel.getStatus().getDescricao());
             nomeUsuario.setText(aluguel.getCliente().getNome());
-            numeroItens.setText(String.valueOf(aluguel.getItens().size()));
+            numeroItens.setText(String.valueOf(aluguel.calcularNumeroTotalDeItens()));
             dataRequisicao.setText(DateTimeFormatter.format(aluguel.getDataHoraInicio()));
-            valorTotal.setText(String.valueOf(aluguel.calcularValorTotal()));
+            valorTotal.setText(DinheiroFormatter.format(aluguel.calcularValorTotal()));
+
         }
 
     }

@@ -53,6 +53,9 @@ public class AluguelDTO {
 
     public Double calcularValorTotal() {
         double total = 0.0;
+        if (dataHoraDevolucao == null || dataHoraInicio == null) {
+            return 0.0;
+        }
         long duracaoEmMinutos = (dataHoraDevolucao.getTime() - dataHoraInicio.getTime()) / 1000 / 60;
 
         for (ItemAluguelDTO itemAluguel : itens) {
@@ -60,6 +63,14 @@ public class AluguelDTO {
         }
         return total;
 
+    }
+
+    public int calcularNumeroTotalDeItens() {
+        int totalItens = 0;
+        for (ItemAluguelDTO item : itens) {
+            totalItens += item.getQuantidade();
+        }
+        return totalItens;
 
     }
 

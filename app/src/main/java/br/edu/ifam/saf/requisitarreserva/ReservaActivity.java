@@ -15,6 +15,7 @@ import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.util.ApiManager;
+import br.edu.ifam.saf.util.DinheiroFormatter;
 import br.edu.ifam.saf.view.FieldView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -138,7 +139,7 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
 
     @Override
     public void atualizarTotal(double valor) {
-        valorTotal.setText(String.valueOf(valor));
+        valorTotal.setText(String.format("%s/h", DinheiroFormatter.format(valor)));
     }
 
     @Override

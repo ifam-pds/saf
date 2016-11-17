@@ -28,7 +28,7 @@ public class ListarRequisicoesFragment extends Fragment implements ListarRequisi
     RecyclerView rvRequisicoes;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout refreshLayout;
-    AluguelAdapter adapter;
+    RequisicaoAdapter adapter;
     ListarRequisicoesContract.Presenter presenter;
 
     public ListarRequisicoesFragment() {
@@ -48,7 +48,7 @@ public class ListarRequisicoesFragment extends Fragment implements ListarRequisi
         ButterKnife.bind(this, view);
         rvRequisicoes.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new AluguelAdapter(new ArrayList<AluguelDTO>());
+        adapter = new RequisicaoAdapter(new ArrayList<AluguelDTO>());
         rvRequisicoes.setAdapter(adapter);
         presenter = new ListarRequisicoesPresenter(this, ApiManager.getService());
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
