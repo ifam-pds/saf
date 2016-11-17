@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
     android:orientation="vertical"
     app:contentPadding="8dp">
 
@@ -42,7 +43,7 @@
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="7dp"
-            android:background="#eee"/>
+            android:background="#eee" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -65,31 +66,31 @@
         </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/valor_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="R$ 245,00" />
+            <TextView
+                android:id="@+id/valor_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="R$ 245,00" />
 
-        <TextView
-            android:id="@+id/data_requisicao"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="end"
-            android:text="23/09 12:00:00" />
+            <TextView
+                android:id="@+id/data_requisicao"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="end"
+                android:text="23/09 12:00:00" />
 
-    </LinearLayout>
+        </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="7dp"
-            android:background="#eee"/>
+            android:background="#eee" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -101,14 +102,14 @@
                 style="@android:style/Widget.Material.Button.Borderless.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Aprovar"/>
+                android:text="Aprovar" />
 
             <Button
                 android:id="@+id/reprovar"
                 style="@android:style/Widget.Material.Button.Borderless.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Reprovar"/>
+                android:text="Reprovar" />
 
         </LinearLayout>
 
