@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import br.edu.ifam.saf.configuracoes.SettingsActivity;
+import br.edu.ifam.saf.criaritem.CriarItemActivity;
 import br.edu.ifam.saf.itens.ItensFragment;
 import br.edu.ifam.saf.listarcarrinho.ListarCarrinhoFragment;
 import br.edu.ifam.saf.listarrequisicoes.ListarRequisicoesFragment;
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity
             }
             case R.id.action_login:
                 startActivity(new Intent(this, LoginActivity.class));
+                return true;
+            case R.id.action_novo_item:
+                startActivity(new Intent(this, CriarItemActivity.class));
                 return true;
         }
 

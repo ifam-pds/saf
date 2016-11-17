@@ -12,6 +12,9 @@ public class CategoriaTransformer implements DTOTransformer<Categoria, Categoria
 
     @Override
     public Categoria toEntity(CategoriaDTO dto) {
+        if (dto == null) {
+            return null;
+        }
         Categoria entity = new Categoria();
         entity.setId(dto.getId());
         entity.setNome(dto.getNome());
@@ -20,6 +23,9 @@ public class CategoriaTransformer implements DTOTransformer<Categoria, Categoria
 
     @Override
     public CategoriaDTO toDTO(Categoria entity) {
+        if (entity == null) {
+            return null;
+        }
         CategoriaDTO dto = new CategoriaDTO();
         dto.setId(entity.getId());
         dto.setNome(entity.getNome());

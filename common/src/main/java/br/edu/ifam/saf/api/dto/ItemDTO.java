@@ -9,6 +9,9 @@ public class ItemDTO {
     private String modelo;
     private CategoriaDTO categoria;
 
+    public ItemDTO() {
+    }
+
     public ItemDTO(Integer id, String nome, Double precoPorHora, String descricao, String marca, String modelo, CategoriaDTO categoria) {
         this.id = id;
         this.nome = nome;
@@ -99,28 +102,28 @@ public class ItemDTO {
             return this;
         }
 
-        public Builder descricao(String descricao){
+        public Builder descricao(String descricao) {
             this.descricao = descricao;
             return this;
         }
 
-        public Builder marca(String marca){
+        public Builder marca(String marca) {
             this.marca = marca;
             return this;
         }
 
-        public Builder modelo(String modelo){
+        public Builder modelo(String modelo) {
             this.modelo = modelo;
             return this;
         }
 
-        public Builder categoria(CategoriaDTO categoria){
+        public Builder categoria(CategoriaDTO categoria) {
             this.categoria = categoria;
             return this;
         }
 
-        public ItemDTO build(){
-            return new ItemDTO(id,nome,precoPorHora,descricao,marca,modelo,categoria);
+        public ItemDTO build() {
+            return new ItemDTO(id, nome, precoPorHora, descricao, marca, modelo, categoria);
         }
     }
 

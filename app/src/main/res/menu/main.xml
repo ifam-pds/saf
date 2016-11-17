@@ -11,4 +11,9 @@
         android:orderInCategory="101"
         android:title="@string/login"
         app:showAsAction="never" />
+    <item
+        android:id="@+id/action_novo_item"
+        android:orderInCategory="101"
+        android:title="Novo Item"
+        app:showAsAction="never" />
 </menu>
