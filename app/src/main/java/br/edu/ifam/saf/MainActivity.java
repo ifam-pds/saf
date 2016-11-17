@@ -100,17 +100,22 @@ public class MainActivity extends AppCompatActivity
         switch (id) {
             case R.id.nav_itens:
                 fragment = ItensFragment.newInstance();
+                setTitle("Itens");
                 break;
             case R.id.nav_usuarios:
+                setTitle("Usuários");
                 fragment = new ListarUsuariosFragment();
                 break;
             case R.id.nav_listar_requisicoes:
+                setTitle("Requisições");
                 fragment = new ListarRequisicoesFragment();
                 break;
             case R.id.nav_carrinho:
+                setTitle("Carrinho");
                 fragment = new ListarCarrinhoFragment();
                 break;
             default:
+                setTitle("Itens");
                 fragment = ItensFragment.newInstance();
                 break;
 
