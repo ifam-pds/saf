@@ -23,6 +23,11 @@ class CriarContaPresenter implements CriarContaContract.Presenter {
 
     @Override
     public void registrar(UsuarioDTO usuarioDTO) {
+
+        if (usuarioDTO.getDataNascimento() == null) {
+            view.mostrarMensagemDeErro("Data de nascimento inválida.");
+        }
+
         service.registrarUsuario(usuarioDTO)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
