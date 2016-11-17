@@ -1,22 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single">
+    <group
+        android:id="@+id/group_user"
+        android:checkableBehavior="single">
         <item
             android:id="@+id/nav_carrinho"
             android:icon="@drawable/ic_shopping_cart_black_24dp"
             android:title="Carrinho" />
         <item
             android:id="@+id/nav_itens"
+            android:checked="true"
             android:icon="@drawable/ic_directions_boat_black_24dp"
             android:title="Itens" />
-        <item
-            android:id="@+id/nav_usuarios"
-            android:icon="@drawable/ic_person_black_24dp"
-            android:title="Usuários" />
-        <item
-            android:id="@+id/nav_listar_requisicoes"
-            android:icon="@drawable/ic_assignment_black_24dp"
-            android:title="Requisições" />
+        <item android:title="Administração">
+            <menu>
+                <group android:checkableBehavior="single">
+
+                    <item
+                        android:id="@+id/nav_usuarios"
+                        android:icon="@drawable/ic_person_black_24dp"
+                        android:title="Usuários" />
+
+                    <item
+                        android:id="@+id/nav_listar_requisicoes"
+                        android:icon="@drawable/ic_assignment_black_24dp"
+                        android:title="Requisições" />
+                </group>
+            </menu>
+        </item>
+
+
+    </group>
+    <group
+        android:id="@+id/group_admin"
+        android:checkableBehavior="single">
+
     </group>
 </menu>
