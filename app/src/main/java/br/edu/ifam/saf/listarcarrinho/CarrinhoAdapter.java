@@ -64,8 +64,8 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
         TextView nomeItem;
         @BindView(R.id.quantidade_item)
         TextView quantidadeItem;
-        @BindView(R.id.valor_item_x_quantidade)
-        TextView valorItemXQuantidade;
+        @BindView(R.id.valor_por_hora)
+        TextView valorPorHora;
         @BindView(R.id.botao_remover)
         Button botaoRemover;
         private ItemAluguelDTO itemAluguelDTO;
@@ -84,7 +84,8 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
 
             nomeItem.setText(itemAluguelDTO.getItem().getNome());
             quantidadeItem.setText(String.valueOf(itemAluguelDTO.getQuantidade()));
-            valorItemXQuantidade.setText(DinheiroFormatter.format(itemAluguelDTO.getValorXQuantidade()));
+            String precoPorHora = DinheiroFormatter.format(itemAluguelDTO.getItem().getPrecoPorHora());
+            valorPorHora.setText(String.format("%s/h por item", precoPorHora));
 
         }
 

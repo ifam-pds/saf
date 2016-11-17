@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.List;
@@ -19,8 +20,10 @@ import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.requisitarreserva.ReservaActivity;
 import br.edu.ifam.saf.util.ApiManager;
+import br.edu.ifam.saf.util.DinheiroFormatter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoContract.View, CarrinhoAdapter.ItemAluguelClickListener {
 
@@ -29,8 +32,11 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
 
     @BindView(R.id.broken_cart)
     ImageView brokenCart;
+    @BindView(R.id.valor_total_carrinho)
+    TextView valorTotalCarrinho;
 
     CarrinhoAdapter adapter;
+
     ListarCarrinhoContract.Presenter presenter;
 
     public ListarCarrinhoFragment() {
@@ -53,10 +59,21 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
         presenter.carregarCarrinho();
     }
 
+    @OnClick(R.id.checkout_button)
+    void onCheckout() {
+        presenter.realizarCheckout();
+    }
+
     @Override
     public void onDestroyView() {
+
         super.onDestroyView();
         presenter.destroy();
+    }
+
+    @Override
+    public void atualizarTotal(double total) {
+        valorTotalCarrinho.setText(DinheiroFormatter.format(total));
     }
 
     @Override
@@ -64,6 +81,7 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
         adapter.replaceItens(itensCarrinho);
         checkCarrinho(itensCarrinho.size());
     }
+
 
     private void checkCarrinho(int itemCount) {
         if (itemCount > 0) {
@@ -100,5 +118,20 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
     public void onResume() {
         super.onResume();
         presenter.carregarCarrinho();
+    }
+
+    @Override
+    public void mostrarLoading() {
+
+    }
+
+    @Override
+    public void esconderLoading() {
+
+    }
+
+    @Override
+    public void mostrarMensagemDeErro(String mensagem) {
+
     }
 }

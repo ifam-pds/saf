@@ -5,6 +5,7 @@ import br.edu.ifam.saf.api.data.AlugueisResponse;
 import br.edu.ifam.saf.api.data.ItensResponse;
 import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.data.UsuariosResponse;
+import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.enums.StatusAluguel;
@@ -39,4 +40,6 @@ public interface SAFService {
     @GET("alugueis")
     Observable<Result<AlugueisResponse>> alugueis(@Query("status") StatusAluguel statusAluguel);
 
+    @POST("alugueis")
+    Observable<Result<Void>> cadastrarAluguel(@Body AluguelDTO aluguelDTO);
 }
