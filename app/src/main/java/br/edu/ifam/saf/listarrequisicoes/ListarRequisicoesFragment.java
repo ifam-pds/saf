@@ -22,7 +22,7 @@ import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListarRequisicoesFragment extends Fragment implements ListarRequisicoesContract.View {
+public class ListarRequisicoesFragment extends Fragment implements ListarRequisicoesContract.View, RequisicaoAdapter.StatusClickCallback {
 
     @BindView(R.id.listarRequisicao)
     RecyclerView rvRequisicoes;
@@ -48,7 +48,7 @@ public class ListarRequisicoesFragment extends Fragment implements ListarRequisi
         ButterKnife.bind(this, view);
         rvRequisicoes.setLayoutManager(new LinearLayoutManager(getContext()));
 
-        adapter = new RequisicaoAdapter(new ArrayList<AluguelDTO>());
+        adapter = new RequisicaoAdapter(this);
         rvRequisicoes.setAdapter(adapter);
         presenter = new ListarRequisicoesPresenter(this, ApiManager.getService());
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -92,5 +92,15 @@ public class ListarRequisicoesFragment extends Fragment implements ListarRequisi
     @Override
     public void mostrarMensagem(String mensagem) {
         Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onAluguelAprovado(AluguelDTO aluguel) {
+        presenter.aprovarReserva(aluguel);
+    }
+
+    @Override
+    public void onAluguelReprovado(AluguelDTO aluguel) {
+        presenter.reprovarReserva(aluguel);
     }
 }

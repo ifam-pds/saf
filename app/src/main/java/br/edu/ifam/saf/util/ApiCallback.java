@@ -9,7 +9,9 @@ public abstract class ApiCallback<E> implements Action1<Result<E>> {
     @Override
     public void call(Result<E> result) {
         if (canExecute()) {
-            if (result.isError()) {
+            if (result.isError())
+            {
+                result.error().printStackTrace();
                 onException(result.error());
             } else if (result.response().isSuccessful()) {
                 onSuccess(result.response().body());

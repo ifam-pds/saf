@@ -3,9 +3,12 @@ package br.edu.ifam.saf.listarrequisicoes;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.edu.ifam.saf.R;
@@ -18,9 +21,11 @@ import butterknife.ButterKnife;
 public class RequisicaoAdapter extends RecyclerView.Adapter<RequisicaoAdapter.ViewHolder> {
 
     private List<AluguelDTO> dataset;
+    private StatusClickCallback callback;
 
-    public RequisicaoAdapter(List<AluguelDTO> dataset) {
-        this.dataset = dataset;
+    public RequisicaoAdapter(StatusClickCallback callback) {
+        this.callback = callback;
+        this.dataset = new ArrayList<>();
     }
 
     public void replaceData(List<AluguelDTO> newItens) {
@@ -31,7 +36,7 @@ public class RequisicaoAdapter extends RecyclerView.Adapter<RequisicaoAdapter.Vi
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         CardView v = ((CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_requisicao, parent, false));
-        return new ViewHolder(v);
+        return new ViewHolder(v, callback);
     }
 
     @Override
@@ -46,8 +51,16 @@ public class RequisicaoAdapter extends RecyclerView.Adapter<RequisicaoAdapter.Vi
         return dataset.size();
     }
 
+    interface StatusClickCallback {
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+        void onAluguelAprovado(AluguelDTO aluguel);
+
+        void onAluguelReprovado(AluguelDTO aluguel);
+
+    }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final CardView cardView;
 
         AluguelDTO aluguel;
@@ -62,11 +75,19 @@ public class RequisicaoAdapter extends RecyclerView.Adapter<RequisicaoAdapter.Vi
         TextView dataRequisicao;
         @BindView(R.id.valor_total)
         TextView valorTotal;
+        @BindView(R.id.aprovar_button)
+        Button aprovarButton;
+        @BindView(R.id.reprovar_button)
+        Button reprovarButton;
+        private StatusClickCallback callback;
 
-        public ViewHolder(CardView view) {
+        public ViewHolder(CardView view, StatusClickCallback callback) {
             super(view);
+            this.callback = callback;
             ButterKnife.bind(this, view);
             this.cardView = view;
+            aprovarButton.setOnClickListener(this);
+            reprovarButton.setOnClickListener(this);
         }
 
         public void bind(AluguelDTO aluguel) {
@@ -76,8 +97,16 @@ public class RequisicaoAdapter extends RecyclerView.Adapter<RequisicaoAdapter.Vi
             numeroItens.setText(String.valueOf(aluguel.calcularNumeroTotalDeItens()));
             dataRequisicao.setText(DateTimeFormatter.format(aluguel.getDataHoraInicio()));
             valorTotal.setText(DinheiroFormatter.format(aluguel.calcularValorTotal()));
-
         }
 
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.aprovar_button : callback.onAluguelAprovado(aluguel);
+                    break;
+                case R.id.reprovar_button : callback.onAluguelReprovado(aluguel);
+                    break;
+            }
+        }
     }
 }

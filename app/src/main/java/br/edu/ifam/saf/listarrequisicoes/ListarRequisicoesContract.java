@@ -18,6 +18,10 @@ public interface ListarRequisicoesContract {
     interface Presenter extends BasePresenter {
         void carregarReservas(StatusAluguel statusAluguel);
 
+        void aprovarReserva(AluguelDTO aluguelDTO);
+
+        void reprovarReserva(AluguelDTO aluguelDTO);
+
     }
 
 }
