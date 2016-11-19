@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-
     <group
         android:id="@+id/group_user"
         android:checkableBehavior="single">
@@ -13,28 +12,26 @@
             android:checked="true"
             android:icon="@drawable/ic_directions_boat_black_24dp"
             android:title="Itens" />
-        <item android:title="Administração">
-            <menu>
-                <group android:checkableBehavior="single">
-
-                    <item
-                        android:id="@+id/nav_usuarios"
-                        android:icon="@drawable/ic_person_black_24dp"
-                        android:title="Usuários" />
-
-                    <item
-                        android:id="@+id/nav_listar_requisicoes"
-                        android:icon="@drawable/ic_assignment_black_24dp"
-                        android:title="Requisições" />
-                </group>
-            </menu>
-        </item>
-
 
     </group>
-    <group
-        android:id="@+id/group_admin"
-        android:checkableBehavior="single">
+    <group android:checkableBehavior="single">
 
+        <item
+            android:id="@+id/nav_usuarios"
+            android:icon="@drawable/ic_person_black_24dp"
+            android:title="Usuários" />
+
+        <item
+            android:id="@+id/nav_listar_requisicoes"
+            android:icon="@drawable/ic_assignment_black_24dp"
+            android:title="Requisições" />
+    </group>
+    <group
+        android:id="@+id/group_settings"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_configuracoes"
+            android:icon="@drawable/ic_build_black_24dp"
+            android:title="Configurações" />
     </group>
 </menu>

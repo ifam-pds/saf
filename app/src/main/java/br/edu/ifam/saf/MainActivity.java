@@ -143,13 +143,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         switch (id) {
-            case R.id.action_settings: {
-                startActivity(new Intent(this, SettingsActivity.class));
-                return true;
-            }
-            case R.id.action_login:
-                startActivity(new Intent(this, LoginActivity.class));
-                return true;
             case R.id.action_novo_item:
                 startActivity(new Intent(this, CriarItemActivity.class));
                 return true;
@@ -182,6 +175,10 @@ public class MainActivity extends AppCompatActivity
                 setTitle("Carrinho");
                 fragment = new ListarCarrinhoFragment();
                 break;
+            case R.id.nav_configuracoes: {
+                startActivity(new Intent(this, SettingsActivity.class));
+                return true;
+            }
             default:
                 setTitle("Itens");
                 fragment = ItensFragment.newInstance();
