@@ -21,6 +21,12 @@ public class CategoriaDTO {
         this.nome = nome;
     }
 
+
+    @Override
+    public String toString() {
+        return nome;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

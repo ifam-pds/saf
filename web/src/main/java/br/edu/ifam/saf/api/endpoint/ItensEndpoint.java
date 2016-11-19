@@ -65,8 +65,6 @@ public class ItensEndpoint {
             Item itemACadastrar = itemTransformer.toEntity(itemDTO);
             dao.atualizar(itemACadastrar);
 
-            log.info(">>>" + itemACadastrar);
-
             return Respostas.criado();
 
         } catch (ValidacaoError ex) {

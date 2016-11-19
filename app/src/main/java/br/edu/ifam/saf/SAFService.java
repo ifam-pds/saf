@@ -2,6 +2,7 @@ package br.edu.ifam.saf;
 
 
 import br.edu.ifam.saf.api.data.AlugueisResponse;
+import br.edu.ifam.saf.api.data.CategoriasResponse;
 import br.edu.ifam.saf.api.data.ItensResponse;
 import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.data.StatusData;
@@ -46,4 +47,7 @@ public interface SAFService {
 
     @PUT("alugueis/{aluguel_id}")
     Observable<Result<Void>> alterarStatus(@Path("aluguel_id") Integer aluguelId, @Body StatusData statusData);
+
+    @GET("categorias")
+    Observable<Result<CategoriasResponse>> listarCategorias();
 }
