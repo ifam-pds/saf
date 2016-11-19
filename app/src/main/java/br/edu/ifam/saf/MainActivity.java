@@ -25,12 +25,11 @@ import br.edu.ifam.saf.listarcarrinho.ListarCarrinhoFragment;
 import br.edu.ifam.saf.listarrequisicoes.ListarRequisicoesFragment;
 import br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment;
 import br.edu.ifam.saf.login.LoginActivity;
-import br.edu.ifam.saf.util.PermissaoUtil;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, MainContract.View {
 
 
     @BindView(R.id.drawer_layout)
@@ -43,46 +42,8 @@ public class MainActivity extends AppCompatActivity
     //drawer header
     TextView headerTitulo;
     TextView headerEmail;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        ButterKnife.bind(this);
-
-        setSupportActionBar(toolbar);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-        navigationView.setNavigationItemSelectedListener(this);
-
-        refreshPermissoes();
-        onNavigationItemSelected(navigationView.getMenu().getItem(1));
-
-        View header = navigationView.getHeaderView(0);
-        headerEmail = (TextView) header.findViewById(R.id.header_email);
-        headerTitulo = (TextView) header.findViewById(R.id.header_titulo);
-
-    }
-
-    private void refreshPermissoes() {
-        UsuarioDTO usuarioAtual = MainApplication.getRepository().getInfoUsuario();
-
-        for (MenuItem item : inMenu(navigationView.getMenu())) {
-            if (!PermissaoUtil.temPermissaoMenu(item, usuarioAtual)) {
-                item.setVisible(false);
-            } else if (item.hasSubMenu()) {
-                for (MenuItem subItem : inMenu(item.getSubMenu())) {
-                    if (!PermissaoUtil.temPermissaoMenu(subItem, usuarioAtual)) {
-                        subItem.setVisible(false);
-                    }
-                }
-            }
-        }
-
-    }
+    TextView headerLoginButton;
+    private MainContract.Presenter presenter;
 
     private static Iterable<MenuItem> inMenu(final Menu menu) {
 
@@ -107,6 +68,56 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
+
+        setSupportActionBar(toolbar);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        drawer.addDrawerListener(toggle);
+        toggle.syncState();
+
+        navigationView.setNavigationItemSelectedListener(this);
+
+        onNavigationItemSelected(navigationView.getMenu().getItem(1));
+
+        View header = navigationView.getHeaderView(0);
+        headerEmail = (TextView) header.findViewById(R.id.header_email);
+        headerTitulo = (TextView) header.findViewById(R.id.header_titulo);
+        headerLoginButton = (TextView) header.findViewById(R.id.login_button);
+
+
+        presenter = new MainPresenter(this, MainApplication.getRepository());
+        presenter.init();
+
+        headerLoginButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                presenter.onLogActionClicked();
+            }
+        });
+
+    }
+
+    private void setMenuVisibility(int id, boolean visible) {
+
+        for (MenuItem item : inMenu(navigationView.getMenu())) {
+            if (item.getItemId() == id) {
+                item.setVisible(visible);
+            }
+            if (item.hasSubMenu()) {
+                for (MenuItem subItem : inMenu(item.getSubMenu())) {
+                    if (subItem.getItemId() == id) {
+                        subItem.setVisible(visible);
+                    }
+                }
+            }
+        }
+    }
+
+    @Override
     public void onBackPressed() {
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
@@ -118,11 +129,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        UsuarioDTO infoUsuario = MainApplication.getRepository().getInfoUsuario();
-        if (infoUsuario != null) {
-            headerTitulo.setText(infoUsuario.getNome());
-            headerEmail.setText(infoUsuario.getEmail());
-        }
+        presenter.recarregarPermissoes();
     }
 
     @Override
@@ -186,5 +193,74 @@ public class MainActivity extends AppCompatActivity
 
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void setInfoUsuario(UsuarioDTO usuario) {
+        headerTitulo.setText(usuario.getNome());
+        headerEmail.setText(usuario.getEmail());
+        headerLoginButton.setText("Logout");
+
+    }
+
+    @Override
+    public void limpaInfoUsuario() {
+        headerTitulo.setText(R.string.default_header_titulo);
+        headerEmail.setText("");
+        headerLoginButton.setText("Login");
+
+    }
+
+    @Override
+    public void esconderOpcaoAdminCategorias() {
+        //TODO setMenuVisibility(R.id.nav_categorias, false);
+
+    }
+
+    @Override
+    public void mostrarOpcaoAdminCategorias() {
+        // TODO setMenuVisibility(R.id.nav_categorias, true);
+
+    }
+
+    @Override
+    public void esconderOpcaoAdminItens() {
+        // TODO setMenuVisibility(R.id.nav_admin_itens,false);
+
+    }
+
+    @Override
+    public void mostrarOpcaoAdminItens() {
+        // TODO setMenuVisibility(R.id.nav_admin_itens,true);
+
+    }
+
+    @Override
+    public void esconderOpcaoAdminRequisicoes() {
+        setMenuVisibility(R.id.nav_listar_requisicoes, false);
+
+    }
+
+    @Override
+    public void mostrarOpcaoAdminRequisicoes() {
+        setMenuVisibility(R.id.nav_listar_requisicoes, true);
+
+    }
+
+    @Override
+    public void esconderOpcaoAdminUsuarios() {
+        setMenuVisibility(R.id.nav_usuarios, false);
+
+    }
+
+    @Override
+    public void mostrarOpcaoAdminUsuarios() {
+        setMenuVisibility(R.id.nav_usuarios, true);
+
+    }
+
+    @Override
+    public void iniciaTelaLogin() {
+        startActivity(new Intent(this, LoginActivity.class));
     }
 }

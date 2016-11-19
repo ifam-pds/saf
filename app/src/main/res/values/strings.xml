@@ -12,5 +12,7 @@
     <string name="title_activity_reserva">Reservar</string>
     <string name="title_activity_settings">Configurações</string>
     <string name="login">Login</string>
+    <string name="default_header_email">sac@saf.com.br</string>
+    <string name="default_header_titulo">Sistema de Aluguel para Flutuante</string>
 
 </resources>

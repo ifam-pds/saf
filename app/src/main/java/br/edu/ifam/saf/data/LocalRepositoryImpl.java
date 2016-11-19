@@ -3,7 +3,6 @@ package br.edu.ifam.saf.data;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
@@ -12,6 +11,8 @@ import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.util.ApiManager;
 
 public final class LocalRepositoryImpl implements LocalRepository {
+    private static final String USER_DATA_KEY = "userData";
+
 
     private static LocalRepository instance;
 
@@ -78,13 +79,18 @@ public final class LocalRepositoryImpl implements LocalRepository {
 
     @Override
     public void salvarInfoUsuario(UsuarioDTO usuario) {
-
-        String serializedUser = ApiManager.getGson().toJson(usuario);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        Log.d(LocalRepositoryImpl.class.getSimpleName(), serializedUser);
-        editor.putString("userData", serializedUser);
+
+        if (usuario != null) {
+            String serializedUser = ApiManager.getGson().toJson(usuario);
+            editor.putString(USER_DATA_KEY, serializedUser);
+
+        } else {
+            editor.remove(USER_DATA_KEY);
+        }
         editor.apply();
         reloadData();
+
 
     }
 
