@@ -3,6 +3,7 @@ package br.edu.ifam.saf.listarusuarios;
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.data.UsuariosResponse;
+import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -44,6 +45,11 @@ public class ListarUsuariosPresenter implements ListarUsuariosContract.Presenter
                         return view != null;
                     }
                 });
+    }
+
+    @Override
+    public void usuarioClicado(UsuarioDTO usuarioDTO) {
+        view.mostrarTelaEditarUsuario(usuarioDTO.getId());
     }
 
 }

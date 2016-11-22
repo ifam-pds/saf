@@ -50,4 +50,10 @@ public interface SAFService {
 
     @GET("categorias")
     Observable<Result<CategoriasResponse>> listarCategorias();
+
+    @PUT("usuarios/{usuario_id}")
+    Observable<Result<Void>> atualizarUsuario(@Path("usuario_id") Integer usuarioId, @Body UsuarioDTO usuarioDTO);
+
+    @PUT("usuarios/{usuario_id}")
+    Observable<Result<UsuarioDTO>> consultarUsuario(@Path("usuario_id") Integer usuarioId);
 }

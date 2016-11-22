@@ -47,7 +47,6 @@ public class ListarRequisicoesFragment extends Fragment implements ListarRequisi
 
         ButterKnife.bind(this, view);
         rvRequisicoes.setLayoutManager(new LinearLayoutManager(getContext()));
-
         adapter = new RequisicaoAdapter(this);
         rvRequisicoes.setAdapter(adapter);
         presenter = new ListarRequisicoesPresenter(this, ApiManager.getService());

@@ -1,6 +1,7 @@
 package br.edu.ifam.saf.listarusuarios;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,11 +18,12 @@ import java.util.List;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.editarconta.EditarContaActivity;
 import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ListarUsuariosFragment extends Fragment implements ListarUsuariosContract.View {
+public class ListarUsuariosFragment extends Fragment implements ListarUsuariosContract.View, UsuarioAdapter.UsuarioClickListener {
 
     @BindView(R.id.listarUsuario)
     RecyclerView rvUsuarios;
@@ -46,7 +48,7 @@ public class ListarUsuariosFragment extends Fragment implements ListarUsuariosCo
 
         ButterKnife.bind(this, view);
         rvUsuarios.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new UsuarioAdapter(new ArrayList<UsuarioDTO>());
+        adapter = new UsuarioAdapter(new ArrayList<UsuarioDTO>(), this);
         rvUsuarios.setAdapter(adapter);
         presenter = new ListarUsuariosPresenter(this, ApiManager.getService());
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -88,5 +90,17 @@ public class ListarUsuariosFragment extends Fragment implements ListarUsuariosCo
     @Override
     public void mostrarMensagem(String mensagem) {
         Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void mostrarTelaEditarUsuario(Integer usuiaroId) {
+        Intent intent = new Intent(getContext(), EditarContaActivity.class);
+        intent.putExtra(EditarContaActivity.EXTRA_USUARIO_ID, usuiaroId);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onUsuarioClick(int posicao, UsuarioDTO usuarioDTO) {
+        presenter.usuarioClicado(usuarioDTO);
     }
 }

@@ -13,19 +13,22 @@ import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.ViewHolder> {
 
     List<UsuarioDTO> usuarios;
+    private UsuarioClickListener listener;
 
-    public UsuarioAdapter(List<UsuarioDTO> usuarios) {
+    public UsuarioAdapter(List<UsuarioDTO> usuarios, UsuarioClickListener listener) {
+        this.listener = listener;
         this.usuarios = usuarios;
     }
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_usuario, parent, false);
-        return new ViewHolder(v);
+        return new ViewHolder(v, listener);
     }
 
     @Override
@@ -46,22 +49,43 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.ViewHold
 
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.nome_usuario)
         TextView nome;
         @BindView(R.id.cpf_usuario)
         TextView cpf;
+        @BindView(R.id.data_nascimento)
+        TextView nascimento;
+        private UsuarioClickListener listener;
+        private UsuarioDTO usuario;
 
-        public ViewHolder(View itemView) {
+        public ViewHolder(View itemView, UsuarioClickListener listener) {
             super(itemView);
+            this.listener = listener;
             ButterKnife.bind(this, itemView);
+
+            itemView.setOnClickListener(this);
         }
 
         public void bindUsuario(UsuarioDTO usuario) {
+            this.usuario = usuario;
             nome.setText(usuario.getNome());
             cpf.setText(usuario.getCpf());
+            nascimento.setText(usuario.getDataNascimento().toString());
         }
+
+        @Override
+        public void onClick(View v) {
+
+            listener.onUsuarioClick(getAdapterPosition(), usuario);
+
+        }
+    }
+
+    interface UsuarioClickListener{
+
+        void onUsuarioClick(int posicao, UsuarioDTO usuarioDTO);
 
     }
 

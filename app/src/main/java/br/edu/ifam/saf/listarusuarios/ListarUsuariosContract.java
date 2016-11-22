@@ -12,11 +12,14 @@ public interface ListarUsuariosContract {
         void mostrarUsuarios(List<UsuarioDTO> usuarios);
 
         void mostrarMensagem(String mensagem);
+
+        void mostrarTelaEditarUsuario(Integer usuiaroId);
     }
 
     interface Presenter extends BasePresenter {
         void carregarUsuarios();
 
+        void usuarioClicado(UsuarioDTO usuarioDTO);
     }
 
 }

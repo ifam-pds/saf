@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:padding="4dp"
         android:orientation="vertical">
 
@@ -17,12 +17,33 @@
             android:textSize="22sp"
             android:text="Fulado de tal"/>
 
-        <TextView
-            android:id="@+id/cpf_usuario"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textSize="22sp"
-            android:text="111.111.111-11"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="7dp"
+            android:background="#eee"
+            android:layout_marginBottom="10dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="41dp">
+
+            <TextView
+                android:id="@+id/cpf_usuario"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="111.111.111-11"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/data_nascimento"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="11/11/1111"
+                />
+        </LinearLayout>
 
     </LinearLayout>
 

@@ -42,8 +42,6 @@ public class CriarItemPresenter implements CriarItemContract.Presenter {
                         return view != null;
                     }
                 });
-
-
     }
 
     @Override
