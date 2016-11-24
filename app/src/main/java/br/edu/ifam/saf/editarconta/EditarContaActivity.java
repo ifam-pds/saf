@@ -10,6 +10,7 @@ import java.util.Date;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.enums.Perfil;
 import br.edu.ifam.saf.util.ApiManager;
 import br.edu.ifam.saf.util.DateFormatter;
 import br.edu.ifam.saf.view.FieldView;
@@ -99,7 +100,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
                 .numeroHabilitacao(habilitacao.getText())
                 .email(email.getText())
                 .senha(senha.getText())
-                .senha(perfil.getSelectedItem().toString())
+                .perfil((Perfil) perfil.getSelectedItem())
                 .build();
     }
 
