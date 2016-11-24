@@ -33,6 +33,9 @@
             android:label="SAF - Criar conta" />
         <activity android:name=".login.LoginActivity" />
         <activity
+            android:name=".editarconta.EditarContaActivity"
+            android:label="SAF - Editar conta" />
+        <activity
             android:name=".configuracoes.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity">
