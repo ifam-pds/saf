@@ -2,6 +2,7 @@ package br.edu.ifam.saf.editarconta;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.ParseException;
@@ -50,7 +51,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
     FieldView email;
 
     @BindView(R.id.perfil_spinner)
-    FieldView perfil;
+    Spinner perfil;
 
     private EditarContaContract.Presenter presenter;
 
@@ -98,7 +99,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
                 .numeroHabilitacao(habilitacao.getText())
                 .email(email.getText())
                 .senha(senha.getText())
-                .senha(perfil.getText())
+                .senha(perfil.getSelectedItem().toString())
                 .build();
     }
 
@@ -118,7 +119,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
         habilitacao.setText(usuarioDTO.getNumeroHabilitacao());
         email.setText(usuarioDTO.getEmail());
         senha.setText(usuarioDTO.getSenha());
-        perfil.setText(usuarioDTO.getPerfil().toString());
+        perfil.setSelection(usuarioDTO.getPerfil().getNivel());
     }
 
     @Override
