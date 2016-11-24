@@ -32,6 +32,7 @@ public class ListarCarrinhoPresenter implements ListarCarrinhoContract.Presenter
                     public void onSuccess(Void response) {
                         view.esconderLoading();
                         view.mostrarMensagem("Pedido enviado com sucesso");
+                        view.atualizarTotal(repository.getCarrinho().calcularValorTotal());
                         repository.limpaCarrinho();
                         view.mostrarCarrinho(repository.getCarrinho().getItens());
                     }

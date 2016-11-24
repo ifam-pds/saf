@@ -17,6 +17,7 @@ import java.util.List;
 
 import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.R;
+import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.requisitarreserva.ReservaActivity;
 import br.edu.ifam.saf.util.ApiManager;
