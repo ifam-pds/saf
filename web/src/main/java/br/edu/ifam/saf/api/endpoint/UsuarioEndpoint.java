@@ -10,7 +10,9 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
@@ -18,6 +20,8 @@ import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.data.UsuariosResponse;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.api.dto.UsuarioTransformer;
+import br.edu.ifam.saf.api.interceptor.RequerLogin;
+import br.edu.ifam.saf.api.interceptor.UsuarioAutenticado;
 import br.edu.ifam.saf.api.util.MediaType;
 import br.edu.ifam.saf.api.util.Respostas;
 import br.edu.ifam.saf.api.util.Validation;
@@ -31,14 +35,17 @@ import br.edu.ifam.saf.util.SegurancaUtil;
 public class UsuarioEndpoint {
 
     @Inject
-    UsuarioDAO usuarioDAO;
+    private  UsuarioDAO usuarioDAO;
 
     @Inject
-    UsuarioTransformer usuarioTransformer;
+    private UsuarioTransformer usuarioTransformer;
 
     @Inject
-    Logger log;
+    private Logger log;
 
+    @Inject
+    @UsuarioAutenticado
+    private Usuario usuarioLogado;
 
     @POST
     @Produces(MediaType.APPLICATION_JSON_UTF8)
@@ -93,6 +100,7 @@ public class UsuarioEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON_UTF8)
+    @RequerLogin(Perfil.ADMINISTRADOR)
     @Path("/")
     public Response listar() {
 
@@ -101,5 +109,32 @@ public class UsuarioEndpoint {
         return Respostas.ok(new UsuariosResponse(usuarioTransformer.toDTOList(usuarios)));
 
 
+    }
+
+
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON_UTF8)
+    @Produces(MediaType.APPLICATION_JSON_UTF8)
+    @RequerLogin({Perfil.ADMINISTRADOR, Perfil.CLIENTE, Perfil.FUNCIONARIO})
+    @Path("/{id}")
+    public Response atualizarUsuario(@PathParam("id") Integer usuario_id, UsuarioDTO usuarioDTO){
+        final Usuario usuario = usuarioDAO.consultar(usuario_id);
+        final Usuario usuario_atualizar = usuarioTransformer.toEntity(usuarioDTO);
+
+        if(usuario.getId().equals(usuarioLogado.getId()) ||
+                usuarioLogado.getPerfil() == Perfil.ADMINISTRADOR){
+            usuarioDAO.atualizar(usuario_atualizar);
+            return Respostas.ok();
+        }else{
+            return Respostas.acessoNegado();
+        }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON_UTF8)
+    @RequerLogin(Perfil.ADMINISTRADOR)
+    @Path("/{usuario_id}")
+    public Response consultarUsuario(@PathParam("usuario_id") Integer usuario_id){
+        return Response.ok().entity(usuarioTransformer.toDTO(usuarioDAO.consultar(usuario_id))).build();
     }
 }

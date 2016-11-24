@@ -7,6 +7,7 @@ import br.edu.ifam.saf.api.dto.UsuarioDTO;
 
 public class UsuariosResponse {
     private List<UsuarioDTO> usuarios;
+    private UsuarioDTO usuario;
 
     public UsuariosResponse(List<UsuarioDTO> lista) {
         this.usuarios = lista;
@@ -16,6 +17,7 @@ public class UsuariosResponse {
         this.usuarios = Arrays.asList(lista);
 
     }
+
 
     public List<UsuarioDTO> getUsuarios() {
         return usuarios;

@@ -93,9 +93,9 @@ public class ListarUsuariosFragment extends Fragment implements ListarUsuariosCo
     }
 
     @Override
-    public void mostrarTelaEditarUsuario(Integer usuiaroId) {
+    public void mostrarTelaEditarUsuario(Integer usuarioId) {
         Intent intent = new Intent(getContext(), EditarContaActivity.class);
-        intent.putExtra(EditarContaActivity.EXTRA_USUARIO_ID, usuiaroId);
+        intent.putExtra(EditarContaActivity.EXTRA_USUARIO_ID, usuarioId);
         startActivity(intent);
     }
 

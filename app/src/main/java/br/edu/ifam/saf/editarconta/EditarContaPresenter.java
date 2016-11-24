@@ -7,9 +7,6 @@ import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-/**
- * Created by marciogabriel on 21/11/16.
- */
 
 public class EditarContaPresenter implements EditarContaContract.Presenter {
 
@@ -76,7 +73,7 @@ public class EditarContaPresenter implements EditarContaContract.Presenter {
 
                     @Override
                     public void onError(MensagemErroResponse mensagem) {
-
+                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
                     }
 
                     @Override

@@ -21,6 +21,7 @@ import retrofit2.http.Query;
 import rx.Observable;
 
 public interface SAFService {
+
     @GET("itens")
     Observable<Result<ItensResponse>> listarItems();
 
@@ -51,9 +52,11 @@ public interface SAFService {
     @GET("categorias")
     Observable<Result<CategoriasResponse>> listarCategorias();
 
+    @GET("usuarios/{usuario_id}")
+    Observable<Result<UsuarioDTO>> consultarUsuario(@Path("usuario_id") Integer usuarioId);
+
     @PUT("usuarios/{usuario_id}")
     Observable<Result<Void>> atualizarUsuario(@Path("usuario_id") Integer usuarioId, @Body UsuarioDTO usuarioDTO);
 
-    @PUT("usuarios/{usuario_id}")
-    Observable<Result<UsuarioDTO>> consultarUsuario(@Path("usuario_id") Integer usuarioId);
+
 }
