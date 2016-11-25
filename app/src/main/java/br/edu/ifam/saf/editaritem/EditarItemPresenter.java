@@ -1,9 +1,12 @@
 package br.edu.ifam.saf.editaritem;
 
+import java.util.Arrays;
+
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.CategoriasResponse;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.dto.ItemDTO;
+import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -70,6 +73,11 @@ public class EditarItemPresenter implements  EditarItemContract.Presenter {
                         return view != null;
                     }
                 });
+    }
+
+    @Override
+    public void carregarStatus() {
+        view.mostrarStatusItem(Arrays.asList(StatusItem.values()));
     }
 
     @Override

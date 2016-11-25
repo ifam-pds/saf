@@ -1,5 +1,6 @@
 package br.edu.ifam.saf.util;
 
+import java.text.DecimalFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -16,6 +17,7 @@ import javax.transaction.UserTransaction;
 
 import br.edu.ifam.saf.enums.Perfil;
 import br.edu.ifam.saf.enums.StatusAluguel;
+import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.modelo.Aluguel;
 import br.edu.ifam.saf.modelo.Bairro;
 import br.edu.ifam.saf.modelo.Categoria;
@@ -127,14 +129,18 @@ public class StartupListener implements ServletContextListener {
                     String marca = marcas[Math.abs(random.nextInt() % marcas.length)];
                     String modelo = modelos[Math.abs(random.nextInt() % modelos.length)];
 
+                    DecimalFormat df = new DecimalFormat("#.##");
+
+
                     item.setNome(tipo + " " + marca + " " + modelo);
                     String d1 = desc2[Math.abs(random.nextInt() % desc2.length)];
                     String d2 = desc4[Math.abs(random.nextInt() % desc4.length)];
                     item.setDescricao(d1 + " " + d2);
                     item.setMarca(marca);
                     item.setModelo(modelo);
-                    item.setPrecoPorHora(10 + (Math.abs(random.nextDouble() * 100)));
+                    item.setPrecoPorHora(10 + (random.nextDouble() * 100));
                     item.setCategoria(em.find(Categoria.class, 1));
+                    item.setStatus(StatusItem.ATIVO);
 
                     em.merge(item);
 

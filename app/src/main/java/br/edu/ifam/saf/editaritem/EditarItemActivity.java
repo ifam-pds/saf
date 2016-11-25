@@ -13,6 +13,7 @@ import java.util.List;
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.CategoriaDTO;
 import br.edu.ifam.saf.api.dto.ItemDTO;
+import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.util.ApiManager;
 import br.edu.ifam.saf.view.FieldView;
 import butterknife.BindView;
@@ -45,7 +46,9 @@ public class EditarItemActivity extends AppCompatActivity implements EditarItemC
     Spinner statusSpinner;
 
     ArrayAdapter<CategoriaDTO> categoriasAdapter;
+    ArrayAdapter<StatusItem> statusAdapter;
     private EditarItemContract.Presenter presenter;
+    private ArrayAdapter<StatusItem> status;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -55,6 +58,8 @@ public class EditarItemActivity extends AppCompatActivity implements EditarItemC
 
         categoriasAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         categoriaSpinner.setAdapter(categoriasAdapter);
+        statusAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
+        statusSpinner.setAdapter(statusAdapter);
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -66,6 +71,7 @@ public class EditarItemActivity extends AppCompatActivity implements EditarItemC
             presenter = new EditarItemPresenter(this, ApiManager.getService(), itemId);
             presenter.carregarCategorias();
             presenter.carregarItem();
+            presenter.carregarStatus();
             Log.d("editar","Carregar Item" + itemId);
         } else {
             Toast.makeText(this, "Item Inválido!", Toast.LENGTH_SHORT).show();
@@ -115,6 +121,13 @@ public class EditarItemActivity extends AppCompatActivity implements EditarItemC
         categoriasAdapter.clear();
         categoriasAdapter.addAll(categoriaDTOs);
         categoriasAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void mostrarStatusItem(List<StatusItem> status) {
+        statusAdapter.clear();
+        statusAdapter.addAll(status);
+        statusAdapter.notifyDataSetChanged();
     }
 
     @Override
