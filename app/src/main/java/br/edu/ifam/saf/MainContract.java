@@ -26,7 +26,6 @@ public interface MainContract {
 
         void mostrarOpcaoAdminUsuarios();
 
-
         void iniciaTelaLogin();
     }
 

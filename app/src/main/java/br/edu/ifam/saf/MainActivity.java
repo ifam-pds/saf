@@ -142,18 +142,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        switch (id) {
-            case R.id.action_novo_item:
-                startActivity(new Intent(this, CriarItemActivity.class));
-                return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
@@ -221,25 +209,25 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void esconderOpcaoAdminCategorias() {
-        //TODO setMenuVisibility(R.id.nav_categorias, false);
+        setMenuVisibility(R.id.nav_categorias, false);
 
     }
 
     @Override
     public void mostrarOpcaoAdminCategorias() {
-        // TODO setMenuVisibility(R.id.nav_categorias, true);
+        setMenuVisibility(R.id.nav_categorias, true);
 
     }
 
     @Override
     public void esconderOpcaoAdminItens() {
-        // TODO setMenuVisibility(R.id.nav_admin_itens,false);
+        setMenuVisibility(R.id.nav_itens_admin,false);
 
     }
 
     @Override
     public void mostrarOpcaoAdminItens() {
-        // TODO setMenuVisibility(R.id.nav_admin_itens,true);
+        setMenuVisibility(R.id.nav_itens_admin,true);
 
     }
 

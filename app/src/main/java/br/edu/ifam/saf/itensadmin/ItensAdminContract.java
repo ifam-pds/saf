@@ -14,9 +14,13 @@ interface ItensAdminContract {
 
         void mostrarTelaEditarItem(Integer itemId);
 
+        void mostrarTelaCriarConta();
+
     }
 
     interface Presenter extends BasePresenter {
+
+        void onFabAction();
 
         void carregarListaDeItens();
 

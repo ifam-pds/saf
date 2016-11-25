@@ -33,15 +33,18 @@ public class MainPresenter implements MainContract.Presenter {
 
         Perfil perfil = infoUsuario == null ? Perfil.CLIENTE : infoUsuario.getPerfil();
 
-        if (perfil.getNivel() >= Perfil.FUNCIONARIO.getNivel()) {
-            view.mostrarOpcaoAdminItens();
-            view.mostrarOpcaoAdminRequisicoes();
-            view.mostrarOpcaoAdminCategorias();
-        }
-        if (perfil.getNivel() >= Perfil.ADMINISTRADOR.getNivel()) {
-            view.mostrarOpcaoAdminUsuarios();
-        }
-
+        if (perfil.getNivel() == Perfil.CLIENTE.getNivel()) {
+            esconderTodasAsOpcoes();
+        } else
+            if (perfil.getNivel() == Perfil.FUNCIONARIO.getNivel()) {
+                view.mostrarOpcaoAdminRequisicoes();
+            } else
+                if (perfil.getNivel() == Perfil.ADMINISTRADOR.getNivel()) {
+                    view.mostrarOpcaoAdminUsuarios();
+                    view.mostrarOpcaoAdminItens();
+                    view.mostrarOpcaoAdminCategorias();
+                    view.mostrarOpcaoAdminRequisicoes();
+                }
 
     }
 
@@ -51,7 +54,6 @@ public class MainPresenter implements MainContract.Presenter {
         view.esconderOpcaoAdminUsuarios();
         view.esconderOpcaoAdminCategorias();
     }
-
 
     @Override
     public void onLogActionClicked() {
