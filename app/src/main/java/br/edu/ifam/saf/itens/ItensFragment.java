@@ -96,7 +96,7 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     }
 
     @Override
-    public void mostrarMensagemDeErro(String mensagem) {
+    public void mostrarInfoMensagem(String mensagem) {
         Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
     }
 

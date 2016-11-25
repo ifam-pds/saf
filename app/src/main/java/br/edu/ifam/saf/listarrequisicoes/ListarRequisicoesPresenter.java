@@ -1,8 +1,6 @@
 package br.edu.ifam.saf.listarrequisicoes;
 
 
-import android.widget.Toast;
-
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.AlugueisResponse;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
@@ -38,7 +36,7 @@ public class ListarRequisicoesPresenter implements ListarRequisicoesContract.Pre
                     @Override
                     public void onError(MensagemErroResponse mensagem) {
                         view.esconderLoading();
-                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                        view.mostrarInfoMensagem(mensagem.getMensagens().get(0));
 
                     }
 

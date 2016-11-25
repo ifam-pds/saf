@@ -6,6 +6,6 @@ public interface LoadingView {
 
     void esconderLoading();
 
-    void mostrarMensagemDeErro(String mensagem);
+    void mostrarInfoMensagem(String mensagem);
 
 }

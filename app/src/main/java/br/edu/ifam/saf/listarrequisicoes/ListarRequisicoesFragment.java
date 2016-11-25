@@ -84,7 +84,7 @@ public class ListarRequisicoesFragment extends Fragment implements ListarRequisi
     }
 
     @Override
-    public void mostrarMensagemDeErro(String mensagem) {
+    public void mostrarInfoMensagem(String mensagem) {
         Toast.makeText(getContext(), mensagem, Toast.LENGTH_SHORT).show();
     }
 

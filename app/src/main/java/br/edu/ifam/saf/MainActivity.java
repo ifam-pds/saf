@@ -22,6 +22,7 @@ import br.edu.ifam.saf.configuracoes.SettingsActivity;
 import br.edu.ifam.saf.criaritem.CriarItemActivity;
 import br.edu.ifam.saf.itens.ItensFragment;
 import br.edu.ifam.saf.listarcarrinho.ListarCarrinhoFragment;
+import br.edu.ifam.saf.listarcategorias.ListarCategoriasFragment;
 import br.edu.ifam.saf.listarrequisicoes.ListarRequisicoesFragment;
 import br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment;
 import br.edu.ifam.saf.login.LoginActivity;
@@ -170,6 +171,10 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_listar_requisicoes:
                 setTitle("Requisições");
                 fragment = new ListarRequisicoesFragment();
+                break;
+            case R.id.nav_categorias:
+                setTitle("Categorias");
+                fragment = new ListarCategoriasFragment();
                 break;
             case R.id.nav_carrinho:
                 setTitle("Carrinho");

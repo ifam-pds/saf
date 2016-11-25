@@ -100,7 +100,7 @@ public class CriarItemActivity extends AppCompatActivity implements CriarItemCon
     }
 
     @Override
-    public void mostrarMensagemDeErro(String mensagem) {
+    public void mostrarInfoMensagem(String mensagem) {
         Toast.makeText(this, mensagem, Toast.LENGTH_SHORT).show();
     }
 

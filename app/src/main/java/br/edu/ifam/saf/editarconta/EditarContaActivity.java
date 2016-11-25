@@ -2,6 +2,7 @@ package br.edu.ifam.saf.editarconta;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -45,9 +46,6 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
     @BindView(R.id.habilitacao)
     FieldView habilitacao;
 
-    @BindView(R.id.senha)
-    FieldView senha;
-
     @BindView(R.id.email)
     FieldView email;
 
@@ -70,6 +68,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
             int usuarioId = bundle.getInt(EXTRA_USUARIO_ID);
             presenter = new EditarContaPresenter(this, ApiManager.getService(), usuarioId);
             presenter.carregarUsuario();
+            Log.d("editar","Carregar Uuario" + usuarioId);
         } else {
             Toast.makeText(this, "Usuário Inválido!", Toast.LENGTH_SHORT).show();
             finish();
@@ -99,7 +98,6 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
                 .dataNascimento(nascimento)
                 .numeroHabilitacao(habilitacao.getText())
                 .email(email.getText())
-                .senha(senha.getText())
                 .perfil((Perfil) perfil.getSelectedItem())
                 .build();
     }
@@ -119,8 +117,8 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
         dataNascimento.setText(DateFormatter.format(usuarioDTO.getDataNascimento()));
         habilitacao.setText(usuarioDTO.getNumeroHabilitacao());
         email.setText(usuarioDTO.getEmail());
-        senha.setText(usuarioDTO.getSenha());
         perfil.setSelection(usuarioDTO.getPerfil().getNivel());
+        Log.d("carregar", "carregado" + nome);
     }
 
     @Override
@@ -134,7 +132,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
     }
 
     @Override
-    public void mostrarMensagemDeErro(String mensagem) {
+    public void mostrarInfoMensagem(String mensagem) {
         Toast.makeText(this, mensagem, Toast.LENGTH_LONG).show();
     }
 

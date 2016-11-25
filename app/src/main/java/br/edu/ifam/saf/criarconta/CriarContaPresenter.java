@@ -23,7 +23,7 @@ class CriarContaPresenter implements CriarContaContract.Presenter {
     public void registrar(UsuarioDTO usuarioDTO) {
 
         if (usuarioDTO.getDataNascimento() == null) {
-            view.mostrarMensagemDeErro("Data de nascimento inválida.");
+            view.mostrarInfoMensagem("Data de nascimento inválida.");
         }
 
         service.registrarUsuario(usuarioDTO)
@@ -38,7 +38,7 @@ class CriarContaPresenter implements CriarContaContract.Presenter {
 
                     @Override
                     public void onError(MensagemErroResponse mensagem) {
-                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                        view.mostrarInfoMensagem(mensagem.getMensagens().get(0));
                     }
 
                     @Override

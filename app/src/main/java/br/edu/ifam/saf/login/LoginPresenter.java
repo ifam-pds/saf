@@ -37,7 +37,7 @@ public class LoginPresenter implements LoginContract.Presenter {
                     @Override
                     public void onError(MensagemErroResponse mensagem) {
                         view.esconderLoading();
-                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                        view.mostrarInfoMensagem(mensagem.getMensagens().get(0));
                     }
 
                     @Override

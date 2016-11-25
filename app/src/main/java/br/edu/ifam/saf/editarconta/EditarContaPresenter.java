@@ -25,7 +25,7 @@ public class EditarContaPresenter implements EditarContaContract.Presenter {
     @Override
     public void alterar(UsuarioDTO usuarioDTO) {
         if (usuarioDTO.getDataNascimento() == null) {
-            view.mostrarMensagemDeErro("Data de nascimento inválida.");
+            view.mostrarInfoMensagem("Data de nascimento inválida.");
         }
 
         service.atualizarUsuario(usuarioDTO.getId(), usuarioDTO)
@@ -39,7 +39,7 @@ public class EditarContaPresenter implements EditarContaContract.Presenter {
 
                     @Override
                     public void onError(MensagemErroResponse mensagem) {
-                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                        view.mostrarInfoMensagem(mensagem.getMensagens().get(0));
                     }
 
                     @Override
@@ -73,12 +73,12 @@ public class EditarContaPresenter implements EditarContaContract.Presenter {
 
                     @Override
                     public void onError(MensagemErroResponse mensagem) {
-                        view.mostrarMensagemDeErro(mensagem.getMensagens().get(0));
+                        view.mostrarInfoMensagem(mensagem.getMensagens().get(0));
                     }
 
                     @Override
                     public boolean canExecute() {
-                        return false;
+                        return view != null;
                     }
                 });
 

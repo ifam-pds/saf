@@ -8,6 +8,7 @@ import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.data.StatusData;
 import br.edu.ifam.saf.api.data.UsuariosResponse;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
+import br.edu.ifam.saf.api.dto.CategoriaDTO;
 import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.enums.StatusAluguel;
@@ -57,6 +58,9 @@ public interface SAFService {
 
     @PUT("usuarios/{usuario_id}")
     Observable<Result<Void>> atualizarUsuario(@Path("usuario_id") Integer usuarioId, @Body UsuarioDTO usuarioDTO);
+
+    @POST("categorias")
+    Observable<Result<Void>> cadastrarCategorias(@Body CategoriaDTO categoriaDTO);
 
 
 }

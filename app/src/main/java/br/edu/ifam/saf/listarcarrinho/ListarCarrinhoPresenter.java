@@ -2,6 +2,7 @@ package br.edu.ifam.saf.listarcarrinho;
 
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
+import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.data.LocalRepository;
 import br.edu.ifam.saf.util.ApiCallback;
@@ -19,6 +20,7 @@ public class ListarCarrinhoPresenter implements ListarCarrinhoContract.Presenter
         this.view = view;
         this.service = service;
         this.repository = repository;
+
     }
 
 
@@ -32,7 +34,6 @@ public class ListarCarrinhoPresenter implements ListarCarrinhoContract.Presenter
                     public void onSuccess(Void response) {
                         view.esconderLoading();
                         view.mostrarMensagem("Pedido enviado com sucesso");
-                        view.atualizarTotal(repository.getCarrinho().calcularValorTotal());
                         repository.limpaCarrinho();
                         view.mostrarCarrinho(repository.getCarrinho().getItens());
                     }

@@ -33,6 +33,7 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
 
     @BindView(R.id.broken_cart)
     ImageView brokenCart;
+
     @BindView(R.id.valor_total_carrinho)
     TextView valorTotalCarrinho;
 
@@ -132,7 +133,7 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
     }
 
     @Override
-    public void mostrarMensagemDeErro(String mensagem) {
+    public void mostrarInfoMensagem(String mensagem) {
 
     }
 }
