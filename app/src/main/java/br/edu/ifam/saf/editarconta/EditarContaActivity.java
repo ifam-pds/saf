@@ -21,10 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
-/**
- * Created by marciogabriel on 21/11/16.
- */
-
 public class EditarContaActivity extends AppCompatActivity implements EditarContaContract.View {
 
     public static final String EXTRA_USUARIO_ID = "usuario_id";
