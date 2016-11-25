@@ -37,7 +37,6 @@ public class StartupListener implements ServletContextListener {
         popularCategorias();
         popularItens();
         criarUsuarios();
-
     }
 
     private void popularLocais() {
@@ -219,59 +218,67 @@ public class StartupListener implements ServletContextListener {
         }
     }
 
-    public void criarUsuarios(){
-        UserTransaction transaction = getTransaction();
+    private void criarUsuarios(){
+        TypedQuery<Usuario> query = em.createQuery("select u from Usuario u", Usuario.class);
 
-        try{
-            transaction.begin();
+        query.setMaxResults(1);
 
-            Usuario admin = new Usuario.Builder()
-                    .id(1)
-                    .nome("admin")
-                    .dataNascimento(new Date())
-                    .senha(SegurancaUtil.hashSenha("123456"))
-                    .cpf("123.456.789-52")
-                    .perfil(Perfil.ADMINISTRADOR)
-                    .email("admin@saf.com")
+        List<Usuario> usuarios = query.getResultList();
 
-                    .build();
+        if(usuarios.isEmpty()){
+            UserTransaction transaction = getTransaction();
 
-            em.merge(admin);
+            try{
+                transaction.begin();
 
-            Usuario funcionario = new Usuario.Builder()
-                    .id(1)
-                    .nome("funcionario")
-                    .dataNascimento(new Date())
-                    .senha(SegurancaUtil.hashSenha("123456"))
-                    .cpf("012.345.678-90")
-                    .perfil(Perfil.FUNCIONARIO)
-                    .email("func@saf.com")
+                Usuario admin = new Usuario.Builder()
+                        .id(1)
+                        .nome("admin")
+                        .dataNascimento(new Date())
+                        .senha(SegurancaUtil.hashSenha("123456"))
+                        .cpf("123.456.789-52")
+                        .perfil(Perfil.ADMINISTRADOR)
+                        .email("admin@saf.com")
 
-                    .build();
+                        .build();
 
-            em.merge(funcionario);
+                em.merge(admin);
 
-            Usuario cliente = new Usuario.Builder()
-                    .id(1)
-                    .nome("cliente")
-                    .dataNascimento(new Date())
-                    .senha(SegurancaUtil.hashSenha("123456"))
-                    .cpf("987.654.321-01")
-                    .perfil(Perfil.CLIENTE)
-                    .email("cliente@saf.com")
+                Usuario funcionario = new Usuario.Builder()
+                        .id(1)
+                        .nome("funcionario")
+                        .dataNascimento(new Date())
+                        .senha(SegurancaUtil.hashSenha("123456"))
+                        .cpf("012.345.678-90")
+                        .perfil(Perfil.FUNCIONARIO)
+                        .email("func@saf.com")
 
-                    .build();
+                        .build();
 
-            em.merge(cliente);
+                em.merge(funcionario);
 
-            transaction.commit();
-        } catch (Throwable e) {
-            try {
-                transaction.rollback();
-            } catch (SystemException e1) {
-                e1.printStackTrace();
+                Usuario cliente = new Usuario.Builder()
+                        .id(1)
+                        .nome("cliente")
+                        .dataNascimento(new Date())
+                        .senha(SegurancaUtil.hashSenha("123456"))
+                        .cpf("987.654.321-01")
+                        .perfil(Perfil.CLIENTE)
+                        .email("cliente@saf.com")
+
+                        .build();
+
+                em.merge(cliente);
+
+                transaction.commit();
+            } catch (Throwable e) {
+                try {
+                    transaction.rollback();
+                } catch (SystemException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
             }
-            e.printStackTrace();
         }
 
     }
