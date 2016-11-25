@@ -131,6 +131,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
         Log.d("carregar", "carregado" + nome);
     }
 
+
     @Override
     public void mostrarLoading() {
 

@@ -35,7 +35,7 @@ import br.edu.ifam.saf.util.SegurancaUtil;
 public class UsuarioEndpoint {
 
     @Inject
-    private  UsuarioDAO usuarioDAO;
+    private UsuarioDAO usuarioDAO;
 
     @Inject
     private UsuarioTransformer usuarioTransformer;
@@ -117,24 +117,32 @@ public class UsuarioEndpoint {
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @RequerLogin({Perfil.ADMINISTRADOR, Perfil.CLIENTE, Perfil.FUNCIONARIO})
     @Path("/{id}")
-    public Response atualizarUsuario(@PathParam("id") Integer usuario_id, UsuarioDTO usuarioDTO){
-        final Usuario usuario = usuarioDAO.consultar(usuario_id);
-        final Usuario usuario_atualizar = usuarioTransformer.toEntity(usuarioDTO);
+    public Response atualizarUsuario(@PathParam("id") Integer usuarioId, UsuarioDTO usuarioDTO) {
+        final Usuario usuario = usuarioDAO.consultar(usuarioId);
+        final Usuario usuarioToUpdate = usuarioTransformer.toEntity(usuarioDTO);
 
-        if(usuario.getId().equals(usuarioLogado.getId()) ||
-                usuarioLogado.getPerfil() == Perfil.ADMINISTRADOR){
-            usuarioDAO.atualizar(usuario_atualizar);
-            return Respostas.ok();
-        }else{
+        if (!usuario.isAdmin()) {
+            usuarioToUpdate.setPerfil(usuarioLogado.getPerfil());
+        }
+
+        if (temPermissaoParaAlterar(usuarioLogado)) {
+            usuarioDAO.atualizar(usuarioToUpdate);
+            return Response.accepted().build();
+        } else {
             return Respostas.acessoNegado();
         }
     }
+
+    private boolean temPermissaoParaAlterar(Usuario usuario) {
+        return usuario.getId().equals(usuarioLogado.getId()) || usuarioLogado.isAdmin();
+    }
+
 
     @GET
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @RequerLogin(Perfil.ADMINISTRADOR)
     @Path("/{usuario_id}")
-    public Response consultarUsuario(@PathParam("usuario_id") Integer usuario_id){
-        return Response.ok().entity(usuarioTransformer.toDTO(usuarioDAO.consultar(usuario_id))).build();
+    public Response consultarUsuario(@PathParam("usuario_id") Integer usuarioId) {
+        return Response.ok().entity(usuarioTransformer.toDTO(usuarioDAO.consultar(usuarioId))).build();
     }
 }

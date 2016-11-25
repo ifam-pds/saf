@@ -57,6 +57,14 @@ public class Usuario extends EntidadeBase {
         this.bairro = bairro;
     }
 
+    public Usuario(String nome) {
+        this.nome = nome;
+    }
+
+    public boolean isAdmin() {
+        return perfil == Perfil.ADMINISTRADOR;
+    }
+
     public String getCpf() {
         return cpf;
     }

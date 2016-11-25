@@ -46,7 +46,10 @@ public class UsuarioDAO {
     }
 
     public Usuario consultar(Integer id) {
-        return dao.consultar(id);
+        TypedQuery<Usuario> query = em.createQuery("select new Usuario(u.nome) from Usuario u where u.id = :id", Usuario.class);
+        query.setParameter("id", id);
+        return query.getSingleResult();
+//        return dao.consultar(id);
     }
 
     public List<Usuario> listarTodos() {
