@@ -3,11 +3,13 @@ package br.edu.ifam.saf.editarconta;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.text.ParseException;
 import java.util.Date;
+import java.util.List;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
@@ -17,7 +19,6 @@ import br.edu.ifam.saf.util.DateFormatter;
 import br.edu.ifam.saf.view.FieldView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import br.edu.ifam.saf.criaritem.CriarItemPresenter;
 import butterknife.OnClick;
 
 /**
@@ -50,15 +51,20 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
     FieldView email;
 
     @BindView(R.id.perfil_spinner)
-    Spinner perfil;
+    Spinner perfilSpinner;
 
     private EditarContaContract.Presenter presenter;
+    private ArrayAdapter<Perfil> perfilAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_conta);
         ButterKnife.bind(this);
+
+        perfilAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
+        perfilSpinner.setAdapter(perfilAdapter);
+
         if(getSupportActionBar() != null){
             getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -68,6 +74,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
             int usuarioId = bundle.getInt(EXTRA_USUARIO_ID);
             presenter = new EditarContaPresenter(this, ApiManager.getService(), usuarioId);
             presenter.carregarUsuario();
+            presenter.carregarPerfis();
             Log.d("editar","Carregar Uuario" + usuarioId);
         } else {
             Toast.makeText(this, "Usuário Inválido!", Toast.LENGTH_SHORT).show();
@@ -98,8 +105,15 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
                 .dataNascimento(nascimento)
                 .numeroHabilitacao(habilitacao.getText())
                 .email(email.getText())
-                .perfil((Perfil) perfil.getSelectedItem())
+                .perfil((Perfil) perfilSpinner.getSelectedItem())
                 .build();
+    }
+
+    @Override
+    public void mostrarPerfis(List<Perfil> perfis) {
+        perfilAdapter.clear();
+        perfilAdapter.addAll(perfis);
+        perfilAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -117,7 +131,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
         dataNascimento.setText(DateFormatter.format(usuarioDTO.getDataNascimento()));
         habilitacao.setText(usuarioDTO.getNumeroHabilitacao());
         email.setText(usuarioDTO.getEmail());
-        perfil.setSelection(usuarioDTO.getPerfil().getNivel());
+        perfilSpinner.setSelection(usuarioDTO.getPerfil().getNivel());
         Log.d("carregar", "carregado" + nome);
     }
 

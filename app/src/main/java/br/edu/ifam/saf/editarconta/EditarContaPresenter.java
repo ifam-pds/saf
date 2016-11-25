@@ -1,8 +1,11 @@
 package br.edu.ifam.saf.editarconta;
 
+import java.util.Arrays;
+
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.enums.Perfil;
 import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -55,8 +58,8 @@ public class EditarContaPresenter implements EditarContaContract.Presenter {
     }
 
     @Override
-    public void carregarPerfil() {
-
+    public void carregarPerfis() {
+        view.mostrarPerfis(Arrays.asList(Perfil.values()));
     }
 
     @Override
