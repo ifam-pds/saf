@@ -230,7 +230,7 @@ public class StartupListener implements ServletContextListener {
                     .nome("admin")
                     .dataNascimento(new Date())
                     .senha(SegurancaUtil.hashSenha("123456"))
-                    .cpf("012.123.123-22")
+                    .cpf("123.456.789-52")
                     .perfil(Perfil.ADMINISTRADOR)
                     .email("admin@saf.com")
 
@@ -243,26 +243,26 @@ public class StartupListener implements ServletContextListener {
                     .nome("funcionario")
                     .dataNascimento(new Date())
                     .senha(SegurancaUtil.hashSenha("123456"))
-                    .cpf("012.123.123-22")
-                    .perfil(Perfil.ADMINISTRADOR)
+                    .cpf("012.345.678-90")
+                    .perfil(Perfil.FUNCIONARIO)
                     .email("func@saf.com")
 
                     .build();
 
             em.merge(funcionario);
 
-            Usuario usuario = new Usuario.Builder()
+            Usuario cliente = new Usuario.Builder()
                     .id(1)
-                    .nome("user")
+                    .nome("cliente")
                     .dataNascimento(new Date())
                     .senha(SegurancaUtil.hashSenha("123456"))
-                    .cpf("012.123.123-22")
-                    .perfil(Perfil.ADMINISTRADOR)
-                    .email("user@saf.com")
+                    .cpf("987.654.321-01")
+                    .perfil(Perfil.CLIENTE)
+                    .email("cliente@saf.com")
 
                     .build();
 
-            em.merge(usuario);
+            em.merge(cliente);
 
             transaction.commit();
         } catch (Throwable e) {
