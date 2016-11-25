@@ -36,7 +36,7 @@ public class StartupListener implements ServletContextListener {
         popularLocais();
         popularCategorias();
         popularItens();
-       // popularItemAluguel();
+        criarUsuarios();
 
     }
 
@@ -173,9 +173,6 @@ public class StartupListener implements ServletContextListener {
                 Aluguel aluguel = new Aluguel();
                 aluguel.setStatus(StatusAluguel.RESERVA_PENDENTE);
                 aluguel.setDataHoraInicio(new Date());
-                aluguel.setDataHoraDevolucao(new Date());
-
-//                aluguel.setId(1);
 
                 Usuario usuario = new Usuario.Builder()
                         .id(3)
@@ -220,6 +217,63 @@ public class StartupListener implements ServletContextListener {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void criarUsuarios(){
+        UserTransaction transaction = getTransaction();
+
+        try{
+            transaction.begin();
+
+            Usuario admin = new Usuario.Builder()
+                    .id(1)
+                    .nome("admin")
+                    .dataNascimento(new Date())
+                    .senha(SegurancaUtil.hashSenha("123456"))
+                    .cpf("012.123.123-22")
+                    .perfil(Perfil.ADMINISTRADOR)
+                    .email("admin@saf.com")
+
+                    .build();
+
+            em.merge(admin);
+
+            Usuario funcionario = new Usuario.Builder()
+                    .id(1)
+                    .nome("funcionario")
+                    .dataNascimento(new Date())
+                    .senha(SegurancaUtil.hashSenha("123456"))
+                    .cpf("012.123.123-22")
+                    .perfil(Perfil.ADMINISTRADOR)
+                    .email("func@saf.com")
+
+                    .build();
+
+            em.merge(funcionario);
+
+            Usuario usuario = new Usuario.Builder()
+                    .id(1)
+                    .nome("user")
+                    .dataNascimento(new Date())
+                    .senha(SegurancaUtil.hashSenha("123456"))
+                    .cpf("012.123.123-22")
+                    .perfil(Perfil.ADMINISTRADOR)
+                    .email("user@saf.com")
+
+                    .build();
+
+            em.merge(usuario);
+
+            transaction.commit();
+        } catch (Throwable e) {
+            try {
+                transaction.rollback();
+            } catch (SystemException e1) {
+                e1.printStackTrace();
+            }
+            e.printStackTrace();
+        }
+
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {
