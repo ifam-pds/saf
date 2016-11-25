@@ -116,8 +116,8 @@ public class UsuarioEndpoint {
     @Consumes(MediaType.APPLICATION_JSON_UTF8)
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @RequerLogin({Perfil.ADMINISTRADOR, Perfil.CLIENTE, Perfil.FUNCIONARIO})
-    @Path("/{id}")
-    public Response atualizarUsuario(@PathParam("id") Integer usuarioId, UsuarioDTO usuarioDTO) {
+    @Path("/{usuario_id}")
+    public Response atualizarUsuario(@PathParam("usuario_id") Integer usuarioId, UsuarioDTO usuarioDTO) {
         final Usuario usuario = usuarioDAO.consultarParaEditar(usuarioId);
 
         if (!usuarioLogado.isAdmin()) {
@@ -127,7 +127,7 @@ public class UsuarioEndpoint {
         if (temPermissaoParaAlterar(usuarioLogado)) {
             usuario.setId(usuarioId);
             usuarioDAO.atualizar(usuario);
-            return Response.accepted(usuario).build();
+            return Response.accepted(usuarioTransformer.toDTO(usuario)).build();
         } else {
             return Respostas.acessoNegado();
         }
