@@ -36,8 +36,7 @@ public class StartupListener implements ServletContextListener {
         popularLocais();
         popularCategorias();
         popularItens();
-       // popularItemAluguel();
-
+        criarUsuarios();
     }
 
     private void popularLocais() {
@@ -173,9 +172,6 @@ public class StartupListener implements ServletContextListener {
                 Aluguel aluguel = new Aluguel();
                 aluguel.setStatus(StatusAluguel.RESERVA_PENDENTE);
                 aluguel.setDataHoraInicio(new Date());
-                aluguel.setDataHoraDevolucao(new Date());
-
-//                aluguel.setId(1);
 
                 Usuario usuario = new Usuario.Builder()
                         .id(3)
@@ -220,6 +216,71 @@ public class StartupListener implements ServletContextListener {
                 e.printStackTrace();
             }
         }
+    }
+
+    private void criarUsuarios(){
+        TypedQuery<Usuario> query = em.createQuery("select u from Usuario u", Usuario.class);
+
+        query.setMaxResults(1);
+
+        List<Usuario> usuarios = query.getResultList();
+
+        if(usuarios.isEmpty()){
+            UserTransaction transaction = getTransaction();
+
+            try{
+                transaction.begin();
+
+                Usuario admin = new Usuario.Builder()
+                        .id(1)
+                        .nome("admin")
+                        .dataNascimento(new Date())
+                        .senha(SegurancaUtil.hashSenha("123456"))
+                        .cpf("123.456.789-52")
+                        .perfil(Perfil.ADMINISTRADOR)
+                        .email("admin@saf.com")
+
+                        .build();
+
+                em.merge(admin);
+
+                Usuario funcionario = new Usuario.Builder()
+                        .id(1)
+                        .nome("funcionario")
+                        .dataNascimento(new Date())
+                        .senha(SegurancaUtil.hashSenha("123456"))
+                        .cpf("012.345.678-90")
+                        .perfil(Perfil.FUNCIONARIO)
+                        .email("func@saf.com")
+
+                        .build();
+
+                em.merge(funcionario);
+
+                Usuario cliente = new Usuario.Builder()
+                        .id(1)
+                        .nome("cliente")
+                        .dataNascimento(new Date())
+                        .senha(SegurancaUtil.hashSenha("123456"))
+                        .cpf("987.654.321-01")
+                        .perfil(Perfil.CLIENTE)
+                        .email("cliente@saf.com")
+
+                        .build();
+
+                em.merge(cliente);
+
+                transaction.commit();
+            } catch (Throwable e) {
+                try {
+                    transaction.rollback();
+                } catch (SystemException e1) {
+                    e1.printStackTrace();
+                }
+                e.printStackTrace();
+            }
+        }
+
     }
 
     public void contextDestroyed(ServletContextEvent servletContextEvent) {

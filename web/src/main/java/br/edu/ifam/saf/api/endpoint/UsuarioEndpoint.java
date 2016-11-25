@@ -116,18 +116,18 @@ public class UsuarioEndpoint {
     @Consumes(MediaType.APPLICATION_JSON_UTF8)
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @RequerLogin({Perfil.ADMINISTRADOR, Perfil.CLIENTE, Perfil.FUNCIONARIO})
-    @Path("/{id}")
-    public Response atualizarUsuario(@PathParam("id") Integer usuarioId, UsuarioDTO usuarioDTO) {
-        final Usuario usuario = usuarioDAO.consultar(usuarioId);
-        final Usuario usuarioToUpdate = usuarioTransformer.toEntity(usuarioDTO);
+    @Path("/{usuario_id}")
+    public Response atualizarUsuario(@PathParam("usuario_id") Integer usuarioId, UsuarioDTO usuarioDTO) {
+        final Usuario usuario = usuarioDAO.consultarParaEditar(usuarioId);
 
-        if (!usuario.isAdmin()) {
-            usuarioToUpdate.setPerfil(usuarioLogado.getPerfil());
+        if (!usuarioLogado.isAdmin()) {
+            usuario.setPerfil(usuarioLogado.getPerfil());
         }
 
         if (temPermissaoParaAlterar(usuarioLogado)) {
-            usuarioDAO.atualizar(usuarioToUpdate);
-            return Response.accepted().build();
+            usuario.setId(usuarioId);
+            usuarioDAO.atualizar(usuario);
+            return Response.accepted(usuarioTransformer.toDTO(usuario)).build();
         } else {
             return Respostas.acessoNegado();
         }
@@ -140,9 +140,9 @@ public class UsuarioEndpoint {
 
     @GET
     @Produces(MediaType.APPLICATION_JSON_UTF8)
-    @RequerLogin(Perfil.ADMINISTRADOR)
     @Path("/{usuario_id}")
     public Response consultarUsuario(@PathParam("usuario_id") Integer usuarioId) {
-        return Response.ok().entity(usuarioTransformer.toDTO(usuarioDAO.consultar(usuarioId))).build();
+        final Usuario usuario = usuarioDAO.consultarParaEditar(usuarioId);
+        return Respostas.ok(usuarioTransformer.toDTO(usuario));
     }
 }
