@@ -43,10 +43,8 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.ViewHold
     }
 
     public void replaceUsuarios(List<UsuarioDTO> usuarios) {
-
         this.usuarios = usuarios;
         notifyDataSetChanged();
-
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
@@ -77,16 +75,12 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.ViewHold
 
         @Override
         public void onClick(View v) {
-
             listener.onUsuarioClick(getAdapterPosition(), usuario);
-
         }
     }
 
     interface UsuarioClickListener{
-
         void onUsuarioClick(int posicao, UsuarioDTO usuarioDTO);
-
     }
 
 }

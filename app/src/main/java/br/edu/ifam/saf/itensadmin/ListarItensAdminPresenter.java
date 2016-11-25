@@ -1,32 +1,33 @@
-package br.edu.ifam.saf.listarusuarios;
+package br.edu.ifam.saf.itensadmin;
 
 import br.edu.ifam.saf.SAFService;
+import br.edu.ifam.saf.api.data.ItensResponse;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
-import br.edu.ifam.saf.api.data.UsuariosResponse;
-import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ListarUsuariosPresenter implements ListarUsuariosContract.Presenter {
+public class ListarItensAdminPresenter implements ItensAdminContract.Presenter{
 
-    ListarUsuariosContract.View view;
+    ItensAdminContract.View view;
     private SAFService service;
 
-    public ListarUsuariosPresenter(ListarUsuariosContract.View view, SAFService service) {
+    public ListarItensAdminPresenter(ItensAdminContract.View view, SAFService service) {
         this.view = view;
         this.service = service;
     }
 
-    @Override
-    public void carregarUsuarios() {
-        service.listarUsuarios().subscribeOn(Schedulers.io())
+    public void carregarItens() {
+        view.mostrarLoading();
+        service.listarItems()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ApiCallback<UsuariosResponse>() {
+                .subscribe(new ApiCallback<ItensResponse>() {
                     @Override
-                    public void onSuccess(UsuariosResponse response) {
+                    public void onSuccess(ItensResponse response) {
                         view.esconderLoading();
-                        view.mostrarUsuarios(response.getUsuarios());
+                        view.mostrarItens(response.getItems());
                     }
 
                     @Override
@@ -43,13 +44,17 @@ public class ListarUsuariosPresenter implements ListarUsuariosContract.Presenter
     }
 
     @Override
-    public void usuarioClicado(UsuarioDTO usuarioDTO) {
-        view.mostrarTelaEditarUsuario(usuarioDTO.getId());
+    public void carregarListaDeItens() {
+        carregarItens();
+    }
+
+    @Override
+    public void itemClicado(ItemDTO item) {
+        view.mostrarTelaEditarItem(item.getId());
     }
 
     @Override
     public void destroy() {
         view = null;
     }
-
 }

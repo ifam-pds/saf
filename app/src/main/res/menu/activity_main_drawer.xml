@@ -20,7 +20,10 @@
             android:id="@+id/nav_usuarios"
             android:icon="@drawable/ic_person_black_24dp"
             android:title="Usuários" />
-
+        <item
+            android:id="@+id/nav_itens_admin"
+            android:icon="@drawable/ic_directions_boat_black_24dp"
+            android:title="Itens Administração" />
         <item
             android:id="@+id/nav_listar_requisicoes"
             android:icon="@drawable/ic_assignment_black_24dp"

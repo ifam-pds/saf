@@ -63,8 +63,7 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_itens, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -81,7 +80,7 @@ public class ItensFragment extends Fragment implements ItensContract.View, Itens
         intent.putExtra(ReservaActivity.EXTRA_ITEM_ID, item.getId());
 
         Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle();
-//
+
         startActivity(intent, options);
     }
 

@@ -1,6 +1,8 @@
 package br.edu.ifam.saf;
 
 
+import android.content.ClipData;
+
 import br.edu.ifam.saf.api.data.AlugueisResponse;
 import br.edu.ifam.saf.api.data.CategoriasResponse;
 import br.edu.ifam.saf.api.data.ItensResponse;
@@ -32,11 +34,20 @@ public interface SAFService {
     @GET("itens/{item_id}")
     Observable<Result<ItemDTO>> consultarItem(@Path("item_id") Integer itemId);
 
+    @PUT("itens/{item_id}")
+    Observable<Result<Void>> atualizarItem(@Path("item_id") Integer itemId, @Body ItemDTO itemDTO);
+
     @POST("usuarios")
     Observable<Result<Void>> registrarUsuario(@Body UsuarioDTO usuario);
 
     @GET("usuarios")
     Observable<Result<UsuariosResponse>> listarUsuarios();
+
+    @GET("usuarios/{usuario_id}")
+    Observable<Result<UsuarioDTO>> consultarUsuario(@Path("usuario_id") Integer usuarioId);
+
+    @PUT("usuarios/{usuario_id}")
+    Observable<Result<Void>> atualizarUsuario(@Path("usuario_id") Integer usuarioId, @Body UsuarioDTO usuarioDTO);
 
     @POST("usuarios/login")
     Observable<Result<UsuarioDTO>> login(@Body LoginData loginData);
@@ -52,12 +63,6 @@ public interface SAFService {
 
     @GET("categorias")
     Observable<Result<CategoriasResponse>> listarCategorias();
-
-    @GET("usuarios/{usuario_id}")
-    Observable<Result<UsuarioDTO>> consultarUsuario(@Path("usuario_id") Integer usuarioId);
-
-    @PUT("usuarios/{usuario_id}")
-    Observable<Result<Void>> atualizarUsuario(@Path("usuario_id") Integer usuarioId, @Body UsuarioDTO usuarioDTO);
 
     @POST("categorias")
     Observable<Result<Void>> cadastrarCategorias(@Body CategoriaDTO categoriaDTO);

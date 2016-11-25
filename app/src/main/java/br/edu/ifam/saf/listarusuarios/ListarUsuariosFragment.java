@@ -25,21 +25,18 @@ import butterknife.ButterKnife;
 
 public class ListarUsuariosFragment extends Fragment implements ListarUsuariosContract.View, UsuarioAdapter.UsuarioClickListener {
 
+    UsuarioAdapter adapter;
+
     @BindView(R.id.listarUsuario)
     RecyclerView rvUsuarios;
+
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout refreshLayout;
-    UsuarioAdapter adapter;
+
     ListarUsuariosContract.Presenter presenter;
 
     public ListarUsuariosFragment() {
 
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
-        return inflater.inflate(R.layout.fragment_listar_usuarios, container, false);
     }
 
     @Override
@@ -62,14 +59,13 @@ public class ListarUsuariosFragment extends Fragment implements ListarUsuariosCo
     }
 
     @Override
-    public void mostrarUsuarios(List<UsuarioDTO> usuarios) {
-        adapter.replaceUsuarios(usuarios);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_listar_usuarios, container, false);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        presenter.destroy();
+    public void mostrarUsuarios(List<UsuarioDTO> usuarios) {
+        adapter.replaceUsuarios(usuarios);
     }
 
     @Override
@@ -103,4 +99,11 @@ public class ListarUsuariosFragment extends Fragment implements ListarUsuariosCo
     public void onUsuarioClick(int posicao, UsuarioDTO usuarioDTO) {
         presenter.usuarioClicado(usuarioDTO);
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        presenter.destroy();
+    }
+
 }

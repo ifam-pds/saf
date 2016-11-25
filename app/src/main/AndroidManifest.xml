@@ -36,6 +36,9 @@
             android:name=".editarconta.EditarContaActivity"
             android:label="SAF - Editar conta" />
         <activity
+            android:name=".editaritem.EditarItemActivity"
+            android:label="SAF - Editar item" />
+        <activity
             android:name=".configuracoes.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity">

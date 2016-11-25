@@ -21,6 +21,7 @@ import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.configuracoes.SettingsActivity;
 import br.edu.ifam.saf.criaritem.CriarItemActivity;
 import br.edu.ifam.saf.itens.ItensFragment;
+import br.edu.ifam.saf.itensadmin.ListarItensAdminFragment;
 import br.edu.ifam.saf.listarcarrinho.ListarCarrinhoFragment;
 import br.edu.ifam.saf.listarcategorias.ListarCategoriasFragment;
 import br.edu.ifam.saf.listarrequisicoes.ListarRequisicoesFragment;
@@ -180,6 +181,11 @@ public class MainActivity extends AppCompatActivity
                 setTitle("Carrinho");
                 fragment = new ListarCarrinhoFragment();
                 break;
+            case R.id.nav_itens_admin: {
+                setTitle("Itens Administração");
+                fragment = new ListarItensAdminFragment();
+                break;
+            }
             case R.id.nav_configuracoes: {
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;

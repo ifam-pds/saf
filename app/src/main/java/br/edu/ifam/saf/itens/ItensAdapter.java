@@ -21,7 +21,6 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
     private List<ItemDTO> dataset;
     private ItemClickListener listener;
 
-
     public ItensAdapter(List<ItemDTO> dataset, ItemClickListener listener) {
         this.dataset = dataset;
         this.listener = listener;
@@ -42,7 +41,6 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         ItemDTO item = dataset.get(position);
         holder.setItem(item);
-
     }
 
     @Override
