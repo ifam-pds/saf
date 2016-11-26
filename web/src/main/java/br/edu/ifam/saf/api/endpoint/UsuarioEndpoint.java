@@ -119,8 +119,6 @@ public class UsuarioEndpoint {
     @RequerLogin({Perfil.ADMINISTRADOR, Perfil.CLIENTE, Perfil.FUNCIONARIO})
     @Path("/{usuario_id}")
     public Response atualizarUsuario(@PathParam("usuario_id") Integer usuarioId, UsuarioDTO usuarioDTO) {
-        Validation.validaRegistroUsuario(usuarioDTO);
-
         Usuario usuario = usuarioDAO.consultar(usuarioId);
         if (usuario == null) {
             return Respostas.badRequest(new MensagemErroResponse("Usuário não existe"));
@@ -131,7 +129,7 @@ public class UsuarioEndpoint {
             usuarioAtualizado.setPerfil(usuarioLogado.getPerfil());
         }
 
-        if (usuarioAtualizado.getSenha() == null || usuarioAtualizado.getSenha().length() == 0) {
+        if (StringUtils.isBlank(usuario.getSenha())) {
             usuarioAtualizado.setSenha(usuario.getSenha());
         } else {
             usuarioAtualizado.setSenha(SegurancaUtil.hashSenha(usuarioAtualizado.getSenha()));
