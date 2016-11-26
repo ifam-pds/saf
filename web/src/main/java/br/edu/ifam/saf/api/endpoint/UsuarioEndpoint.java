@@ -129,7 +129,7 @@ public class UsuarioEndpoint {
             usuarioAtualizado.setPerfil(usuarioLogado.getPerfil());
         }
 
-        if (temPermissaoParaAlterar(usuarioLogado)) {
+        if (temPermissaoParaAlterar(usuarioAtualizado)) {
             usuarioAtualizado.setId(usuarioId);
             usuarioDAO.atualizar(usuarioAtualizado);
             return Response.accepted(usuarioAtualizado).build();
