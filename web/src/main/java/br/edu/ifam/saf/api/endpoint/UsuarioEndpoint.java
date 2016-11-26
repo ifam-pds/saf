@@ -129,9 +129,14 @@ public class UsuarioEndpoint {
             usuarioAtualizado.setPerfil(usuarioLogado.getPerfil());
         }
 
+        if(usuarioDTO.getSenha() != usuario.getSenha()){
+            usuarioAtualizado.setSenha(SegurancaUtil.hashSenha(usuarioDTO.getSenha()));
+        }else{
+            usuarioAtualizado.setSenha(usuario.getSenha());
+        }
+
         if (temPermissaoParaAlterar(usuarioAtualizado)) {
             usuarioAtualizado.setId(usuarioId);
-            usuarioAtualizado.setSenha(usuario.getSenha());
             usuarioDAO.atualizar(usuarioAtualizado);
             return Response.accepted(usuarioAtualizado).build();
         } else {
