@@ -31,7 +31,7 @@ public class EditarContaPresenter implements EditarContaContract.Presenter {
             view.mostrarInfoMensagem("Data de nascimento inválida.");
         }
 
-        service.atualizarUsuario(usuarioDTO.getId(), usuarioDTO)
+        service.atualizarUsuario(usuarioId, usuarioDTO)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiCallback<Void>() {
