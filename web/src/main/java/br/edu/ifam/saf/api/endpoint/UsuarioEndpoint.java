@@ -17,6 +17,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import br.edu.ifam.saf.api.data.LoginData;
+import br.edu.ifam.saf.api.data.MensagemErroResponse;
 import br.edu.ifam.saf.api.data.UsuariosResponse;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.api.dto.UsuarioTransformer;
@@ -118,16 +119,20 @@ public class UsuarioEndpoint {
     @RequerLogin({Perfil.ADMINISTRADOR, Perfil.CLIENTE, Perfil.FUNCIONARIO})
     @Path("/{usuario_id}")
     public Response atualizarUsuario(@PathParam("usuario_id") Integer usuarioId, UsuarioDTO usuarioDTO) {
-        final Usuario usuario = usuarioDAO.consultar(usuarioId);
+        Usuario usuario = usuarioDAO.consultar(usuarioId);
+        if (usuario == null) {
+            return Respostas.badRequest(new MensagemErroResponse("Usuário não existe"));
+        }
+        Usuario usuarioAtualizado = usuarioTransformer.toEntity(usuarioDTO);
 
         if (!usuarioLogado.isAdmin()) {
-            usuario.setPerfil(usuarioLogado.getPerfil());
+            usuarioAtualizado.setPerfil(usuarioLogado.getPerfil());
         }
 
         if (temPermissaoParaAlterar(usuarioLogado)) {
-            usuario.setId(usuarioId);
-            usuarioDAO.atualizar(usuario);
-            return Response.accepted(usuarioTransformer.toDTO(usuario)).build();
+            usuarioAtualizado.setId(usuarioId);
+            usuarioDAO.atualizar(usuarioAtualizado);
+            return Response.accepted(usuarioAtualizado).build();
         } else {
             return Respostas.acessoNegado();
         }
