@@ -118,7 +118,7 @@ public class UsuarioEndpoint {
     @RequerLogin({Perfil.ADMINISTRADOR, Perfil.CLIENTE, Perfil.FUNCIONARIO})
     @Path("/{usuario_id}")
     public Response atualizarUsuario(@PathParam("usuario_id") Integer usuarioId, UsuarioDTO usuarioDTO) {
-        final Usuario usuario = usuarioDAO.consultarParaEditar(usuarioId);
+        final Usuario usuario = usuarioDAO.consultar(usuarioId);
 
         if (!usuarioLogado.isAdmin()) {
             usuario.setPerfil(usuarioLogado.getPerfil());
@@ -142,7 +142,7 @@ public class UsuarioEndpoint {
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @Path("/{usuario_id}")
     public Response consultarUsuario(@PathParam("usuario_id") Integer usuarioId) {
-        final Usuario usuario = usuarioDAO.consultarParaEditar(usuarioId);
+        final Usuario usuario = usuarioDAO.consultar(usuarioId);
         return Respostas.ok(usuarioTransformer.toDTO(usuario));
     }
 }
