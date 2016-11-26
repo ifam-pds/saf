@@ -28,7 +28,7 @@ public class ItensAdminAdapter extends RecyclerView.Adapter<ItensAdminAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView v = ((CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false));
+        CardView v = ((CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_admin, parent, false));
         return new ViewHolder(v, listener);
     }
 
@@ -48,32 +48,28 @@ public class ItensAdminAdapter extends RecyclerView.Adapter<ItensAdminAdapter.Vi
         notifyDataSetChanged();
     }
 
+    interface ItemAdminClickListener {
+        void onItemClicado(int posicao, ItemDTO itemDTO);
+    }
+
     public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private ItemAdminClickListener listener;
-
-        private ItemDTO item;
 
         @BindView(R.id.marca_item)
         TextView marcaItem;
-
         @BindView(R.id.categoria_item)
         TextView categoriaItem;
-
         @BindView(R.id.nome_item)
         TextView nomeItem;
-
         @BindView(R.id.modelo_item)
         TextView modeloItem;
-
         @BindView(R.id.preco_item)
         TextView precoItem;
-
         @BindView(R.id.status_item)
         TextView statusItem;
-
         @BindView(R.id.descricao_item)
         TextView descricaoItem;
+        private ItemAdminClickListener listener;
+        private ItemDTO item;
 
         public ViewHolder(CardView view, ItemAdminClickListener listener){
             super(view);
@@ -99,10 +95,6 @@ public class ItensAdminAdapter extends RecyclerView.Adapter<ItensAdminAdapter.Vi
         public void onClick(View v) {
             listener.onItemClicado(getAdapterPosition(), item);
         }
-    }
-
-    interface ItemAdminClickListener {
-        void onItemClicado(int posicao, ItemDTO itemDTO);
     }
 
 }
