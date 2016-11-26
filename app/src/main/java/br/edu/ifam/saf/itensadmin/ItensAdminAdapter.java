@@ -28,7 +28,7 @@ public class ItensAdminAdapter extends RecyclerView.Adapter<ItensAdminAdapter.Vi
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        CardView v = ((CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item_admin, parent, false));
+        CardView v = ((CardView) LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false));
         return new ViewHolder(v, listener);
     }
 
