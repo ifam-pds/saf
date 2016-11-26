@@ -131,6 +131,7 @@ public class UsuarioEndpoint {
 
         if (temPermissaoParaAlterar(usuarioAtualizado)) {
             usuarioAtualizado.setId(usuarioId);
+            usuarioAtualizado.setSenha(usuario.getSenha());
             usuarioDAO.atualizar(usuarioAtualizado);
             return Response.accepted(usuarioAtualizado).build();
         } else {
