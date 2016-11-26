@@ -31,7 +31,7 @@ public class EditarItemPresenter implements  EditarItemContract.Presenter {
             view.mostrarInfoMensagem("Nome de usuário inválido.");
         }
 
-        service.atualizarItem(itemDTO.getId(), itemDTO)
+        service.atualizarItem(itemId, itemDTO)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiCallback<Void>() {
