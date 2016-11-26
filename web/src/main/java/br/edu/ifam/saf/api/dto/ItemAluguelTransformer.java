@@ -15,9 +15,6 @@ public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemA
     @Inject
     ItemTransformer itemTransformer;
 
-    @Inject
-    AluguelTransformer aluguelTransformer;
-
     @Override
     public ItemAluguel toEntity(ItemAluguelDTO dto) {
         ItemAluguel itemAluguel = new ItemAluguel();
@@ -25,6 +22,7 @@ public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemA
         itemAluguel.setId(dto.getId());
         itemAluguel.setItem(itemTransformer.toEntity(dto.getItem()));
         itemAluguel.setQuantidade(dto.getQuantidade());
+        itemAluguel.setStatus(dto.getStatus());
         return itemAluguel;
     }
 
@@ -35,6 +33,7 @@ public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemA
         itemAluguelDTO.setId(entity.getId());
         itemAluguelDTO.setQuantidade(entity.getQuantidade());
         itemAluguelDTO.setItem(itemTransformer.toDTO(entity.getItem()));
+        itemAluguelDTO.setStatus(entity.getStatus());
 
         return itemAluguelDTO;
     }

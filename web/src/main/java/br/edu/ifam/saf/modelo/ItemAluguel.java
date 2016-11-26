@@ -2,9 +2,13 @@ package br.edu.ifam.saf.modelo;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import br.edu.ifam.saf.enums.StatusItemAluguel;
 
 @Entity
 @Table(name = "item_aluguel")
@@ -19,6 +23,9 @@ public class ItemAluguel extends EntidadeBase {
 
     @ManyToOne(optional = false)
     private Item item;
+
+    @Enumerated(EnumType.STRING)
+    private StatusItemAluguel status;
 
 
     public Integer getQuantidade() {
@@ -55,6 +62,14 @@ public class ItemAluguel extends EntidadeBase {
 
     public void setItem(Item item) {
         this.item = item;
+    }
+
+    public StatusItemAluguel getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusItemAluguel status) {
+        this.status = status;
     }
 
     @Override

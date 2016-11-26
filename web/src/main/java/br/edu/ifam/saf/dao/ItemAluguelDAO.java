@@ -7,6 +7,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
+import br.edu.ifam.saf.enums.StatusItemAluguel;
 import br.edu.ifam.saf.modelo.ItemAluguel;
 
 @Stateless
@@ -39,6 +40,12 @@ public class ItemAluguelDAO {
 
     public void remover(ItemAluguel entidade) {
         dao.remover(entidade);
+    }
+
+    public List<ItemAluguel> filtrarPorStatus(StatusItemAluguel status){
+        return em.createQuery("SELECT i FROM ItemAluguel i WHERE i.status = :status", ItemAluguel.class)
+                .setParameter("status", status)
+                .getResultList();
     }
 
 }

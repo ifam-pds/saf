@@ -56,13 +56,13 @@ public class ListarRequisicoesPresenter implements ListarRequisicoesContract.Pre
     public void aprovarReserva(AluguelDTO aluguelDTO) {
 
         view.mostrarLoading();
-        service.alterarStatus(aluguelDTO.getId(), new StatusData(StatusAluguel.APROVADO))
+        service.alterarStatus(aluguelDTO.getId(), new StatusData(StatusAluguel.REQUISICAO_APROVADA))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new ApiCallback<Void>() {
                     @Override
                     public void onSuccess(Void response) {
-                        view.mostrarMensagem("Aluguel Aprovado");
+                        view.mostrarMensagem("Aluguel REQUISICAO_APROVADA");
                         view.esconderLoading();
                     }
 
@@ -84,13 +84,13 @@ public class ListarRequisicoesPresenter implements ListarRequisicoesContract.Pre
     public void reprovarReserva(AluguelDTO aluguelDTO) {
 
         view.mostrarLoading();
-        service.alterarStatus(aluguelDTO.getId(), new StatusData(StatusAluguel.REPROVADO))
+        service.alterarStatus(aluguelDTO.getId(), new StatusData(StatusAluguel.REQUISICAO_REPROVADA))
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeOn(Schedulers.io())
                 .subscribe(new ApiCallback<Void>() {
                     @Override
                     public void onSuccess(Void response) {
-                        view.mostrarMensagem("Aluguel Reprovado");
+                        view.mostrarMensagem("Aluguel REQUISICAO_REPROVADA");
                         view.esconderLoading();
                     }
 

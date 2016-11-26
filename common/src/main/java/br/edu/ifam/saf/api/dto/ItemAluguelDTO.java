@@ -1,11 +1,14 @@
 package br.edu.ifam.saf.api.dto;
 
 
+import br.edu.ifam.saf.enums.StatusItemAluguel;
+
 public class ItemAluguelDTO {
 
     private Integer id;
     private Integer quantidade;
     private ItemDTO item;
+    private StatusItemAluguel status;
 
     public Integer getId() {
         return id;
@@ -33,6 +36,14 @@ public class ItemAluguelDTO {
 
     public void setItem(ItemDTO item) {
         this.item = item;
+    }
+
+    public StatusItemAluguel getStatus() {
+        return status;
+    }
+
+    public void setStatus(StatusItemAluguel status) {
+        this.status = status;
     }
 
     @Override

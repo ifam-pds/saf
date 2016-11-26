@@ -53,10 +53,10 @@ public class ListarRequisicoesFragment extends Fragment implements ListarRequisi
         refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                presenter.carregarReservas(StatusAluguel.RESERVA_PENDENTE);
+                presenter.carregarReservas(StatusAluguel.REQUISICAO_PENDENTE);
             }
         });
-        presenter.carregarReservas(StatusAluguel.RESERVA_PENDENTE);
+        presenter.carregarReservas(StatusAluguel.REQUISICAO_PENDENTE);
 
     }
 

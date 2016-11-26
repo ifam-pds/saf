@@ -170,7 +170,7 @@ public class StartupListener implements ServletContextListener {
                 transaction.begin();
 
                 Aluguel aluguel = new Aluguel();
-                aluguel.setStatus(StatusAluguel.RESERVA_PENDENTE);
+                aluguel.setStatus(StatusAluguel.REQUISICAO_PENDENTE);
                 aluguel.setDataHoraInicio(new Date());
 
                 Usuario usuario = new Usuario.Builder()

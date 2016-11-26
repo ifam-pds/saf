@@ -99,7 +99,7 @@ public class AluguelEndpoint {
         final Aluguel aluguel = aluguelTransformer.toEntity(aluguelDTO);
         aluguel.setDataHoraInicio(new Date());
         aluguel.setDataHoraDevolucao(new Date());
-        aluguel.setStatus(StatusAluguel.RESERVA_PENDENTE);
+        aluguel.setStatus(StatusAluguel.REQUISICAO_PENDENTE);
         aluguel.setId(null);
         aluguel.setCliente(usuarioDAO.consultar(usuarioLogado.getId()));
         aluguelDAO.inserir(aluguel);
