@@ -2,7 +2,6 @@ package br.edu.ifam.saf.listarcarrinho;
 
 import br.edu.ifam.saf.SAFService;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
-import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.data.LocalRepository;
 import br.edu.ifam.saf.util.ApiCallback;
@@ -63,6 +62,7 @@ public class ListarCarrinhoPresenter implements ListarCarrinhoContract.Presenter
     @Override
     public void removerItem(ItemAluguelDTO itemAluguelDTO) {
         repository.removerAluguelItem(itemAluguelDTO);
+        view.atualizarTotal(repository.getCarrinho().calcularValorTotal());
     }
 
     @Override

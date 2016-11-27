@@ -2,6 +2,8 @@ package br.edu.ifam.saf.modelo;
 
 import com.google.common.base.Preconditions;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -10,8 +12,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -19,33 +19,24 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
-import br.edu.ifam.saf.enums.StatusAluguel;
-
 @Entity
 @Table(name = "aluguel")
 public class Aluguel extends EntidadeBase {
 
-    @ManyToOne(optional = false
-    )
+    @ManyToOne(optional = false)
     private Usuario cliente;
 
     @ManyToOne
     private Usuario funcionario;
 
+
+    @CreationTimestamp
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(nullable = false)
+    private Date dataHoraRequisicao;
+
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "aluguel", orphanRemoval = true)
     private List<ItemAluguel> itens = new ArrayList<>();
-
-
-    @Column(nullable = false)
-    @Temporal(TemporalType.TIMESTAMP)
-    private Date dataHoraInicio;
-
-    @Temporal(TemporalType.TIMESTAMP)
-    @Column(nullable = true)
-    private Date dataHoraDevolucao;
-
-    @Enumerated(EnumType.STRING)
-    private StatusAluguel status;
 
     public Usuario getCliente() {
         return cliente;
@@ -73,34 +64,15 @@ public class Aluguel extends EntidadeBase {
         for (ItemAluguel item : itens) {
             item.setAluguel(this);
         }
-    }
-
-    public Double getValorTotal() {
-        double total = 0.0;
-        long duracaoEmMinutos = (dataHoraDevolucao.getTime() - dataHoraInicio.getTime()) / 1000 / 60;
-
-        for (ItemAluguel itemAluguel : itens) {
-            total += itemAluguel.getItem().getPrecoPorHora() / 60 * duracaoEmMinutos;
-        }
-        return total;
-
 
     }
 
-    public Date getDataHoraInicio() {
-        return dataHoraInicio;
+    public Date getDataHoraRequisicao() {
+        return dataHoraRequisicao;
     }
 
-    public void setDataHoraInicio(Date dataHoraInicio) {
-        this.dataHoraInicio = dataHoraInicio;
-    }
-
-    public Date getDataHoraDevolucao() {
-        return dataHoraDevolucao;
-    }
-
-    public void setDataHoraDevolucao(Date dataHoraDevolucao) {
-        this.dataHoraDevolucao = dataHoraDevolucao;
+    public void setDataHoraRequisicao(Date dataHoraRequisicao) {
+        this.dataHoraRequisicao = dataHoraRequisicao;
     }
 
     public void adicionarItem(ItemAluguel itemAluguel) {
@@ -116,32 +88,17 @@ public class Aluguel extends EntidadeBase {
         }
     }
 
-
-    public StatusAluguel getStatus() {
-        return status;
-    }
-
-    public void setStatus(StatusAluguel status) {
-        this.status = status;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof Aluguel)) return false;
         if (!super.equals(o)) return false;
 
         Aluguel aluguel = (Aluguel) o;
 
         if (cliente != null ? !cliente.equals(aluguel.cliente) : aluguel.cliente != null)
             return false;
-        if (funcionario != null ? !funcionario.equals(aluguel.funcionario) : aluguel.funcionario != null)
-            return false;
-        if (dataHoraInicio != null ? !dataHoraInicio.equals(aluguel.dataHoraInicio) : aluguel.dataHoraInicio != null)
-            return false;
-        if (dataHoraDevolucao != null ? !dataHoraDevolucao.equals(aluguel.dataHoraDevolucao) : aluguel.dataHoraDevolucao != null)
-            return false;
-        return status == aluguel.status;
+        return funcionario != null ? funcionario.equals(aluguel.funcionario) : aluguel.funcionario == null;
 
     }
 
@@ -150,9 +107,6 @@ public class Aluguel extends EntidadeBase {
         int result = super.hashCode();
         result = 31 * result + (cliente != null ? cliente.hashCode() : 0);
         result = 31 * result + (funcionario != null ? funcionario.hashCode() : 0);
-        result = 31 * result + (dataHoraInicio != null ? dataHoraInicio.hashCode() : 0);
-        result = 31 * result + (dataHoraDevolucao != null ? dataHoraDevolucao.hashCode() : 0);
-        result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
 }

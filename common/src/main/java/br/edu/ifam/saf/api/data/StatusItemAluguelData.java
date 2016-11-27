@@ -2,14 +2,14 @@ package br.edu.ifam.saf.api.data;
 
 import br.edu.ifam.saf.enums.StatusItemAluguel;
 
-public class StatusDataItemAluguel {
+public class StatusItemAluguelData {
     private StatusItemAluguel status;
 
-    public StatusDataItemAluguel(StatusItemAluguel status){
+    public StatusItemAluguelData(StatusItemAluguel status) {
         this.status = status;
     }
 
-    public StatusDataItemAluguel(){
+    public StatusItemAluguelData() {
     }
 
     public StatusItemAluguel getStatus(){

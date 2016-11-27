@@ -13,13 +13,13 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import java.util.Iterator;
 
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.configuracoes.SettingsActivity;
-import br.edu.ifam.saf.criaritem.CriarItemActivity;
 import br.edu.ifam.saf.itens.ItensFragment;
 import br.edu.ifam.saf.itensadmin.ListarItensAdminFragment;
 import br.edu.ifam.saf.listarcarrinho.ListarCarrinhoFragment;
@@ -41,6 +41,9 @@ public class MainActivity extends AppCompatActivity
     Toolbar toolbar;
     @BindView(R.id.nav_view)
     NavigationView navigationView;
+
+    @BindView(R.id.toolbar_spinner)
+    Spinner toolbarSpinner;
     //drawer header
     TextView headerTitulo;
     TextView headerEmail;
@@ -148,6 +151,12 @@ public class MainActivity extends AppCompatActivity
 
         Fragment fragment;
 
+        getSupportActionBar().setDisplayShowTitleEnabled(true);
+
+        toolbarSpinner.setVisibility(View.GONE);
+        toolbarSpinner.setAdapter(null);
+        toolbarSpinner.setOnItemSelectedListener(null);
+
         switch (id) {
             case R.id.nav_itens:
                 fragment = ItensFragment.newInstance();
@@ -221,13 +230,13 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void esconderOpcaoAdminItens() {
-        setMenuVisibility(R.id.nav_itens_admin,false);
+        setMenuVisibility(R.id.nav_itens_admin, false);
 
     }
 
     @Override
     public void mostrarOpcaoAdminItens() {
-        setMenuVisibility(R.id.nav_itens_admin,true);
+        setMenuVisibility(R.id.nav_itens_admin, true);
 
     }
 

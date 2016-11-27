@@ -2,26 +2,25 @@ package br.edu.ifam.saf.listarrequisicoes;
 
 import java.util.List;
 
-import br.edu.ifam.saf.api.dto.AluguelDTO;
-import br.edu.ifam.saf.enums.StatusAluguel;
+import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
+import br.edu.ifam.saf.enums.StatusItemAluguel;
 import br.edu.ifam.saf.mvp.BasePresenter;
 import br.edu.ifam.saf.mvp.LoadingView;
 
 public interface ListarRequisicoesContract {
 
     interface View extends LoadingView {
-        void mostrarRequisicoes(List<AluguelDTO> alugueis);
+        void mostrarItens(List<ItemAluguelDTO> itens);
 
         void mostrarMensagem(String mensagem);
     }
 
     interface Presenter extends BasePresenter {
-        void carregarReservas(StatusAluguel statusAluguel);
+        void carregarRequisicoes(StatusItemAluguel status);
 
-        void aprovarReserva(AluguelDTO aluguelDTO);
+        void refresh();
 
-        void reprovarReserva(AluguelDTO aluguelDTO);
-
+        void atualizarStatus(ItemAluguelDTO item, StatusItemAluguel status);
     }
 
 }

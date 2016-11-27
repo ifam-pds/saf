@@ -1,19 +1,17 @@
 package br.edu.ifam.saf;
 
 
-import android.content.ClipData;
-
-import br.edu.ifam.saf.api.data.AlugueisResponse;
 import br.edu.ifam.saf.api.data.CategoriasResponse;
+import br.edu.ifam.saf.api.data.ItensAluguelResponse;
 import br.edu.ifam.saf.api.data.ItensResponse;
 import br.edu.ifam.saf.api.data.LoginData;
-import br.edu.ifam.saf.api.data.StatusData;
+import br.edu.ifam.saf.api.data.StatusItemAluguelData;
 import br.edu.ifam.saf.api.data.UsuariosResponse;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.CategoriaDTO;
 import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
-import br.edu.ifam.saf.enums.StatusAluguel;
+import br.edu.ifam.saf.enums.StatusItemAluguel;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
@@ -52,14 +50,14 @@ public interface SAFService {
     @POST("usuarios/login")
     Observable<Result<UsuarioDTO>> login(@Body LoginData loginData);
 
-    @GET("alugueis")
-    Observable<Result<AlugueisResponse>> alugueis(@Query("status") StatusAluguel statusAluguel);
+    @GET("item_aluguel")
+    Observable<Result<ItensAluguelResponse>> listarRequisicoes(@Query("status") StatusItemAluguel statusAluguel);
 
     @POST("alugueis")
     Observable<Result<Void>> cadastrarAluguel(@Body AluguelDTO aluguelDTO);
 
-    @PUT("alugueis/{aluguel_id}")
-    Observable<Result<Void>> alterarStatus(@Path("aluguel_id") Integer aluguelId, @Body StatusData statusData);
+//    @PUT("alugueis/{aluguel_id}")
+//    Observable<Result<Void>> alterarStatus(@Path("aluguel_id") Integer aluguelId, @Body StatusData statusData);
 
     @GET("categorias")
     Observable<Result<CategoriasResponse>> listarCategorias();
@@ -68,4 +66,6 @@ public interface SAFService {
     Observable<Result<Void>> cadastrarCategorias(@Body CategoriaDTO categoriaDTO);
 
 
+    @PUT("item_aluguel/{item_aluguel_id}")
+    Observable<Result<Void>> atualizaItemAluguelStatus(@Path("item_aluguel_id") Integer itemAluguelId, @Body StatusItemAluguelData status);
 }

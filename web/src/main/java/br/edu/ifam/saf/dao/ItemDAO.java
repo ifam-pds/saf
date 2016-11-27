@@ -6,7 +6,9 @@ import javax.annotation.PostConstruct;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
+import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.modelo.Item;
 
 @Stateless
@@ -26,8 +28,10 @@ public class ItemDAO {
         return dao.consultar(id);
     }
 
-    public List<Item> listarTodos() {
-        return dao.listarTodos();
+    public List<Item> listarAtivos() {
+        TypedQuery<Item> query = em.createQuery("select i from Item i where i.status = :status", Item.class);
+        query.setParameter("status", StatusItem.ATIVO);
+        return query.getResultList();
     }
 
     public void remover(Item entidade) {

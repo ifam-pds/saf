@@ -78,6 +78,10 @@ public class ItemDTO {
         this.precoPorHora = precoPorHora;
     }
 
+    public Double getPrecoPorMinuto() {
+        return precoPorHora / 60;
+    }
+
     public static class Builder {
         private Integer id;
         private String nome;

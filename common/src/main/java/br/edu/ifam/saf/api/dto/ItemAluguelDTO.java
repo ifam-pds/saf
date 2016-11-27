@@ -1,14 +1,18 @@
 package br.edu.ifam.saf.api.dto;
 
 
+import java.util.Date;
+
 import br.edu.ifam.saf.enums.StatusItemAluguel;
 
 public class ItemAluguelDTO {
 
     private Integer id;
-    private Integer quantidade;
+    private Integer duracaoEmMinutos;
+    private Date dataHoraRequisicao;
     private ItemDTO item;
     private StatusItemAluguel status;
+    private UsuarioDTO usuario;
 
     public Integer getId() {
         return id;
@@ -18,16 +22,26 @@ public class ItemAluguelDTO {
         this.id = id;
     }
 
-    public double getValorXQuantidade() {
-        return quantidade * item.getPrecoPorHora();
+
+    public Date getDataHoraRequisicao() {
+        return dataHoraRequisicao;
     }
 
-    public Integer getQuantidade() {
-        return quantidade;
+    public void setDataHoraRequisicao(Date dataHoraRequisicao) {
+        this.dataHoraRequisicao = dataHoraRequisicao;
     }
 
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
+    public double calcularTotal() {
+        return duracaoEmMinutos * item.getPrecoPorMinuto();
+    }
+
+
+    public Integer getDuracaoEmMinutos() {
+        return duracaoEmMinutos;
+    }
+
+    public void setDuracaoEmMinutos(Integer duracaoEmMinutos) {
+        this.duracaoEmMinutos = duracaoEmMinutos;
     }
 
     public ItemDTO getItem() {
@@ -46,25 +60,35 @@ public class ItemAluguelDTO {
         this.status = status;
     }
 
+    public UsuarioDTO getUsuario() {
+        return usuario;
+    }
+
+    public void setUsuario(UsuarioDTO usuario) {
+        this.usuario = usuario;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
+        if (!(o instanceof ItemAluguelDTO)) return false;
 
         ItemAluguelDTO that = (ItemAluguelDTO) o;
 
-        if (quantidade != null ? !quantidade.equals(that.quantidade) : that.quantidade != null)
+        if (id != null ? !id.equals(that.id) : that.id != null) return false;
+        if (duracaoEmMinutos != null ? !duracaoEmMinutos.equals(that.duracaoEmMinutos) : that.duracaoEmMinutos != null)
             return false;
-        return item != null ? item.equals(that.item) : that.item == null;
+        if (item != null ? !item.equals(that.item) : that.item != null) return false;
+        return status == that.status;
 
     }
 
     @Override
     public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (quantidade != null ? quantidade.hashCode() : 0);
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + (duracaoEmMinutos != null ? duracaoEmMinutos.hashCode() : 0);
         result = 31 * result + (item != null ? item.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
         return result;
     }
 }

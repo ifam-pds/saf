@@ -63,8 +63,6 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
         TextView nomeItem;
         @BindView(R.id.preco_item)
         TextView precoItem;
-        @BindView(R.id.itens_disponiveis)
-        TextView itensDisponiveis;
         @BindView(R.id.item_image)
         ImageView imagem;
 
@@ -82,8 +80,6 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
             this.item = item;
             nomeItem.setText(item.getNome());
             precoItem.setText(String.format("R$ %.2f/hora", item.getPrecoPorHora()));
-            itensDisponiveis.setText("7 disponíveis");
-//            imagem.load and stuff
         }
 
         @Override

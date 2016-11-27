@@ -15,6 +15,10 @@ public final class Respostas {
         return Response.status(Response.Status.BAD_REQUEST).entity(messageData).build();
     }
 
+    public static Response badRequest(String message) {
+        return Response.status(Response.Status.BAD_REQUEST).entity(new MensagemErroResponse(message)).build();
+    }
+
     public static Response criado() {
         return Response.status(Response.Status.CREATED).build();
     }

@@ -18,7 +18,7 @@ public class ItemAluguelDAO {
     private GenericDAO<ItemAluguel> dao;
 
     @PostConstruct
-    private void init(){
+    private void init() {
         dao = new GenericDAO<>(em, ItemAluguel.class);
     }
 
@@ -42,8 +42,8 @@ public class ItemAluguelDAO {
         dao.remover(entidade);
     }
 
-    public List<ItemAluguel> filtrarPorStatus(StatusItemAluguel status){
-        return em.createQuery("SELECT i FROM ItemAluguel i WHERE i.status = :status", ItemAluguel.class)
+    public List<ItemAluguel> filtrarPorStatus(StatusItemAluguel status) {
+        return em.createQuery("select i from ItemAluguel i where i.status = :status", ItemAluguel.class)
                 .setParameter("status", status)
                 .getResultList();
     }

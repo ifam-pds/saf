@@ -16,7 +16,6 @@ import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
 import br.edu.ifam.saf.enums.Perfil;
-import br.edu.ifam.saf.enums.StatusAluguel;
 import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.modelo.Aluguel;
 import br.edu.ifam.saf.modelo.Bairro;
@@ -170,8 +169,7 @@ public class StartupListener implements ServletContextListener {
                 transaction.begin();
 
                 Aluguel aluguel = new Aluguel();
-                aluguel.setStatus(StatusAluguel.REQUISICAO_PENDENTE);
-                aluguel.setDataHoraInicio(new Date());
+                aluguel.setDataHoraRequisicao(new Date());
 
                 Usuario usuario = new Usuario.Builder()
                         .id(3)
@@ -194,11 +192,11 @@ public class StartupListener implements ServletContextListener {
                 Item item = em.find(Item.class, 1);
                 ItemAluguel itemAluguel = new ItemAluguel();
                 itemAluguel.setItem(item);
-                itemAluguel.setQuantidade(1);
+                itemAluguel.setDuracaoEmMinutos(60);
 
                 ItemAluguel itemAluguel2 = new ItemAluguel();
                 itemAluguel2.setItem(item);
-                itemAluguel2.setQuantidade(4);
+                itemAluguel2.setDuracaoEmMinutos(180);
 
 
                 itemAluguel.setAluguel(aluguel);
@@ -218,17 +216,17 @@ public class StartupListener implements ServletContextListener {
         }
     }
 
-    private void criarUsuarios(){
+    private void criarUsuarios() {
         TypedQuery<Usuario> query = em.createQuery("select u from Usuario u", Usuario.class);
 
         query.setMaxResults(1);
 
         List<Usuario> usuarios = query.getResultList();
 
-        if(usuarios.isEmpty()){
+        if (usuarios.isEmpty()) {
             UserTransaction transaction = getTransaction();
 
-            try{
+            try {
                 transaction.begin();
 
                 Usuario admin = new Usuario.Builder()

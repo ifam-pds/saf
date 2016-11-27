@@ -46,7 +46,7 @@ public class ReservaPresenter implements ReservaContract.Presenter {
                     public void onSuccess(ItemDTO item) {
                         view.esconderLoading();
                         itemAluguel = new ItemAluguelDTO();
-                        itemAluguel.setQuantidade(1);
+                        itemAluguel.setDuracaoEmMinutos(30);
                         itemAluguel.setItem(item);
 
                         view.mostrarDetalhesItem(itemAluguel);
@@ -68,17 +68,17 @@ public class ReservaPresenter implements ReservaContract.Presenter {
     }
 
     @Override
-    public void onQuantidadeChanged(int quantidade) {
+    public void onTempoChanged(int tempoEmMinutos) {
         if (itemAluguel != null) {
-            view.atualizarTotal(itemAluguel.getItem().getPrecoPorHora() * quantidade);
+            view.atualizarTotal(itemAluguel.getItem().getPrecoPorMinuto() * tempoEmMinutos);
         }
 
     }
 
     @Override
-    public void salvarReserva(int quantidade) {
+    public void salvarReserva(int tempoEmMinutos) {
 
-        itemAluguel.setQuantidade(quantidade);
+        itemAluguel.setDuracaoEmMinutos(tempoEmMinutos);
         repository.adicionarAluguelItem(itemAluguel);
 
         if (view != null) {

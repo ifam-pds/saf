@@ -7,7 +7,6 @@ import javax.inject.Inject;
 
 import br.edu.ifam.saf.modelo.Aluguel;
 import br.edu.ifam.saf.modelo.ItemAluguel;
-import br.edu.ifam.saf.modelo.Usuario;
 
 
 public class AluguelTransformer implements DTOTransformer<Aluguel, AluguelDTO> {
@@ -28,30 +27,24 @@ public class AluguelTransformer implements DTOTransformer<Aluguel, AluguelDTO> {
         aluguel.setId(dto.getId());
         aluguel.setCliente(usuarioTransformer.toEntity(dto.getCliente()));
         aluguel.setFuncionario(usuarioTransformer.toEntity(dto.getFuncionario()));
-        aluguel.setStatus(dto.getStatus());
-        aluguel.setDataHoraDevolucao(dto.getDataHoraDevolucao());
-        aluguel.setDataHoraInicio(dto.getDataHoraInicio());
-
-
+        aluguel.setDataHoraRequisicao(dto.getDataHoraRequisicao());
         return aluguel;
     }
 
     @Override
     public AluguelDTO toDTO(Aluguel entity) {
-        final AluguelDTO aluguelDTO = new AluguelDTO();
+        final AluguelDTO dto = new AluguelDTO();
 
         for (ItemAluguel itemAluguelEntity : entity.getItens()) {
-            aluguelDTO.adicionarItem(itemAluguelTransformer.toDTO(itemAluguelEntity));
+            dto.adicionarItem(itemAluguelTransformer.toDTO(itemAluguelEntity));
         }
 
-        aluguelDTO.setId(entity.getId());
-        aluguelDTO.setCliente(usuarioTransformer.toDTO(entity.getCliente()));
-        aluguelDTO.setFuncionario(usuarioTransformer.toDTO(entity.getFuncionario()));
-        aluguelDTO.setStatus(entity.getStatus());
-        aluguelDTO.setDataHoraDevolucao(entity.getDataHoraDevolucao());
-        aluguelDTO.setDataHoraInicio(entity.getDataHoraInicio());
+        dto.setId(entity.getId());
+        dto.setCliente(usuarioTransformer.toDTO(entity.getCliente()));
+        dto.setFuncionario(usuarioTransformer.toDTO(entity.getFuncionario()));
+        dto.setDataHoraRequisicao(entity.getDataHoraRequisicao());
 
-        return aluguelDTO;
+        return dto;
     }
 
     public List<Aluguel> toEntityList(List<AluguelDTO> dtos) {

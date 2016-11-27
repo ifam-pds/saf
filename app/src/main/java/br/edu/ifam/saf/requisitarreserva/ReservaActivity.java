@@ -16,6 +16,7 @@ import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.util.ApiManager;
 import br.edu.ifam.saf.util.DinheiroFormatter;
+import br.edu.ifam.saf.util.TimeFormatter;
 import br.edu.ifam.saf.view.FieldView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -27,8 +28,8 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
-    @BindView(R.id.quantidade_item)
-    FieldView quantidadeItem;
+    @BindView(R.id.tempo_reserva)
+    FieldView tempoReserva;
 
     @BindView(R.id.valor_total)
     FieldView valorTotal;
@@ -70,9 +71,10 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                presenter.salvarReserva(Integer.valueOf(quantidadeItem.getText()));
+                presenter.salvarReserva(TimeFormatter.parseToMinutes(tempoReserva.getText()));
             }
         });
+
 
         fab.setEnabled(false);
         formContainer.setVisibility(View.GONE);
@@ -84,16 +86,13 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
             presenter.carregarItem(itemId);
         }
 
-
-        quantidadeItem.addTextChangeListener(new FieldView.TextWatcherAdapter() {
+        tempoReserva.addTextChangeListener(new FieldView.TextWatcherAdapter() {
 
             @Override
             public void afterTextChanged(Editable s) {
 
                 if (!s.toString().trim().isEmpty()) {
-                    Integer quantidade = Integer.valueOf(s.toString());
-
-                    presenter.onQuantidadeChanged(quantidade);
+                    presenter.onTempoChanged(TimeFormatter.parseToMinutes(s.toString()));
 
                 } else {
                     valorTotal.setText("");
@@ -124,10 +123,10 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
 
         nomeItem.setText(itemAluguelDTO.getItem().getNome());
         marcaItem.setText(itemAluguelDTO.getItem().getMarca() + "(" + itemAluguelDTO.getItem().getModelo() + ")");
+        tempoReserva.setText(TimeFormatter.format(itemAluguelDTO.getDuracaoEmMinutos()));
         descricaoItem.setText(itemAluguelDTO.getItem().getDescricao());
-        quantidadeItem.setText(String.valueOf(itemAluguelDTO.getQuantidade()));
 
-        atualizarTotal(itemAluguelDTO.getValorXQuantidade());
+        atualizarTotal(itemAluguelDTO.calcularTotal());
 
 
     }
@@ -139,7 +138,7 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
 
     @Override
     public void atualizarTotal(double valor) {
-        valorTotal.setText(String.format("%s/h", DinheiroFormatter.format(valor)));
+        valorTotal.setText(DinheiroFormatter.format(valor));
     }
 
     @Override

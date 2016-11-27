@@ -52,12 +52,13 @@
 
 
             <br.edu.ifam.saf.view.FieldView
-                android:id="@+id/quantidade_item"
+                android:id="@+id/tempo_reserva"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                app:hint="Quantidade"
-                app:icon="@drawable/ic_shopping_cart_black_24dp" />
+                app:hint="Tempo"
+                app:icon="@drawable/ic_timer_black_24dp"
+                app:inputType="timePicker" />
 
 
             <br.edu.ifam.saf.view.FieldView

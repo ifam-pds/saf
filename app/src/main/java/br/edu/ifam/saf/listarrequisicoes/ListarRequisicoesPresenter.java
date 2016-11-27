@@ -2,11 +2,11 @@ package br.edu.ifam.saf.listarrequisicoes;
 
 
 import br.edu.ifam.saf.SAFService;
-import br.edu.ifam.saf.api.data.AlugueisResponse;
+import br.edu.ifam.saf.api.data.ItensAluguelResponse;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
-import br.edu.ifam.saf.api.data.StatusData;
-import br.edu.ifam.saf.api.dto.AluguelDTO;
-import br.edu.ifam.saf.enums.StatusAluguel;
+import br.edu.ifam.saf.api.data.StatusItemAluguelData;
+import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
+import br.edu.ifam.saf.enums.StatusItemAluguel;
 import br.edu.ifam.saf.util.ApiCallback;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
@@ -16,6 +16,7 @@ public class ListarRequisicoesPresenter implements ListarRequisicoesContract.Pre
 
     private SAFService service;
     private ListarRequisicoesContract.View view;
+    private StatusItemAluguel ultimoStatusRequest = StatusItemAluguel.RESERVA_PENDENTE;
 
     public ListarRequisicoesPresenter(ListarRequisicoesContract.View view, SAFService service) {
         this.view = view;
@@ -23,14 +24,16 @@ public class ListarRequisicoesPresenter implements ListarRequisicoesContract.Pre
     }
 
     @Override
-    public void carregarReservas(StatusAluguel statusAluguel) {
-        service.alugueis(statusAluguel).subscribeOn(Schedulers.io())
+    public void carregarRequisicoes(StatusItemAluguel status) {
+        view.mostrarLoading();
+        ultimoStatusRequest = status;
+        service.listarRequisicoes(status).subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new ApiCallback<AlugueisResponse>() {
+                .subscribe(new ApiCallback<ItensAluguelResponse>() {
                     @Override
-                    public void onSuccess(AlugueisResponse response) {
+                    public void onSuccess(ItensAluguelResponse response) {
                         view.esconderLoading();
-                        view.mostrarRequisicoes(response.getAlugueis());
+                        view.mostrarItens(response.getItensAluguel());
                     }
 
                     @Override
@@ -53,59 +56,37 @@ public class ListarRequisicoesPresenter implements ListarRequisicoesContract.Pre
     }
 
     @Override
-    public void aprovarReserva(AluguelDTO aluguelDTO) {
-
-        view.mostrarLoading();
-        service.alterarStatus(aluguelDTO.getId(), new StatusData(StatusAluguel.REQUISICAO_APROVADA))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new ApiCallback<Void>() {
-                    @Override
-                    public void onSuccess(Void response) {
-                        view.mostrarMensagem("Aluguel REQUISICAO_APROVADA");
-                        view.esconderLoading();
-                    }
-
-                    @Override
-                    public void onError(MensagemErroResponse mensagem) {
-                        view.mostrarMensagem(mensagem.getMensagens().get(0));
-                        view.esconderLoading();
-                    }
-
-                    @Override
-                    public boolean canExecute() {
-                        return view != null;
-                    }
-                });
-
+    public void refresh() {
+        carregarRequisicoes(ultimoStatusRequest);
     }
 
     @Override
-    public void reprovarReserva(AluguelDTO aluguelDTO) {
-
+    public void atualizarStatus(ItemAluguelDTO item, StatusItemAluguel status) {
         view.mostrarLoading();
-        service.alterarStatus(aluguelDTO.getId(), new StatusData(StatusAluguel.REQUISICAO_REPROVADA))
-                .observeOn(AndroidSchedulers.mainThread())
+        service.atualizaItemAluguelStatus(item.getId(), new StatusItemAluguelData(status))
                 .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiCallback<Void>() {
                     @Override
                     public void onSuccess(Void response) {
-                        view.mostrarMensagem("Aluguel REQUISICAO_REPROVADA");
                         view.esconderLoading();
+                        view.mostrarMensagem("Item atualizado");
+                        carregarRequisicoes(ultimoStatusRequest);
                     }
 
                     @Override
                     public void onError(MensagemErroResponse mensagem) {
-                        view.mostrarMensagem(mensagem.getMensagens().get(0));
                         view.esconderLoading();
+                        view.mostrarMensagem(mensagem.join());
                     }
 
                     @Override
                     public boolean canExecute() {
                         return view != null;
                     }
-                });
+                })
 
+        ;
     }
 
     @Override

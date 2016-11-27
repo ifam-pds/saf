@@ -18,6 +18,10 @@ public class ItensAluguelResponse {
         this.itensAluguel = Arrays.asList(itensAluguel);
     }
 
+    public static ItensAluguelResponse from(List<ItemAluguelDTO> lista) {
+        return new ItensAluguelResponse(lista);
+    }
+
     public List<ItemAluguelDTO> getItensAluguel() {
         return itensAluguel;
     }

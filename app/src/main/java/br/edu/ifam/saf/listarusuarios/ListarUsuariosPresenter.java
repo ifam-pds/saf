@@ -20,6 +20,7 @@ public class ListarUsuariosPresenter implements ListarUsuariosContract.Presenter
 
     @Override
     public void carregarUsuarios() {
+        view.mostrarLoading();
         service.listarUsuarios().subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiCallback<UsuariosResponse>() {

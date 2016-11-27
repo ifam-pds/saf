@@ -10,10 +10,12 @@ import javax.inject.Inject;
 import br.edu.ifam.saf.modelo.ItemAluguel;
 
 @ApplicationScoped
-public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemAluguelDTO>{
+public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemAluguelDTO> {
 
     @Inject
     ItemTransformer itemTransformer;
+    @Inject
+    UsuarioTransformer usuarioTransformer;
 
     @Override
     public ItemAluguel toEntity(ItemAluguelDTO dto) {
@@ -21,21 +23,26 @@ public class ItemAluguelTransformer implements DTOTransformer<ItemAluguel, ItemA
 
         itemAluguel.setId(dto.getId());
         itemAluguel.setItem(itemTransformer.toEntity(dto.getItem()));
-        itemAluguel.setQuantidade(dto.getQuantidade());
+        itemAluguel.setDuracaoEmMinutos(dto.getDuracaoEmMinutos());
         itemAluguel.setStatus(dto.getStatus());
         return itemAluguel;
     }
 
     @Override
     public ItemAluguelDTO toDTO(ItemAluguel entity) {
-        ItemAluguelDTO itemAluguelDTO = new ItemAluguelDTO();
+        ItemAluguelDTO dto = new ItemAluguelDTO();
 
-        itemAluguelDTO.setId(entity.getId());
-        itemAluguelDTO.setQuantidade(entity.getQuantidade());
-        itemAluguelDTO.setItem(itemTransformer.toDTO(entity.getItem()));
-        itemAluguelDTO.setStatus(entity.getStatus());
+        dto.setId(entity.getId());
+        UsuarioDTO usuario = usuarioTransformer.toDTO(entity.getAluguel().getCliente());
+        usuario.setBairro(null);
+        usuario.setToken(null);
+        dto.setUsuario(usuario);
+        dto.setDataHoraRequisicao(entity.getAluguel().getDataHoraRequisicao());
+        dto.setDuracaoEmMinutos(entity.getDuracaoEmMinutos());
+        dto.setItem(itemTransformer.toDTO(entity.getItem()));
+        dto.setStatus(entity.getStatus());
 
-        return itemAluguelDTO;
+        return dto;
     }
 
     public List<ItemAluguel> toEntityList(List<ItemAluguelDTO> dtos) {

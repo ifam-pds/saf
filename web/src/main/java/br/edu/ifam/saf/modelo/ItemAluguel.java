@@ -14,9 +14,6 @@ import br.edu.ifam.saf.enums.StatusItemAluguel;
 @Table(name = "item_aluguel")
 public class ItemAluguel extends EntidadeBase {
 
-    @Column(nullable = false)
-    private Integer quantidade;
-
     @JoinColumn(name = "aluguel_id")
     @ManyToOne(optional = false)
     private Aluguel aluguel;
@@ -27,14 +24,8 @@ public class ItemAluguel extends EntidadeBase {
     @Enumerated(EnumType.STRING)
     private StatusItemAluguel status;
 
-
-    public Integer getQuantidade() {
-        return quantidade;
-    }
-
-    public void setQuantidade(Integer quantidade) {
-        this.quantidade = quantidade;
-    }
+    @Column(nullable = false, name = "duracao_minutos")
+    private Integer duracaoEmMinutos;
 
     public Aluguel getAluguel() {
         return aluguel;
@@ -56,6 +47,14 @@ public class ItemAluguel extends EntidadeBase {
 
     }
 
+    public Integer getDuracaoEmMinutos() {
+        return duracaoEmMinutos;
+    }
+
+    public void setDuracaoEmMinutos(Integer duracaoEmMinutos) {
+        this.duracaoEmMinutos = duracaoEmMinutos;
+    }
+
     public Item getItem() {
         return item;
     }
@@ -75,24 +74,25 @@ public class ItemAluguel extends EntidadeBase {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        if (!(o instanceof ItemAluguel)) return false;
         if (!super.equals(o)) return false;
 
         ItemAluguel that = (ItemAluguel) o;
 
-        if (quantidade != null ? !quantidade.equals(that.quantidade) : that.quantidade != null)
-            return false;
         if (aluguel != null ? !aluguel.equals(that.aluguel) : that.aluguel != null) return false;
-        return item != null ? item.equals(that.item) : that.item == null;
+        if (item != null ? !item.equals(that.item) : that.item != null) return false;
+        if (status != that.status) return false;
+        return duracaoEmMinutos != null ? duracaoEmMinutos.equals(that.duracaoEmMinutos) : that.duracaoEmMinutos == null;
 
     }
 
     @Override
     public int hashCode() {
         int result = super.hashCode();
-        result = 31 * result + (quantidade != null ? quantidade.hashCode() : 0);
         result = 31 * result + (aluguel != null ? aluguel.hashCode() : 0);
         result = 31 * result + (item != null ? item.hashCode() : 0);
+        result = 31 * result + (status != null ? status.hashCode() : 0);
+        result = 31 * result + (duracaoEmMinutos != null ? duracaoEmMinutos.hashCode() : 0);
         return result;
     }
 }

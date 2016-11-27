@@ -12,6 +12,14 @@ public class MensagemErroResponse {
         this.mensagens.addAll(Arrays.asList(mensagens));
     }
 
+    public String join() {
+        String joinedMensagens = "";
+        for (String mensagem : mensagens) {
+            joinedMensagens += mensagem + "\n";
+        }
+        return joinedMensagens;
+    }
+
 
     public List<String> getMensagens() {
         return mensagens;

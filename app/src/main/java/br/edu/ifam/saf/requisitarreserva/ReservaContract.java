@@ -18,9 +18,9 @@ public class ReservaContract {
 
         void carregarItem(int itemId);
 
-        void onQuantidadeChanged(int quantidade);
+        void onTempoChanged(int tempoEmMinutos);
 
-        void salvarReserva(int quantidade);
+        void salvarReserva(int tempoEmMinutos);
 
     }
 

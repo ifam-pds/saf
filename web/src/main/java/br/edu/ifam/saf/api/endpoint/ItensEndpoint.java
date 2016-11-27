@@ -44,7 +44,7 @@ public class ItensEndpoint {
     @Path("/")
     public Response itens() {
         return Response.ok().entity(new ItensResponse(
-                itemTransformer.toDTOList(dao.listarTodos()))
+                itemTransformer.toDTOList(dao.listarAtivos()))
         ).build();
     }
 

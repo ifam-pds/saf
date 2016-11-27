@@ -129,14 +129,11 @@ public class UsuarioEndpoint {
             usuarioAtualizado.setPerfil(usuarioLogado.getPerfil());
         }
 
-        if (StringUtils.isBlank(usuario.getSenha())) {
-            usuarioAtualizado.setSenha(usuario.getSenha());
-        } else {
-            usuarioAtualizado.setSenha(SegurancaUtil.hashSenha(usuarioAtualizado.getSenha()));
-        }
 
-        if (temPermissaoParaAlterar(usuarioAtualizado)) {
+        if (temPermissaoParaAlterar(usuarioId)) {
             usuarioAtualizado.setId(usuarioId);
+            usuarioAtualizado.setSenha(usuario.getSenha());
+            usuarioAtualizado.setToken(usuario.getToken());
             usuarioDAO.atualizar(usuarioAtualizado);
             return Response.accepted(usuarioAtualizado).build();
         } else {
@@ -144,8 +141,8 @@ public class UsuarioEndpoint {
         }
     }
 
-    private boolean temPermissaoParaAlterar(Usuario usuario) {
-        return usuario.getId().equals(usuarioLogado.getId()) || usuarioLogado.isAdmin();
+    private boolean temPermissaoParaAlterar(Integer usuarioId) {
+        return usuarioId.equals(usuarioLogado.getId()) || usuarioLogado.isAdmin();
     }
 
 

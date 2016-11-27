@@ -17,7 +17,6 @@ import java.util.List;
 
 import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.R;
-import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.requisitarreserva.ReservaActivity;
 import br.edu.ifam.saf.util.ApiManager;
@@ -55,7 +54,7 @@ public class ListarCarrinhoFragment extends Fragment implements ListarCarrinhoCo
 
         ButterKnife.bind(this, view);
         rvCarrinho.setLayoutManager(new LinearLayoutManager(getContext()));
-        adapter = new CarrinhoAdapter(this);
+        adapter = new CarrinhoAdapter(this, rvCarrinho);
         rvCarrinho.setAdapter(adapter);
         presenter = new ListarCarrinhoPresenter(this, ApiManager.getService(), MainApplication.getRepository());
         presenter.carregarCarrinho();

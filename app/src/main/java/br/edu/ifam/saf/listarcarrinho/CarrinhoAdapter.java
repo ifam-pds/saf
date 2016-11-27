@@ -1,10 +1,10 @@
 package br.edu.ifam.saf.listarcarrinho;
 
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -13,6 +13,7 @@ import java.util.List;
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemAluguelDTO;
 import br.edu.ifam.saf.util.DinheiroFormatter;
+import br.edu.ifam.saf.util.TimeFormatter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -21,12 +22,30 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
     List<ItemAluguelDTO> itensCarrinho;
     private ItemAluguelClickListener listener;
 
-    public CarrinhoAdapter(ItemAluguelClickListener listener) {
+    public CarrinhoAdapter(final ItemAluguelClickListener listener, RecyclerView recyclerView) {
 
         this.itensCarrinho = new ArrayList<>();
 
         this.listener = listener;
+        ItemTouchHelper.SimpleCallback simpleItemTouchCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int swipeDir) {
+                int adapterPosition = viewHolder.getAdapterPosition();
+                listener.onItemRemove(adapterPosition, itensCarrinho.get(adapterPosition));
+            }
+        };
+
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleItemTouchCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
+
     }
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -45,10 +64,15 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
         return itensCarrinho.size();
     }
 
-    public void replaceItens(List<ItemAluguelDTO> itensCarrinho) {
+    public void replaceItens(List<ItemAluguelDTO> newItens) {
 
-        this.itensCarrinho = itensCarrinho;
-        notifyDataSetChanged();
+        if (this.itensCarrinho.size() > 0) {
+            notifyItemRangeRemoved(0, this.itensCarrinho.size());
+        } else {
+            this.itensCarrinho = newItens;
+            notifyDataSetChanged();
+
+        }
 
     }
 
@@ -62,12 +86,10 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
 
         @BindView(R.id.nome_item)
         TextView nomeItem;
-        @BindView(R.id.quantidade_item)
-        TextView quantidadeItem;
-        @BindView(R.id.valor_por_hora)
-        TextView valorPorHora;
-        @BindView(R.id.botao_remover)
-        Button botaoRemover;
+        @BindView(R.id.duracao)
+        TextView duracao;
+        @BindView(R.id.valor_item_carrinho)
+        TextView valorTotalItem;
         private ItemAluguelDTO itemAluguelDTO;
         private ItemAluguelClickListener listener;
 
@@ -75,7 +97,6 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
             super(itemView);
             itemView.setOnClickListener(this);
             ButterKnife.bind(this, itemView);
-            botaoRemover.setOnClickListener(this);
             this.listener = listener;
         }
 
@@ -83,24 +104,15 @@ public class CarrinhoAdapter extends RecyclerView.Adapter<CarrinhoAdapter.ViewHo
             this.itemAluguelDTO = itemAluguelDTO;
 
             nomeItem.setText(itemAluguelDTO.getItem().getNome());
-            quantidadeItem.setText(String.valueOf(itemAluguelDTO.getQuantidade()));
-            String precoPorHora = DinheiroFormatter.format(itemAluguelDTO.getItem().getPrecoPorHora());
-            valorPorHora.setText(String.format("%s/h por item", precoPorHora));
+
+            valorTotalItem.setText(DinheiroFormatter.format(itemAluguelDTO.calcularTotal()));
+            duracao.setText(TimeFormatter.format(itemAluguelDTO.getDuracaoEmMinutos()));
 
         }
 
         @Override
         public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.botao_remover:
-                    listener.onItemRemove(getAdapterPosition(), itemAluguelDTO);
-                    break;
-                default:
-                    listener.onItemClick(v, itemAluguelDTO);
-                    break;
-            }
+            listener.onItemClick(v, itemAluguelDTO);
         }
     }
-
-
 }
