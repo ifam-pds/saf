@@ -3,19 +3,28 @@ package br.edu.ifam.saf.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.drawable.Drawable;
+import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-import br.edu.ifam.saf.R;
+import com.codetroopers.betterpickers.hmspicker.HmsPickerBuilder;
+import com.codetroopers.betterpickers.hmspicker.HmsPickerDialogFragment;
 
-public class FieldView extends LinearLayout {
+import java.util.Calendar;
+
+import br.edu.ifam.saf.R;
+import br.edu.ifam.saf.util.TimeFormatter;
+
+public class FieldView extends LinearLayout implements HmsPickerDialogFragment.HmsPickerDialogHandlerV2 {
+    public static final int TYPE_TIME_PICKER = 0x10000000;
 
     private EditText editText;
 
@@ -65,8 +74,29 @@ public class FieldView extends LinearLayout {
             default:
                 baseFormat = EditorInfo.TYPE_CLASS_TEXT;
         }
+        if (inputType == TYPE_TIME_PICKER) {
+            editText.setFocusable(false);
+            editText.setFocusableInTouchMode(false);
+            editText.setDuplicateParentStateEnabled(true);
 
-        editText.setInputType(baseFormat | inputType);
+            editText.setMovementMethod(null);
+            editText.setKeyListener(null);
+
+            this.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    HmsPickerBuilder hpb = new HmsPickerBuilder()
+                            .addHmsPickerDialogHandler(FieldView.this)
+                            .setFragmentManager(((AppCompatActivity) getContext()).getSupportFragmentManager())
+                            .setStyleResId(R.style.BetterPickersDialogFragment);
+                    hpb.show();
+                }
+            });
+
+        } else {
+            editText.setInputType(baseFormat | inputType);
+        }
+
 
         editText.setHint(hintText);
 
@@ -88,6 +118,15 @@ public class FieldView extends LinearLayout {
 
     public void setText(String text) {
         editText.setText(text);
+    }
+
+    @Override
+    public void onDialogHmsSet(int reference, boolean isNegative, int hours, int minutes, int seconds) {
+
+        Calendar instance = Calendar.getInstance();
+        instance.set(Calendar.HOUR_OF_DAY, 8);
+        editText.setText(TimeFormatter.format(hours, minutes));
+
     }
 
     public static class TextWatcherAdapter implements TextWatcher {

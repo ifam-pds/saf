@@ -39,6 +39,7 @@ dependencies {
     compile 'com.squareup.okhttp3:logging-interceptor:3.3.0'
     compile 'io.reactivex:rxandroid:1.2.1'
     compile 'io.reactivex:rxjava:1.1.6'
+    compile 'com.code-troopers.betterpickers:library:3.0.1'
     testCompile 'junit:junit:4.12'
     apt 'com.jakewharton:butterknife-compiler:8.4.0'
 }
