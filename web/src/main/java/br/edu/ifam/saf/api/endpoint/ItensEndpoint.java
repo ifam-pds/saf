@@ -81,14 +81,18 @@ public class ItensEndpoint {
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @RequerLogin(Perfil.ADMINISTRADOR)
     @Path("/{item_id}")
-    public Response atualizarItem(@PathParam("item_id") Integer itemId, ItemDTO itemDTO){
-        final Item item = dao.consultar(itemId);
+    public Response atualizarItem(@PathParam("item_id") Integer itemId, ItemDTO itemDTO) {
+        Item item = itemTransformer.toEntity(itemDTO);
 
-        if(item == null){
-            return Respostas.ERRO_INTERNO;
+        if (item == null) {
+            return Respostas.badRequest(new MensagemErroResponse("Item não encontrado"));
         }
-        item.setId(itemId);
 
-        return Respostas.ok(itemTransformer.toEntity(itemDTO));
+        Item itemAtualizado = itemTransformer.toEntity(itemDTO);
+        itemAtualizado.setId(itemId);
+
+        dao.atualizar(itemAtualizado);
+
+        return Respostas.ok(item);
     }
 }
