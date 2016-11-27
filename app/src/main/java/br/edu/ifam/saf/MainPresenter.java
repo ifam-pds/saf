@@ -28,27 +28,24 @@ public class MainPresenter implements MainContract.Presenter {
         } else {
             view.limpaInfoUsuario();
         }
-        esconderTodasAsOpcoes();
+        esconderOpcoesRestritas();
         UsuarioDTO infoUsuario = repository.getInfoUsuario();
 
         Perfil perfil = infoUsuario == null ? Perfil.CLIENTE : infoUsuario.getPerfil();
 
-        if (perfil.getNivel() == Perfil.CLIENTE.getNivel()) {
-            esconderTodasAsOpcoes();
-        } else
-            if (perfil.getNivel() == Perfil.FUNCIONARIO.getNivel()) {
-                view.mostrarOpcaoAdminRequisicoes();
-            } else
-                if (perfil.getNivel() == Perfil.ADMINISTRADOR.getNivel()) {
-                    view.mostrarOpcaoAdminUsuarios();
-                    view.mostrarOpcaoAdminItens();
-                    view.mostrarOpcaoAdminCategorias();
-                    view.mostrarOpcaoAdminRequisicoes();
-                }
+        if (perfil.getNivel() >= Perfil.FUNCIONARIO.getNivel()) {
+            view.mostrarOpcaoAdminRequisicoes();
+
+            if (perfil.getNivel() >= Perfil.ADMINISTRADOR.getNivel()) {
+                view.mostrarOpcaoAdminUsuarios();
+                view.mostrarOpcaoAdminItens();
+                view.mostrarOpcaoAdminCategorias();
+            }
+        }
 
     }
 
-    private void esconderTodasAsOpcoes() {
+    private void esconderOpcoesRestritas() {
         view.esconderOpcaoAdminItens();
         view.esconderOpcaoAdminRequisicoes();
         view.esconderOpcaoAdminUsuarios();
