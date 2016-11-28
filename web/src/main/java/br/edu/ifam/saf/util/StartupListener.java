@@ -1,10 +1,16 @@
 package br.edu.ifam.saf.util;
 
+import org.apache.commons.collections.Buffer;
 import org.apache.commons.io.IOUtils;
+import org.apache.james.mime4j.io.BufferedLineReaderInputStream;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -90,8 +96,22 @@ public class StartupListener implements ServletContextListener {
                 Categoria categoria = new Categoria();
                 categoria.setId(1);
                 categoria.setNome("Jetski");
-
                 em.merge(categoria);
+
+                Categoria categoria1 = new Categoria();
+                categoria1.setId(2);
+                categoria1.setNome("Colete");
+                em.merge(categoria1);
+
+                Categoria categoria2 = new Categoria();
+                categoria2.setId(3);
+                categoria2.setNome("Bóia");
+                em.merge(categoria2);
+
+                Categoria categoria3 = new Categoria();
+                categoria3.setId(4);
+                categoria3.setNome("Prancha");
+                em.merge(categoria3);
 
                 transaction.commit();
             } catch (Throwable e) {
@@ -105,12 +125,11 @@ public class StartupListener implements ServletContextListener {
         }
     }
 
-    private void copiarAssetsParaPastaUploads() {
+    private void copiarAssetsParaPastaUploads(String nomeArquivo) {
 
         try {
-            IOUtils.copy(getClass().getClassLoader().getResourceAsStream("img/lancha01.jpg"), new FileOutputStream(ArquivoEndpoint.UPLOAD_DIR + File.separator + "lancha01.jpg"));
-//            IOUtils.copy(getClass().getResourceAsStream("img/img2.png"), new FileOutputStream(ArquivoEndpoint.UPLOAD_DIR + File.separator + "img2.png"));
-
+            IOUtils.copy(getClass().getClassLoader().getResourceAsStream("img/"+nomeArquivo),
+                    new FileOutputStream(ArquivoEndpoint.UPLOAD_DIR + File.separator + nomeArquivo));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -125,102 +144,34 @@ public class StartupListener implements ServletContextListener {
         List<Item> itens = query.getResultList();
 
         if (itens.isEmpty()) {
-            copiarAssetsParaPastaUploads();
 
 
             UserTransaction transaction = getTransaction();
-
-            Random random = new Random();
-
-            String[] tipos = {"Prancha", "Jetski", "Bóia", "Colete"};
-            String[] marcas = {"Riachuelo", "Renner", "C&A", "Google"};
-            String[] modelos = {"500 cavalos", "350cc"};
-            String[] desc2 = {"O melhor", "O mais usado", "O mais alugado", "O mais vendido"};
-            String[] desc4 = {"do Brasil", "de Manaus", "do Amazonas"};
+            String line;
+            String cvsSplit = ",";
 
             try {
                 transaction.begin();
+                InputStream is = getClass().getClassLoader().getResourceAsStream("archives/cadastroItens.csv");
+                InputStreamReader file = new InputStreamReader(is);
+                BufferedReader br = new BufferedReader(file);
 
-                Item item = new Item();
-                item.setImagem("lancha01.jpg");
+                while ((line = br.readLine()) != null) {
+                    String[] jetski = line.split(cvsSplit);
 
-                String tipo = tipos[Math.abs(random.nextInt() % tipos.length)];
-                String marca = marcas[Math.abs(random.nextInt() % marcas.length)];
-                String modelo = modelos[Math.abs(random.nextInt() % modelos.length)];
+                    Item item = new Item();
+                    item.setStatus(StatusItem.ATIVO);
+                    item.setCategoria(em.find(Categoria.class, Integer.parseInt(jetski[0].replace("\"",""))));
+                    item.setMarca(jetski[1].replace("\"",""));
+                    item.setModelo(jetski[2].replace("\"",""));
+                    item.setNome(jetski[3].replace("\"",""));
+                    item.setDescricao(jetski[4].replace("\"",""));
+                    item.setPrecoPorHora(Double.parseDouble(jetski[5].replace("\"","")));
+                    item.setImagem(jetski[6].replace("\"",""));
+                    copiarAssetsParaPastaUploads(jetski[6].replace("\"",""));
 
-                item.setNome(tipo + " " + marca + " " + modelo);
-                String d1 = desc2[Math.abs(random.nextInt() % desc2.length)];
-                String d2 = desc4[Math.abs(random.nextInt() % desc4.length)];
-                item.setDescricao(d1 + " " + d2);
-                item.setMarca(marca);
-                item.setModelo(modelo);
-                item.setPrecoPorHora(10 + (random.nextDouble() * 100));
-                item.setCategoria(em.find(Categoria.class, 1));
-                item.setStatus(StatusItem.ATIVO);
-
-                em.merge(item);
-
-
-                transaction.commit();
-            } catch (Throwable e) {
-                try {
-                    transaction.rollback();
-                } catch (SystemException e1) {
-                    e1.printStackTrace();
+                    em.merge(item);
                 }
-                e.printStackTrace();
-            }
-        }
-    }
-
-    private void popularItemAluguel() {
-        TypedQuery<ItemAluguel> query = em.createQuery("select i from ItemAluguel i", ItemAluguel.class);
-
-        query.setMaxResults(1);
-        List<ItemAluguel> itemAluguelLista = query.getResultList();
-        System.out.println("LISTA: " + itemAluguelLista.size());
-
-        if (itemAluguelLista.isEmpty()) {
-            UserTransaction transaction = getTransaction();
-            try {
-                transaction.begin();
-
-                Aluguel aluguel = new Aluguel();
-                aluguel.setDataHoraRequisicao(new Date());
-
-                Usuario usuario = new Usuario.Builder()
-                        .id(3)
-                        .nome("Não Sou Robô")
-                        .dataNascimento(new Date())
-                        .senha(SegurancaUtil.hashSenha(""))
-                        .cpf("012.123.123-22")
-                        .perfil(Perfil.ADMINISTRADOR)
-                        .email("usuario@email.com")
-
-                        .build();
-
-                usuario = em.merge(usuario);
-
-                aluguel.setCliente(usuario);
-                aluguel.setFuncionario(usuario);
-
-                aluguel = em.merge(aluguel);
-
-                Item item = em.find(Item.class, 1);
-                ItemAluguel itemAluguel = new ItemAluguel();
-                itemAluguel.setItem(item);
-                itemAluguel.setDuracaoEmMinutos(60);
-
-                ItemAluguel itemAluguel2 = new ItemAluguel();
-                itemAluguel2.setItem(item);
-                itemAluguel2.setDuracaoEmMinutos(180);
-
-
-                itemAluguel.setAluguel(aluguel);
-                itemAluguel2.setAluguel(aluguel);
-                em.merge(itemAluguel);
-                em.merge(itemAluguel2);
-
                 transaction.commit();
             } catch (Throwable e) {
                 try {
