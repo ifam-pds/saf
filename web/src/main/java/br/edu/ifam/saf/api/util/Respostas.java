@@ -15,6 +15,10 @@ public final class Respostas {
         return Response.status(Response.Status.BAD_REQUEST).entity(messageData).build();
     }
 
+    public static Response erroInterno(String messageData) {
+        return Response.status(Response.Status.INTERNAL_SERVER_ERROR).entity(new MensagemErroResponse(messageData)).build();
+    }
+
     public static Response badRequest(String message) {
         return Response.status(Response.Status.BAD_REQUEST).entity(new MensagemErroResponse(message)).build();
     }
