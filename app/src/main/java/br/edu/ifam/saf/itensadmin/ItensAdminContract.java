@@ -14,7 +14,7 @@ interface ItensAdminContract {
 
         void mostrarTelaEditarItem(Integer itemId);
 
-        void mostrarTelaCriarConta();
+        void mostrarTelaNovoItem();
 
     }
 

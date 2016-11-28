@@ -100,4 +100,9 @@ public final class LocalRepositoryImpl implements LocalRepository {
         String port = sharedPreferences.getString("api_port", "80");
         return String.format("http://%s:%s/api/", host, port);
     }
+
+    @Override
+    public String getImagePath() {
+        return getApiHost() + "imagens/";
+    }
 }

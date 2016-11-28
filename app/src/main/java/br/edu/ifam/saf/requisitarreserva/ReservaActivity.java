@@ -1,6 +1,10 @@
 package br.edu.ifam.saf.requisitarreserva;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,6 +14,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 
 import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.R;
@@ -28,6 +36,8 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
     @BindView(R.id.toolbar)
     Toolbar toolbar;
 
+    @BindView(R.id.app_bar)
+    AppBarLayout appBar;
     @BindView(R.id.tempo_reserva)
     FieldView tempoReserva;
 
@@ -100,6 +110,7 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
 
             }
         });
+        appBar.setBackground(getDrawable(R.drawable.bp_material_button_background));
     }
 
 
@@ -127,6 +138,20 @@ public class ReservaActivity extends AppCompatActivity implements ReservaContrac
         descricaoItem.setText(itemAluguelDTO.getItem().getDescricao());
 
         atualizarTotal(itemAluguelDTO.calcularTotal());
+
+        Glide.with(this).load(MainApplication.getRepository().getImagePath() + itemAluguelDTO.getItem().getImagem())
+                .asBitmap()
+                .fitCenter()
+                .placeholder(R.drawable.placeholder)
+
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        Drawable drawable = new BitmapDrawable(getResources(), resource);
+                        appBar.setBackground(drawable);
+                    }
+                })
+        ;
 
 
     }

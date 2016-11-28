@@ -21,4 +21,6 @@ public interface LocalRepository {
     void salvarInfoUsuario(UsuarioDTO usuario);
 
     String getApiHost();
+
+    String getImagePath();
 }

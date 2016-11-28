@@ -1,15 +1,21 @@
 package br.edu.ifam.saf;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -104,6 +110,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, 2);
+
+        }
+
     }
 
     private void setMenuVisibility(int id, boolean visible) {
@@ -194,6 +207,8 @@ public class MainActivity extends AppCompatActivity
 
         }
 
+//        fragment.setEnterTransition(new Slide(Gravity.STA));
+        fragment.setExitTransition(new Slide(Gravity.END));
         getSupportFragmentManager().beginTransaction().replace(R.id.frame_content, fragment).commit();
 
         drawer.closeDrawer(GravityCompat.START);

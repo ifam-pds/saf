@@ -45,7 +45,7 @@ public class ListarItensAdminPresenter implements ItensAdminContract.Presenter{
 
     @Override
     public void onFabAction() {
-        view.mostrarTelaCriarConta();
+        view.mostrarTelaNovoItem();
     }
 
     @Override

@@ -32,7 +32,7 @@ public class ListarCarrinhoPresenter implements ListarCarrinhoContract.Presenter
                     @Override
                     public void onSuccess(Void response) {
                         view.esconderLoading();
-                        view.mostrarMensagem("Pedido enviado com sucesso");
+                        view.mostrarMensagem("Pedido feito!");
                         repository.limpaCarrinho();
                         view.mostrarCarrinho(repository.getCarrinho().getItens());
                     }

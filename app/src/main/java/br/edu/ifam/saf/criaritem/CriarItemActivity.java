@@ -1,12 +1,20 @@
 package br.edu.ifam.saf.criaritem;
 
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.io.File;
 import java.util.List;
 
 import br.edu.ifam.saf.R;
@@ -19,6 +27,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class CriarItemActivity extends AppCompatActivity implements CriarItemContract.View {
+    public static final int RESULT_PICK_IMAGE = 1;
+
 
     @BindView(R.id.nome_item)
     FieldView nomeItem;
@@ -38,6 +48,11 @@ public class CriarItemActivity extends AppCompatActivity implements CriarItemCon
     @BindView(R.id.categoria_spinner)
     Spinner categoriaSpinner;
 
+    @BindView(R.id.selecionar_imagem_button)
+    Button selecionarImagemButton;
+
+    @BindView(R.id.imagem_item)
+    ImageView imagemItem;
     ArrayAdapter<CategoriaDTO> categoriasAdapter;
     private CriarItemContract.Presenter presenter;
 
@@ -57,7 +72,40 @@ public class CriarItemActivity extends AppCompatActivity implements CriarItemCon
 
         presenter = new CriarItemPresenter(this, ApiManager.getService());
         presenter.carregarCategorias();
+        selecionarImagemButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, RESULT_PICK_IMAGE);
+            }
+        });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case RESULT_PICK_IMAGE:
+                imagemItem.setVisibility(View.VISIBLE);
+                Uri uri = data.getData();
+                imagemItem.setImageURI(uri);
+                presenter.onImagemSelecionada(new File(getPath(uri)));
+                break;
+        }
+
+    }
+
+
+    public String getPath(Uri uri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
+        @SuppressWarnings("deprecation")
+        Cursor cursor = managedQuery(uri, projection, null, null, null);
+        int column_index = cursor
+                .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
+        cursor.moveToFirst();
+        return cursor.getString(column_index);
+    }
+
 
     @OnClick(R.id.salvar_button)
     void salvarClick() {

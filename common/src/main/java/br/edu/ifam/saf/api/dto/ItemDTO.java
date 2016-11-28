@@ -7,12 +7,13 @@ public class ItemDTO {
     private String descricao;
     private String marca;
     private String modelo;
+    private String imagem;
     private CategoriaDTO categoria;
 
     public ItemDTO() {
     }
 
-    public ItemDTO(Integer id, String nome, Double precoPorHora, String descricao, String marca, String modelo, CategoriaDTO categoria) {
+    public ItemDTO(Integer id, String nome, Double precoPorHora, String descricao, String marca, String modelo, CategoriaDTO categoria, String imagem) {
         this.id = id;
         this.nome = nome;
         this.precoPorHora = precoPorHora;
@@ -20,6 +21,7 @@ public class ItemDTO {
         this.marca = marca;
         this.modelo = modelo;
         this.categoria = categoria;
+        this.imagem = imagem;
     }
 
     public Integer getId() {
@@ -78,6 +80,14 @@ public class ItemDTO {
         this.precoPorHora = precoPorHora;
     }
 
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
+    }
+
     public Double getPrecoPorMinuto() {
         return precoPorHora / 60;
     }
@@ -89,6 +99,7 @@ public class ItemDTO {
         private String descricao;
         private String marca;
         private String modelo;
+        private String imagem;
         private CategoriaDTO categoria;
 
         public Builder id(Integer id) {
@@ -98,6 +109,11 @@ public class ItemDTO {
 
         public Builder nome(String nome) {
             this.nome = nome;
+            return this;
+        }
+
+        public Builder imagem(String imagem) {
+            this.imagem = imagem;
             return this;
         }
 
@@ -127,7 +143,7 @@ public class ItemDTO {
         }
 
         public ItemDTO build() {
-            return new ItemDTO(id, nome, precoPorHora, descricao, marca, modelo, categoria);
+            return new ItemDTO(id, nome, precoPorHora, descricao, marca, modelo, categoria, imagem);
         }
     }
 

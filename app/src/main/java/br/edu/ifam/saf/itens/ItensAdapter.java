@@ -9,8 +9,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
+import br.edu.ifam.saf.MainApplication;
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemDTO;
 import butterknife.BindView;
@@ -41,6 +44,15 @@ public class ItensAdapter extends RecyclerView.Adapter<ItensAdapter.ViewHolder> 
     public void onBindViewHolder(ViewHolder holder, int position) {
         ItemDTO item = dataset.get(position);
         holder.setItem(item);
+
+        String requestPath = MainApplication.getRepository().getImagePath() + item.getImagem();
+
+        System.out.println(requestPath);
+        Glide.with(MainApplication.getAppContext())
+                .load(requestPath)
+                .fitCenter()
+                .placeholder(R.drawable.placeholder)
+                .into(holder.imagem);
     }
 
     @Override

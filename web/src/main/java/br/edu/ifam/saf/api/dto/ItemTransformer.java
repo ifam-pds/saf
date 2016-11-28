@@ -22,6 +22,7 @@ public class ItemTransformer implements DTOTransformer<Item, ItemDTO> {
         final Item item = new Item();
 
         item.setId(dto.getId());
+        item.setImagem(dto.getImagem());
         item.setNome(dto.getNome());
         item.setPrecoPorHora(dto.getPrecoPorHora());
         item.setDescricao(dto.getDescricao());
@@ -41,6 +42,7 @@ public class ItemTransformer implements DTOTransformer<Item, ItemDTO> {
         return new ItemDTO.Builder()
                 .id(entity.getId())
                 .nome(entity.getNome())
+                .imagem(entity.getImagem())
                 .descricao(entity.getDescricao())
                 .precoPorHora(entity.getPrecoPorHora())
                 .marca(entity.getMarca())

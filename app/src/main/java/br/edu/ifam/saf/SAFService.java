@@ -1,6 +1,7 @@
 package br.edu.ifam.saf;
 
 
+import br.edu.ifam.saf.api.data.ArquivoResponse;
 import br.edu.ifam.saf.api.data.CategoriasResponse;
 import br.edu.ifam.saf.api.data.ItensAluguelResponse;
 import br.edu.ifam.saf.api.data.ItensResponse;
@@ -12,11 +13,14 @@ import br.edu.ifam.saf.api.dto.CategoriaDTO;
 import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
 import br.edu.ifam.saf.enums.StatusItemAluguel;
+import okhttp3.MultipartBody;
 import retrofit2.adapter.rxjava.Result;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
 import rx.Observable;
@@ -56,9 +60,6 @@ public interface SAFService {
     @POST("alugueis")
     Observable<Result<Void>> cadastrarAluguel(@Body AluguelDTO aluguelDTO);
 
-//    @PUT("alugueis/{aluguel_id}")
-//    Observable<Result<Void>> alterarStatus(@Path("aluguel_id") Integer aluguelId, @Body StatusData statusData);
-
     @GET("categorias")
     Observable<Result<CategoriasResponse>> listarCategorias();
 
@@ -68,4 +69,9 @@ public interface SAFService {
 
     @PUT("item_aluguel/{item_aluguel_id}")
     Observable<Result<Void>> atualizaItemAluguelStatus(@Path("item_aluguel_id") Integer itemAluguelId, @Body StatusItemAluguelData status);
+
+    @Multipart
+    @POST("imagens")
+    Observable<Result<ArquivoResponse>> uploadImagem(@Part MultipartBody.Part nomeArquivo, @Part MultipartBody.Part filePart);
+    // You can add other parameters too
 }

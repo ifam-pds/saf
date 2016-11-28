@@ -23,6 +23,7 @@ import br.edu.ifam.saf.api.util.MediaType;
 import br.edu.ifam.saf.api.util.Respostas;
 import br.edu.ifam.saf.dao.ItemDAO;
 import br.edu.ifam.saf.enums.Perfil;
+import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.exception.ValidacaoError;
 import br.edu.ifam.saf.modelo.Item;
 
@@ -64,6 +65,7 @@ public class ItensEndpoint {
     public Response cadastrar(ItemDTO itemDTO) {
         try {
             Item itemACadastrar = itemTransformer.toEntity(itemDTO);
+            itemACadastrar.setStatus(StatusItem.ATIVO);
             dao.atualizar(itemACadastrar);
 
             return Respostas.criado();

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -13,16 +12,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemDTO;
-import br.edu.ifam.saf.criarconta.CriarContaActivity;
+import br.edu.ifam.saf.criaritem.CriarItemActivity;
 import br.edu.ifam.saf.editaritem.EditarItemActivity;
 import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
@@ -55,8 +52,8 @@ public class ListarItensAdminFragment extends Fragment implements ItensAdminCont
         adapter = new ItensAdminAdapter(new ArrayList<ItemDTO>(), this);
         listar_itens_admin.setAdapter(adapter);
         presenter = new ListarItensAdminPresenter(this, ApiManager.getService());
-        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
-            public void onRefresh(){
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            public void onRefresh() {
                 presenter.carregarListaDeItens();
             }
         });
@@ -99,22 +96,14 @@ public class ListarItensAdminFragment extends Fragment implements ItensAdminCont
     @Override
     public void mostrarTelaEditarItem(Integer itemId) {
         Intent intent = new Intent(getContext(), EditarItemActivity.class);
-        intent.putExtra(EditarItemActivity.EXTRA_ITEM_ID,itemId);
-
-        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle();
-
-        startActivity(intent, options);
+        intent.putExtra(EditarItemActivity.EXTRA_ITEM_ID, itemId);
+        startActivity(intent);
     }
 
     @Override
-    public void mostrarTelaCriarConta() {
-
-        Intent intent = new Intent(getContext(), CriarContaActivity.class);
-
-        Bundle options = ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity()).toBundle();
-
-        startActivity(intent, options);
-
+    public void mostrarTelaNovoItem() {
+        Intent intent = new Intent(getContext(), CriarItemActivity.class);
+        startActivity(intent);
     }
 
     @Override

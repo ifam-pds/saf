@@ -84,7 +84,7 @@ public class ItensAdminAdapter extends RecyclerView.Adapter<ItensAdminAdapter.Vi
             this.item = item;
             nomeItem.setText(item.getNome());
             marcaItem.setText(item.getMarca());
-            categoriaItem.setText(item.getCategoria().toString());
+            categoriaItem.setText(item.getCategoria() != null ? item.getCategoria().toString() : "Sem categoria");
             modeloItem.setText(item.getModelo());
             precoItem.setText(DinheiroFormatter.format(item.getPrecoPorHora()));
             statusItem.setText("Ativo");
