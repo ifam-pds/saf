@@ -18,6 +18,8 @@ public class Item extends EntidadeBase {
     private String descricao;
     private String marca;
     private String modelo;
+    @Column(nullable = false)
+    private String imagem;
 
     @Column(nullable = false)
     private Double precoPorHora;
@@ -34,6 +36,14 @@ public class Item extends EntidadeBase {
     public Item(String nome, Double precoPorHora) {
         this.nome = nome;
         this.precoPorHora = precoPorHora;
+    }
+
+    public String getImagem() {
+        return imagem;
+    }
+
+    public void setImagem(String imagem) {
+        this.imagem = imagem;
     }
 
     public String getNome() {

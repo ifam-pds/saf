@@ -1,6 +1,10 @@
 package br.edu.ifam.saf.util;
 
-import java.text.DecimalFormat;
+import org.apache.commons.io.IOUtils;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -15,6 +19,7 @@ import javax.servlet.ServletContextListener;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
+import br.edu.ifam.saf.api.endpoint.ArquivoEndpoint;
 import br.edu.ifam.saf.enums.Perfil;
 import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.modelo.Aluguel;
@@ -100,6 +105,19 @@ public class StartupListener implements ServletContextListener {
         }
     }
 
+    private void copiarAssetsParaPastaUploads() {
+
+        try {
+            IOUtils.copy(getClass().getClassLoader().getResourceAsStream("img/lancha01.jpg"), new FileOutputStream(ArquivoEndpoint.UPLOAD_DIR + File.separator + "lancha01.jpg"));
+//            IOUtils.copy(getClass().getResourceAsStream("img/img2.png"), new FileOutputStream(ArquivoEndpoint.UPLOAD_DIR + File.separator + "img2.png"));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
     public void popularItens() {
         TypedQuery<Item> query = em.createQuery("select i from Item i", Item.class);
 
@@ -107,6 +125,9 @@ public class StartupListener implements ServletContextListener {
         List<Item> itens = query.getResultList();
 
         if (itens.isEmpty()) {
+            copiarAssetsParaPastaUploads();
+
+
             UserTransaction transaction = getTransaction();
 
             Random random = new Random();
@@ -120,29 +141,25 @@ public class StartupListener implements ServletContextListener {
             try {
                 transaction.begin();
 
-                for (int i = 0; i < 15; i++) {
-                    Item item = new Item();
+                Item item = new Item();
+                item.setImagem("lancha01.jpg");
 
-                    String tipo = tipos[Math.abs(random.nextInt() % tipos.length)];
-                    String marca = marcas[Math.abs(random.nextInt() % marcas.length)];
-                    String modelo = modelos[Math.abs(random.nextInt() % modelos.length)];
+                String tipo = tipos[Math.abs(random.nextInt() % tipos.length)];
+                String marca = marcas[Math.abs(random.nextInt() % marcas.length)];
+                String modelo = modelos[Math.abs(random.nextInt() % modelos.length)];
 
-                    DecimalFormat df = new DecimalFormat("#.##");
+                item.setNome(tipo + " " + marca + " " + modelo);
+                String d1 = desc2[Math.abs(random.nextInt() % desc2.length)];
+                String d2 = desc4[Math.abs(random.nextInt() % desc4.length)];
+                item.setDescricao(d1 + " " + d2);
+                item.setMarca(marca);
+                item.setModelo(modelo);
+                item.setPrecoPorHora(10 + (random.nextDouble() * 100));
+                item.setCategoria(em.find(Categoria.class, 1));
+                item.setStatus(StatusItem.ATIVO);
 
+                em.merge(item);
 
-                    item.setNome(tipo + " " + marca + " " + modelo);
-                    String d1 = desc2[Math.abs(random.nextInt() % desc2.length)];
-                    String d2 = desc4[Math.abs(random.nextInt() % desc4.length)];
-                    item.setDescricao(d1 + " " + d2);
-                    item.setMarca(marca);
-                    item.setModelo(modelo);
-                    item.setPrecoPorHora(10 + (random.nextDouble() * 100));
-                    item.setCategoria(em.find(Categoria.class, 1));
-                    item.setStatus(StatusItem.ATIVO);
-
-                    em.merge(item);
-
-                }
 
                 transaction.commit();
             } catch (Throwable e) {
