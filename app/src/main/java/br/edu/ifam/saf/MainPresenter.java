@@ -39,6 +39,7 @@ public class MainPresenter implements MainContract.Presenter {
             if (perfil.getNivel() >= Perfil.ADMINISTRADOR.getNivel()) {
                 view.mostrarOpcaoAdminUsuarios();
                 view.mostrarOpcaoAdminItens();
+                view.mostrarOpcaoRelatorios();
                 view.mostrarOpcaoAdminCategorias();
             }
         }
@@ -49,6 +50,7 @@ public class MainPresenter implements MainContract.Presenter {
         view.esconderOpcaoAdminItens();
         view.esconderOpcaoAdminRequisicoes();
         view.esconderOpcaoAdminUsuarios();
+        view.esconderOpcaoRelatorios();
         view.esconderOpcaoAdminCategorias();
     }
 

@@ -26,6 +26,10 @@ public interface MainContract {
 
         void mostrarOpcaoAdminUsuarios();
 
+        void esconderOpcaoRelatorios();
+
+        void mostrarOpcaoRelatorios();
+
         void iniciaTelaLogin();
     }
 

@@ -3,6 +3,7 @@ package br.edu.ifam.saf.editarconta;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -53,7 +54,7 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
     private ArrayAdapter<Perfil> perfilAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState){
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_conta);
         ButterKnife.bind(this);
@@ -61,21 +62,35 @@ public class EditarContaActivity extends AppCompatActivity implements EditarCont
         perfilAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_dropdown_item);
         perfilSpinner.setAdapter(perfilAdapter);
 
-        if(getSupportActionBar() != null){
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDefaultDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
         Bundle bundle = getIntent().getExtras();
-        if (bundle != null){
+        if (bundle != null) {
             int usuarioId = bundle.getInt(EXTRA_USUARIO_ID);
             presenter = new EditarContaPresenter(this, ApiManager.getService(), usuarioId);
             presenter.carregarUsuario();
             presenter.carregarPerfis();
-            Log.d("editar","Carregar Uuario" + usuarioId);
+            Log.d("editar", "Carregar Uuario" + usuarioId);
         } else {
             Toast.makeText(this, "Usuário Inválido!", Toast.LENGTH_SHORT).show();
             finish();
         }
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+        }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @OnClick(R.id.salvar_button)

@@ -286,6 +286,16 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void esconderOpcaoRelatorios() {
+        setMenuVisibility(R.id.nav_relatorios, false);
+    }
+
+    @Override
+    public void mostrarOpcaoRelatorios() {
+        setMenuVisibility(R.id.nav_relatorios, true);
+    }
+
+    @Override
     public void iniciaTelaLogin() {
         startActivity(new Intent(this, LoginActivity.class));
     }

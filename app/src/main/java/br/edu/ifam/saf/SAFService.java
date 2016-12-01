@@ -58,7 +58,7 @@ public interface SAFService {
     Observable<Result<UsuarioDTO>> login(@Body LoginData loginData);
 
     @GET("item_aluguel")
-    Observable<Result<ItensAluguelResponse>> listarRequisicoes();
+    Observable<Result<ItensAluguelResponse>> listarRequisicoes(@Query("status") StatusItemAluguel statusAluguel);
 
     @POST("alugueis")
     Observable<Result<Void>> cadastrarAluguel(@Body AluguelDTO aluguelDTO);
