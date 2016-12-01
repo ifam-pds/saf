@@ -4,6 +4,7 @@ package br.edu.ifam.saf.itensadmin;
 import java.util.List;
 
 import br.edu.ifam.saf.api.dto.ItemDTO;
+import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.mvp.BasePresenter;
 import br.edu.ifam.saf.mvp.LoadingView;
 
@@ -22,9 +23,11 @@ interface ItensAdminContract {
 
         void onFabAction();
 
-        void carregarListaDeItens();
+        void carregarListaDeItens(StatusItem staus);
 
         void itemClicado(ItemDTO item);
+
+        void atualizarStatus(ItemDTO item, StatusItem status);
 
     }
 

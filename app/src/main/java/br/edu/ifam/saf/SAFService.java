@@ -7,6 +7,7 @@ import br.edu.ifam.saf.api.data.ItensAluguelResponse;
 import br.edu.ifam.saf.api.data.ItensResponse;
 import br.edu.ifam.saf.api.data.LoginData;
 import br.edu.ifam.saf.api.data.StatusItemAluguelData;
+import br.edu.ifam.saf.api.data.StatusItemData;
 import br.edu.ifam.saf.api.data.UsuariosResponse;
 import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.CategoriaDTO;
@@ -74,4 +75,7 @@ public interface SAFService {
     @POST("imagens")
     Observable<Result<ArquivoResponse>> uploadImagem(@Part MultipartBody.Part nomeArquivo, @Part MultipartBody.Part filePart);
     // You can add other parameters too
+
+    @PUT("itens/{item_id}")
+    Observable<Result<Void>> atualizaItemStatus(@Path("item_id") Integer itemId, @Body StatusItemData status);
 }

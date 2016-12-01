@@ -3,6 +3,7 @@ package br.edu.ifam.saf.itensadmin;
 import android.annotation.SuppressLint;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,7 @@ import butterknife.ButterKnife;
 
 public class ItensAdminAdapter extends RecyclerView.Adapter<ItensAdminAdapter.ViewHolder> {
 
-    List<ItemDTO> itens;
+    private List<ItemDTO> itens;
     private ItemAdminClickListener listener;
 
     public ItensAdminAdapter(List<ItemDTO> dataset, ItemAdminClickListener listener) {
@@ -35,7 +36,7 @@ public class ItensAdminAdapter extends RecyclerView.Adapter<ItensAdminAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         ItemDTO item = itens.get(position);
-        holder.setItemAdmin(item);
+        holder.bind(item);
     }
 
     @Override
@@ -80,14 +81,15 @@ public class ItensAdminAdapter extends RecyclerView.Adapter<ItensAdminAdapter.Vi
         }
 
         @SuppressLint("DefaultLocale")
-        public void setItemAdmin(ItemDTO item){
+        public void bind(ItemDTO item){
             this.item = item;
+
             nomeItem.setText(item.getNome());
             marcaItem.setText(item.getMarca());
             categoriaItem.setText(item.getCategoria() != null ? item.getCategoria().toString() : "Sem categoria");
             modeloItem.setText(item.getModelo());
             precoItem.setText(DinheiroFormatter.format(item.getPrecoPorHora()));
-            statusItem.setText("Ativo");
+            statusItem.setText(item.getStatus().getDescricao());
             descricaoItem.setText(item.getDescricao());
         }
 

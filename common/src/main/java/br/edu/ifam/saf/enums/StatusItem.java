@@ -1,7 +1,8 @@
 package br.edu.ifam.saf.enums;
 
 public enum StatusItem {
-    ATIVO("Ativo"), INATIVO("Inativo");
+    ATIVO("Ativo"),
+    INATIVO("Inativo");
 
     private String descricao;
 

@@ -7,11 +7,15 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -21,6 +25,7 @@ import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.criaritem.CriarItemActivity;
 import br.edu.ifam.saf.editaritem.EditarItemActivity;
+import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.util.ApiManager;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -40,6 +45,9 @@ public class ListarItensAdminFragment extends Fragment implements ItensAdminCont
 
     ItensAdminContract.Presenter presenter;
 
+    private Spinner toolbarSpinner;
+    private ArrayAdapter<StatusItemWrapper> spinnerAdapter;
+
     public ListarItensAdminFragment() {
 
     }
@@ -54,7 +62,7 @@ public class ListarItensAdminFragment extends Fragment implements ItensAdminCont
         presenter = new ListarItensAdminPresenter(this, ApiManager.getService());
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             public void onRefresh() {
-                presenter.carregarListaDeItens();
+                presenter.carregarListaDeItens(StatusItem.ATIVO);
             }
         });
 
@@ -64,7 +72,30 @@ public class ListarItensAdminFragment extends Fragment implements ItensAdminCont
                 presenter.onFabAction();
             }
         });
-        presenter.carregarListaDeItens();
+        presenter.carregarListaDeItens(StatusItem.ATIVO);
+
+        toolbarSpinner = ((Spinner) getActivity().findViewById(R.id.toolbar_spinner));
+
+        final List<StatusItemWrapper> statuses = StatusItemWrapper.asList(StatusItem.values());
+        spinnerAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, statuses);
+
+        toolbarSpinner.setAdapter(spinnerAdapter);
+
+        ((AppCompatActivity) getActivity()).getSupportActionBar().setDisplayShowTitleEnabled(false);
+        toolbarSpinner.setVisibility(View.VISIBLE);
+
+        toolbarSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                StatusItemWrapper statusItemWrapper = statuses.get(position);
+                presenter.carregarListaDeItens(statusItemWrapper.status);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
     }
 
@@ -115,6 +146,28 @@ public class ListarItensAdminFragment extends Fragment implements ItensAdminCont
     public void onDestroy() {
         super.onDestroy();
         presenter.destroy();
+    }
+
+    private static class StatusItemWrapper {
+        private final StatusItem status;
+
+        public StatusItemWrapper(StatusItem status){
+            this.status = status;
+        }
+
+        public static List<StatusItemWrapper> asList(StatusItem[] statuses){
+            List<StatusItemWrapper> list = new ArrayList<>();
+
+            for (StatusItem status : statuses){
+                list.add(new StatusItemWrapper(status));
+            }
+            return list;
+        }
+
+        @Override
+        public String toString() {
+            return status.getDescricao();
+        }
     }
 
 }

@@ -47,12 +47,7 @@ public class ListarRequisicoesPresenter implements ListarRequisicoesContract.Pre
                     public boolean canExecute() {
                         return view != null;
                     }
-                })
-
-
-        ;
-
-
+                });
     }
 
     @Override
@@ -84,9 +79,7 @@ public class ListarRequisicoesPresenter implements ListarRequisicoesContract.Pre
                     public boolean canExecute() {
                         return view != null;
                     }
-                })
-
-        ;
+                });
     }
 
     @Override
