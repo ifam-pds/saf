@@ -40,7 +40,7 @@ public class ListarCarrinhoPresenter implements ListarCarrinhoContract.Presenter
                     @Override
                     public void onError(MensagemErroResponse mensagem) {
                         view.esconderLoading();
-                        view.mostrarMensagem(mensagem.getMensagens().get(0));
+                        view.mostrarMensagem(mensagem.getMensagens().get(0) + " é necessário fazer login para realizar o Checkout!");
                     }
 
                     @Override
