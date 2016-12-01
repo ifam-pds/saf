@@ -11,9 +11,9 @@ import java.util.List;
 
 import br.edu.ifam.saf.R;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.util.DateFormatter;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.ViewHolder> {
 
@@ -70,7 +70,7 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.ViewHold
             this.usuario = usuario;
             nome.setText(usuario.getNome());
             cpf.setText(usuario.getCpf());
-            nascimento.setText(usuario.getDataNascimento().toString());
+            nascimento.setText(DateFormatter.format(usuario.getDataNascimento()));
         }
 
         @Override
@@ -79,7 +79,7 @@ public class UsuarioAdapter extends RecyclerView.Adapter<UsuarioAdapter.ViewHold
         }
     }
 
-    interface UsuarioClickListener{
+    interface UsuarioClickListener {
         void onUsuarioClick(int posicao, UsuarioDTO usuarioDTO);
     }
 
