@@ -3,6 +3,7 @@ package br.edu.ifam.saf;
 
 import br.edu.ifam.saf.api.data.ArquivoResponse;
 import br.edu.ifam.saf.api.data.CategoriasResponse;
+import br.edu.ifam.saf.api.data.ItemRelatorioResponse;
 import br.edu.ifam.saf.api.data.ItensAluguelResponse;
 import br.edu.ifam.saf.api.data.ItensResponse;
 import br.edu.ifam.saf.api.data.LoginData;
@@ -74,8 +75,20 @@ public interface SAFService {
     @Multipart
     @POST("imagens")
     Observable<Result<ArquivoResponse>> uploadImagem(@Part MultipartBody.Part nomeArquivo, @Part MultipartBody.Part filePart);
-    // You can add other parameters too
 
     @PUT("itens/{item_id}")
     Observable<Result<Void>> atualizaItemStatus(@Path("item_id") Integer itemId, @Body StatusItemData status);
+
+
+    @GET("relatorios/mais_alugados")
+    Observable<Result<ItemRelatorioResponse>> relatorioItensMaisAlugados();
+
+
+    @GET("relatorios/media_itens_por_aluguel")
+    Observable<Result<ItemRelatorioResponse>> mediaItensPorAluguel();
+
+    @GET("relatorios/usuario_mais_frequentes")
+    Observable<Result<ItemRelatorioResponse>> usuariosMaisFrequentes();
+
+
 }

@@ -33,6 +33,7 @@ import br.edu.ifam.saf.listarcategorias.ListarCategoriasFragment;
 import br.edu.ifam.saf.listarrequisicoes.ListarRequisicoesFragment;
 import br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment;
 import br.edu.ifam.saf.login.LoginActivity;
+import br.edu.ifam.saf.relatorios.RelatoriosFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -199,6 +200,11 @@ public class MainActivity extends AppCompatActivity
             case R.id.nav_configuracoes: {
                 startActivity(new Intent(this, SettingsActivity.class));
                 return true;
+            }
+            case R.id.nav_relatorios: {
+                setTitle("Relatórios");
+                fragment = new RelatoriosFragment();
+                break;
             }
             default:
                 setTitle("Itens");

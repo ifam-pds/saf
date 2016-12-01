@@ -2,23 +2,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context="br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment"
+    android:paddingEnd="4dp"
     android:paddingStart="4dp"
-    android:paddingEnd="4dp">
+    tools:context="br.edu.ifam.saf.listarusuarios.ListarUsuariosFragment">
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_refresh_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="4dp"
-        android:paddingEnd="4dp">
+        android:paddingEnd="4dp"
+        android:paddingStart="4dp">
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/listarUsuario"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-            </android.support.v7.widget.RecyclerView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/listarUsuario"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"></android.support.v7.widget.RecyclerView>
 
     </android.support.v4.widget.SwipeRefreshLayout>
 

@@ -32,6 +32,10 @@
             android:id="@+id/nav_categorias"
             android:icon="@drawable/ic_local_offer_black_24dp"
             android:title="Categorias" />
+        <item
+            android:id="@+id/nav_relatorios"
+            android:icon="@drawable/ic_insert_chart_black_24dp"
+            android:title="Relatórios" />
     </group>
     <group
         android:id="@+id/group_settings"
