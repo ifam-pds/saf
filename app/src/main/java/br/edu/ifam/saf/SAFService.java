@@ -14,6 +14,7 @@ import br.edu.ifam.saf.api.dto.AluguelDTO;
 import br.edu.ifam.saf.api.dto.CategoriaDTO;
 import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.api.dto.UsuarioDTO;
+import br.edu.ifam.saf.enums.StatusItem;
 import br.edu.ifam.saf.enums.StatusItemAluguel;
 import okhttp3.MultipartBody;
 import retrofit2.adapter.rxjava.Result;
@@ -30,7 +31,7 @@ import rx.Observable;
 public interface SAFService {
 
     @GET("itens")
-    Observable<Result<ItensResponse>> listarItems();
+    Observable<Result<ItensResponse>> listarItems(@Query("status") StatusItem status);
 
     @POST("itens")
     Observable<Result<Void>> registrarItem(@Body ItemDTO item);
@@ -57,7 +58,7 @@ public interface SAFService {
     Observable<Result<UsuarioDTO>> login(@Body LoginData loginData);
 
     @GET("item_aluguel")
-    Observable<Result<ItensAluguelResponse>> listarRequisicoes(@Query("status") StatusItemAluguel statusAluguel);
+    Observable<Result<ItensAluguelResponse>> listarRequisicoes();
 
     @POST("alugueis")
     Observable<Result<Void>> cadastrarAluguel(@Body AluguelDTO aluguelDTO);

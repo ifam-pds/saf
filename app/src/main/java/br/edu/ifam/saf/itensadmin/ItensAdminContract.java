@@ -27,8 +27,6 @@ interface ItensAdminContract {
 
         void itemClicado(ItemDTO item);
 
-        void atualizarStatus(ItemDTO item, StatusItem status);
-
     }
 
 }

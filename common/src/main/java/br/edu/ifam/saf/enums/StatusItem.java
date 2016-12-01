@@ -14,8 +14,4 @@ public enum StatusItem {
         return descricao;
     }
 
-    @Override
-    public String toString() {
-        return descricao;
-    }
 }

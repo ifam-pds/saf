@@ -12,10 +12,12 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
+import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Response;
 
 import br.edu.ifam.saf.api.data.ItensResponse;
 import br.edu.ifam.saf.api.data.MensagemErroResponse;
+import br.edu.ifam.saf.api.data.StatusItemData;
 import br.edu.ifam.saf.api.dto.ItemDTO;
 import br.edu.ifam.saf.api.dto.ItemTransformer;
 import br.edu.ifam.saf.api.interceptor.RequerLogin;
@@ -43,9 +45,13 @@ public class ItensEndpoint {
     @GET
     @Produces(MediaType.APPLICATION_JSON_UTF8)
     @Path("/")
-    public Response itens() {
+    public Response itens(@QueryParam("status") StatusItem status) {
+
+        if(status == null){
+            status = StatusItem.ATIVO;
+        }
         return Response.ok().entity(new ItensResponse(
-                itemTransformer.toDTOList(dao.listarAtivos()))
+                itemTransformer.toDTOList(dao.filtrarPorStatus(status)))
         ).build();
     }
 

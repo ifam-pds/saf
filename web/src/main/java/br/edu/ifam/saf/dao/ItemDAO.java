@@ -28,9 +28,9 @@ public class ItemDAO {
         return dao.consultar(id);
     }
 
-    public List<Item> listarAtivos() {
+    public List<Item> filtrarPorStatus(StatusItem status) {
         TypedQuery<Item> query = em.createQuery("select i from Item i where i.status = :status", Item.class);
-        query.setParameter("status", StatusItem.ATIVO);
+        query.setParameter("status", status);
         return query.getResultList();
     }
 

@@ -24,7 +24,7 @@ public class ListarItensAdminPresenter implements ItensAdminContract.Presenter{
     public void carregarItens(StatusItem status) {
         view.mostrarLoading();
         ultimoStatusRequest = status;
-        service.listarItems()
+        service.listarItems(status)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new ApiCallback<ItensResponse>() {
@@ -54,39 +54,12 @@ public class ListarItensAdminPresenter implements ItensAdminContract.Presenter{
 
     @Override
     public void carregarListaDeItens(StatusItem status) {
-        carregarItens(StatusItem.ATIVO);
+        carregarItens(status);
     }
 
     @Override
     public void itemClicado(ItemDTO item) {
         view.mostrarTelaEditarItem(item.getId());
-    }
-
-    @Override
-    public void atualizarStatus(ItemDTO item, StatusItem status) {
-        view.mostrarLoading();
-        service.atualizaItemStatus(item.getId(), new StatusItemData(status))
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new ApiCallback<Void>() {
-            @Override
-            public void onSuccess(Void response) {
-                view.esconderLoading();
-                view.mostrarInfoMensagem("Item atualizado");
-                carregarItens(ultimoStatusRequest);
-            }
-
-            @Override
-            public void onError(MensagemErroResponse mensagem) {
-                view.esconderLoading();
-                view.mostrarInfoMensagem(mensagem.join());
-            }
-
-            @Override
-            public boolean canExecute() {
-                return view != null;
-            }
-        });
     }
 
     @Override

@@ -62,7 +62,8 @@ public class ListarItensAdminFragment extends Fragment implements ItensAdminCont
         presenter = new ListarItensAdminPresenter(this, ApiManager.getService());
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             public void onRefresh() {
-                presenter.carregarListaDeItens(StatusItem.ATIVO);
+                StatusItemWrapper statusItemWrapper = ((StatusItemWrapper) toolbarSpinner.getSelectedItem());
+                presenter.carregarListaDeItens(statusItemWrapper.status);
             }
         });
 
